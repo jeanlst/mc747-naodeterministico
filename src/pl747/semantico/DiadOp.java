@@ -202,7 +202,7 @@ public class DiadOp extends Expression {
 					
 					int s2 = 0;
 					try{
-						s2 = Integer.parseInt(v1.getSize());
+						s2 = Integer.parseInt(v2.getSize());
 					}
 					catch(Exception e2){	
 
