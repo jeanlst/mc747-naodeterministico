@@ -2,7 +2,7 @@
 
 int main() {
 	boolean a;
-    boolean b = (a==b);
+    boolean b = (a==b); // erro semantico
     boolean c = a==b;
     boolean d = a!=b;
     boolean e = a<=b;

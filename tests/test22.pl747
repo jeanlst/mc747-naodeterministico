@@ -22,5 +22,5 @@ void main(){
             "a:",a," b:",b," mdc(a,b):",
             mdc(a,b)," mmc(a,b):",mmc(a,b)
           );
-   return 0;
+   return 0;   // erro semantico
 }

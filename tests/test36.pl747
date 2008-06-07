@@ -1,6 +1,6 @@
 /* Teste declaracao funcao e chamada funcao */
 
-int mdc(int a, int b);
+int mdc(int a, int b); // erro semantico
 
 int main() {
     int x;

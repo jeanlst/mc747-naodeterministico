@@ -1,0 +1,6 @@
+/* Teste de funcao - Erro semantico */
+
+int principal() {
+    int a;
+	
+}
