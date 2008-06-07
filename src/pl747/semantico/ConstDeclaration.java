@@ -4,7 +4,7 @@ import java.util.List;
 
 import pl747.TreeNode;
 import pl747.tabelaSimbolos.*;
-import pl747.Visitor;
+
 /**
  * Representa uma declaracao de constante da linguagem.
  */

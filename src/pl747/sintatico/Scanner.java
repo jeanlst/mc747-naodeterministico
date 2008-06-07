@@ -2,7 +2,6 @@
 
 package pl747.sintatico;
 
-import java_cup.runtime.SymbolFactory;
 import java_cup.runtime.Symbol;
 
 

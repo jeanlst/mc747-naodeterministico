@@ -2,7 +2,6 @@ package pl747.semantico;
 
 import pl747.TreeNode;
 import pl747.TreeNodeFactory;
-import pl747.Visitor;
 
 /**
  * Interface TreeNodeFactory que deve ser implementada pela classe

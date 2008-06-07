@@ -1,9 +1,6 @@
-import java.io.File;
 
-import pl747.*;
 import pl747.semantico.AbsNode;
 import pl747.sintatico.*;
-import java.io.*;
 import java.util.ArrayList;
 
 public class CompilerFacade {
@@ -12,6 +9,7 @@ public class CompilerFacade {
 		
 	}
 	
+	@SuppressWarnings("hiding")
 	public void compile(String file) {
 		Scanner scanner = null;
 		
