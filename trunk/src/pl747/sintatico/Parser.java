@@ -6,8 +6,6 @@
 
 package pl747.sintatico;
 
-import java_cup.runtime.*;
-import java.io.*;
 import java.util.*;
 import java_cup.runtime.Symbol;
 import pl747.TreeNode;

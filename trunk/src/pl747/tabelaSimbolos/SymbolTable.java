@@ -6,7 +6,6 @@ package pl747.tabelaSimbolos;
  */
 
 import java.util.*;
-import pl747.*;
 import pl747.semantico.Declaration;
 import pl747.semantico.StructType;
 import pl747.semantico.VectorType;

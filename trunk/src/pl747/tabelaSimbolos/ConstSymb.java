@@ -4,7 +4,6 @@ package pl747.tabelaSimbolos;
  * Representa uma constante da linguagen
  */
 
-import pl747.*;
 import pl747.semantico.AbsNode;
 
 public class ConstSymb extends Symbol{
