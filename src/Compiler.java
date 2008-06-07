@@ -23,9 +23,10 @@ public class Compiler {
 			DataInputStream in = new DataInputStream(new BufferedInputStream(System.in));
 			try {
 				file = in.readLine();
+				file = "tests/"+file;
 			}
 			catch (Exception er) {
-				System.out.println("Erro");
+				System.out.println("Erro");				
 			}
 
 		}
