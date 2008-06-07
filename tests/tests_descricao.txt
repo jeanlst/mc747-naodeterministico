@@ -56,5 +56,17 @@ test54.pl747 - Teste declaracao de estruturas - Erro semantico
 test55.pl747 - Teste declaracao de estruturas - Erro semantico
 test56.pl747 - Teste de declaracao
 test57.pl747 - Teste de declaracao
-
+test58.pl747 - Teste declaracao de estruturas - Erro sintatico
+test59.pl747 - Teste declaracao de estruturas - Erro semantico
+test60.pl747 - Teste declaracao de estruturas
+test61.pl747 - Teste declaracao de estruturas
+test62.pl747 - Teste declaracao de estruturas
+test63.pl747 - Teste declaracao de estruturas
+test64.pl747 - Teste declaracao de estruturas
+test65.pl747 - Teste declaracao de estruturas
+test66.pl747 - Teste declaracao de estruturas
+test67.pl747 - Teste declaracao de vetor
+test68.pl747 - Teste declaracao de constante
+test69.pl747 - Teste declaracao de estruturas  - Erro semantico
+test70.pl747 - Teste declaracao de vetor - Erro semantico
 

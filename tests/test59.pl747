@@ -1,0 +1,10 @@
+/* Teste declaracao de estruturas - Erro semantico */
+
+struct{
+	int a;
+	int b;
+} estrutura = {10,'b'}; // erro
+
+int main() {
+    return 0;
+}
