@@ -36,7 +36,13 @@ test34.pl747 - Teste de declaracao e chamada de funcao - Erro sintatico
 test35.pl747 - Teste de casting - Erro sintatico
 test36.pl747 - Teste semantico - Erro semantico
 test37.pl747 - Teste de funcao - Erro semantico 
-test38.pl747 - Teste de funcao - Erro semantico
-
-
+test38.pl747 - Teste de funcao
+test39.pl747 - Teste de funcao - Erro sintatico
+test40.pl747 - Teste de declaracao - Erro semantico
+test41.pl747 - Teste de declaracao
+test42.pl747 - Teste de declaracao - Erro semantico 
+test43.pl747 - Teste de declaracao - Erro semantico
+test44.pl747 - Teste de declaracao - Erro semantico
+test45.pl747 - Teste de declaracao
+test46.pl747 - Teste de declaracao
 

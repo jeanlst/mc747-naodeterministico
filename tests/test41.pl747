@@ -1,0 +1,6 @@
+/* Teste de declaracao */
+
+int main() {
+	int a = 10, b = a;
+	return 0;
+}
