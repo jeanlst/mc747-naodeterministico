@@ -25,7 +25,12 @@ public class FunctionDeclaration extends Declaration {
 	 */
 	public FunctionDeclaration(String name, Type type, TreeNode body){
 		super(name);
-		this.type = type;
+		
+		if(type != null)		
+			this.type = type;
+		else
+			this.type = new Type("void");
+		
 		this.params = new ArrayList<VarDeclaration>();	
 		if (body != null){
 			this.body = (CompoundStat) body;
