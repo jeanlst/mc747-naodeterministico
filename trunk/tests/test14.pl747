@@ -1,0 +1,12 @@
+/* Teste de operadores aritmeticos */
+
+int main() {
+    int a,b;
+    a = -a*b;
+    a = -a*(-b);
+    a = -10*30;
+    b = (a+a-b)%a;
+    b = b/1;
+    b = b/a;
+    return 0;
+}

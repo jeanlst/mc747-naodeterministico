@@ -1,0 +1,9 @@
+/* Teste declaracao de variavel - Erro declaracao */
+
+/* Tipo inexistente */
+
+Int a = 6;
+
+int main() {
+    return 0;
+}

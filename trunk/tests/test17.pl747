@@ -1,0 +1,10 @@
+/* Teste de atribuicao */
+
+int main() {
+	int a, b, c;
+	int x, y;
+    a = b = c;
+    a = b+(c = c+1);   
+    x = y = 0;	
+    return 0;
+}

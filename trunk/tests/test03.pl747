@@ -1,0 +1,10 @@
+/* Teste declaracao de variavel */
+
+/* Duas atribuicoes na mesma declaracao */
+
+int main() {
+	int a = 0;
+	int c = a + 1;
+    int b = a = c;
+    return 0;
+}

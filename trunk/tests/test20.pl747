@@ -1,0 +1,21 @@
+/* Teste declaracao funcao e chamada funcao */
+
+int mdc(int a, int b);
+
+int main() {
+    int x;
+    x = mdc();
+    return 0;
+}
+
+int mdc(int a, int b){
+    if(a == b) return a;
+    if(b > a) return mdc(b,a);
+    return mdc(a-b,b);
+}
+
+/** a e b sao parametros passados por valor **/
+void nao_troca(int a, int b){ int t = a; a = b; b = t; }
+
+/** a e b sao parametros passados por referencia **/
+void troca(ref int a, ref int b) { int t = a; a = b; b = t; }

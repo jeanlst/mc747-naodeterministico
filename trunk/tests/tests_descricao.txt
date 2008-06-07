@@ -1,0 +1,37 @@
+test00.pl747 - Teste de comentario
+test01.pl747 - Teste de comentario - Erro sintatico
+test02.pl747 - Teste declaracao de variavel
+test03.pl747 - Teste declaracao de variavel
+test04.pl747 - Teste declaracao de variavel - Erro declaracao
+test05.pl747 - Teste de declaracao de vetor
+test06.pl747 - Teste de declaracao de vetor - Erro sintatico
+test07.pl747 - Teste de declaracao de vetor - Erro sintatico
+test08.pl747 - Teste declaracao de estruturas
+test09.pl747 - Teste declaracao de estruturas - Erro sintatico
+test10.pl747 - Teste de constante
+test11.pl747 - Teste de constante - Erro sintatico
+test12.pl747 - Teste de expressoes
+test13.pl747 - Teste de expressoes - Erro sintatico
+test14.pl747 - Teste de operadores aritmeticos
+test15.pl747 - Teste de operadores relacionais
+test16.pl747 - Teste de operadores logicos
+test17.pl747 - Teste de atribuicao 
+test18.pl747 - Teste do condicional
+test19.pl747 - Teste de comando repetitivo
+test20.pl747 - Teste declaracao funcao e chamada funcao
+test21.pl747 - Teste de casting
+test22.pl747 - calcula o mdc entre dois inteiros 
+test23.pl747 - verifica se um numero e primo
+test24.pl747 - Bubblesort
+test25.pl747 - Teste de operadores aritmeticos - Erro sintatico
+test26.pl747 - Teste de operadores aritmeticos - Erro sintatico
+test27.pl747 - Teste de operadores aritmeticos - Erro sintatico
+test28.pl747 - Teste de operadores relacionais - Erro sintatico
+test29.pl747 - Teste de operadores relacionais - Erro sintatico
+test30.pl747 - Teste de operadores relacionais - Erro sintatico
+test31.pl747 - Teste de operadores logicos - Erro sintatico
+test32.pl747 - Teste do condicional - Erro sintatico
+test33.pl747 - Teste de comando repetitivo - Erro sintatico
+test34.pl747 - Teste de declaracao e chamada de funcao - Erro sintatico
+test35.pl747 - Teste de casting - Erro sintatico
+

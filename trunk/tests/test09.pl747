@@ -1,0 +1,24 @@
+/* Teste declaracao de estruturas - Erro sintatico */
+
+/* Teste declaracao de estruturas */
+
+struct{
+     char[30] nome;
+     int idade;
+     struct{
+          int dia;
+          int mes;
+          int ano;
+     } nasc, contrato;
+     int salario;
+}[30] funcionario;
+
+struct{
+     int x;
+     int y;
+     boolean visible;
+ } p0 = {0,0,a}; //erro
+
+int main() {
+    return 0;
+}

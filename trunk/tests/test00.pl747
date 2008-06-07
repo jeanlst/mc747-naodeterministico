@@ -1,0 +1,15 @@
+/* Teste de comentario */
+
+/**/
+
+/* Isto
+ * eh
+ * um
+ * comentario
+ */
+
+// cometario de linha
+
+void main () {
+     return;
+}

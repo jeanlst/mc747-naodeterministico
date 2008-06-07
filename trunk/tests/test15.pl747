@@ -1,0 +1,13 @@
+/* Teste de operadores relacionais */
+
+int main() {
+	boolean a;
+    boolean b = (a==b);
+    boolean c = a==b;
+    boolean d = a!=b;
+    boolean e = a<=b;
+    boolean f = a>=b;
+    boolean g = a>b;
+    boolean h = a<b;
+    return 0;
+}

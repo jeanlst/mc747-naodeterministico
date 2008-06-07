@@ -1,0 +1,10 @@
+/* Teste de operadores logicos */
+
+int main() {
+	boolean a;
+    boolean b = a&&b;
+    boolean c = a||b;
+    boolean d = !a&&b;
+    boolean e = !a&&!b;    
+    return 0;
+}

@@ -1,0 +1,7 @@
+/* Teste de operadores relacionais - Erro sintatico */
+
+int main() {
+	boolean ab;
+    boolean b = ((ab)<b==0); //erro
+    return 0;
+}

@@ -1,0 +1,12 @@
+/* Teste de expressoes */
+
+struct{
+     int b;
+ }[5] a;
+
+int main() {
+	int x,y;
+    a[3].b = (x+y <10) || (x+y > 20);
+    ((a[3]).b) = (((x+y) < 10) || ((x+y) > 20)); 
+    return 0;
+}

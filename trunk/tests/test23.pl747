@@ -1,0 +1,22 @@
+/** verifica se um numero e primo **/
+
+int isPrime(int n){
+  int k = 2;
+  while(k*k < n){
+    if((n % k ) == 0) return false;
+    k = k+1;
+  }
+  return true;
+}
+
+/** funcao main usada p/ testes **/
+int main()
+{
+  int n;
+  while(true){
+    print("n:"); readln(n);
+    if(n <= 0) return;
+    if(isPrime(n)) println(n," eh primo");
+    else println(n," nao eh primo");
+  }
+}
