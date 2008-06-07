@@ -153,9 +153,26 @@ public class FunctionCallOp extends Expression {
 					}
 					
 				}else{
-					String diferenca = (thisTam > otherTam) ? "menos" : "mais";
-					errorList.add("A funcao " + this.name + " necessita " + diferenca + " parametros");
-					result = false;
+					if(this.name.equals("read") || this.name.equals("readln")){
+						for (Expression no : this.childs) {	
+							if (no instanceof VarOp) {
+								no.check(errorList);							
+							}
+							else
+							{
+								errorList.add("As funções reads e readln aceitam apenas variáveis como parâmetro");
+								result = false;
+							}
+							
+						}
+					}
+					else{
+						String diferenca = (thisTam > otherTam) ? "menos" : "mais";
+						errorList.add("A funcao " + this.name + " necessita " + diferenca + " parametros");
+						result = false;
+					}
+					
+					
 				}
 			}
 			
