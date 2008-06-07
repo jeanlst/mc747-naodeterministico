@@ -81,6 +81,13 @@ public class VarDeclaration extends Declaration {
 		if(this.value != null){	
 			//TODO verificar se a inicialização de um struct está correta!
 			
+			try {
+				result = result && value.check(errorList);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+						
 			Type tipoValue = null;
 			if (this.value.getType() instanceof Type) {
 				tipoValue = (Type) this.value.getType();
