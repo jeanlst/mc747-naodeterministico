@@ -27,8 +27,12 @@ public class FunctionDeclaration extends Declaration {
 		super(name);
 		this.type = type;
 		this.params = new ArrayList<VarDeclaration>();	
-		if (body != null)
+		if (body != null){
 			this.body = (CompoundStat) body;
+			this.isPrototype = false;
+		}
+		else
+			this.isPrototype = true;
 		/*else{
 			System.err.println("LALA");
 			System.exit(1);
@@ -91,7 +95,7 @@ public class FunctionDeclaration extends Declaration {
 		
 		// Verificando se a funcao ja foi declarada/prototipada
 		if (tempSymb != null && (this.isPrototype() || (!tempSymb.isPrototype()))) {
-			errorList.add("Redeclaracao da funcao" + this.name +" nao eh possivel");
+			errorList.add("Redeclaracao da funcao " + this.name +" nao eh possivel");
 			result = false;
 		}		
 		else

@@ -57,10 +57,18 @@ public class FunctionCallOp extends Expression {
 		if (funcSymb == null) {
 						
 			errorList.add("Funcao " + this.name +" nao declarada");
-			result = false;
-			
+			result = false;	
 		}
 		else {
+			
+			// Verificando se o protótipo foi implementado
+			
+			if(funcSymb.isPrototype())
+			{
+				result = false;
+				errorList.add("Protótipo não implementado");		
+			}
+			
 			
 			// Setando tipo de retorno do metodo de acordo com a declaracao da funcao
 			this.type = new Type(funcSymb.getType().getName());
