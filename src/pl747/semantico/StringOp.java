@@ -19,10 +19,7 @@ public class StringOp extends Expression {
 		
 	}
 
-	public void addChild(TreeNode child) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
+	public void addChild(TreeNode child) throws Exception {}
 	
 	/**
 	 * Devolve o string representado por este objeto.
@@ -38,7 +35,12 @@ public class StringOp extends Expression {
 	 * @return true se nao houver erros e false em caso contrario
 	 */
 	public boolean check(List<String> errorList) throws Exception {
-		// TODO Auto-generated method stub
+		
+		if (this.type instanceof VectorType) {
+			VectorType t = (VectorType) this.type;		
+			if(Integer.parseInt(t.getSize()) == this.value.length())
+				return true;
+		}		
 		return false;
 	}
 
