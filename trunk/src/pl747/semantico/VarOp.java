@@ -34,16 +34,25 @@ public class VarOp extends Expression {
 	 * @param errorList lista de erros encontrados em toda a verificacao
 	 * @return true se nao houver erros e false em caso contrario
 	 */
-	public boolean check(List<String> errorList) throws Exception {
+	public boolean check(List<String> errorList){
 		VarSymb symb = (VarSymb) SymbolTable.search(this.name);
-		if (symb == null){
+		if (symb == null){			
 			errorList.add("Variavel "+ this.name +" nao declarada ou nao acessivel neste escopo");
 			return false;
 		}
 		else
 		{
-			String tname = symb.getType().getName();
-			this.type = new Type(tname); 
+			if (symb.getType() instanceof VectorTypeSymb) {
+				
+				String tipoElem = ((VectorTypeSymb) symb.getType()).getElementType().getName();			
+				String tamVetor = Integer.toString(((VectorTypeSymb) symb.getType()).getSize());					
+				this.type = new VectorType(tamVetor, new Type(tipoElem));				
+			}
+			else
+			{
+				String tname = symb.getType().getName();
+				this.type = new Type(tname);
+			} 
 			return true;
 		}
 		

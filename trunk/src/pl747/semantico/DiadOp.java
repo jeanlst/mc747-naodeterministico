@@ -177,10 +177,63 @@ public class DiadOp extends Expression {
 		
 		// Atribuicao
 		if (kind == 17){
-			if (!((Type)this.op1.getType()).getName().equals(((Type)this.op2.getType()).getName())) {
-				errorList.add("Tipos incompativeis para a atribuicao");
-				r3 = false;
+			
+			// Verificação de Vetores
+			if (op1.getType() instanceof VectorType) 
+			{
+				VectorType v1 = ((VectorType) op1.getType());
+				
+				int s1 = 0;
+				try{
+					s1 = Integer.parseInt(v1.getSize());
+				}
+				catch(Exception e){	
+
+					Symbol size = SymbolTable.search(v1.getSize());
+					if (size instanceof ConstSymb) {
+						s1 = Integer.parseInt((((ConstOp)((ConstSymb) size).getValue()).getValue()));						
+					}				
+				}
+				
+				
+				if (op2.getType() instanceof VectorType) 
+				{
+					VectorType v2 = ((VectorType) op2.getType());
+					
+					int s2 = 0;
+					try{
+						s2 = Integer.parseInt(v1.getSize());
+					}
+					catch(Exception e2){	
+
+						Symbol size = SymbolTable.search(v1.getSize());
+						if (size instanceof ConstSymb) {
+							s2 = Integer.parseInt((((ConstOp)((ConstSymb) size).getValue()).getValue()));						
+						}	
+					}
+					
+					if(s1 != s2)
+					{
+						errorList.add("Tipos incompativeis para a atribuicao");
+						r3 = false;							
+					}
+				}
+				else
+				{
+					errorList.add("Tipos incompativeis para a atribuicao");
+					r3 = false;	
+				}
+				
 			}
+			else // Verificação de variáveis de tipo primário				
+			{	
+				if (!((Type)this.op1.getType()).getName().equals(((Type)this.op2.getType()).getName())) {
+					errorList.add("Tipos incompativeis para a atribuicao");
+					r3 = false;
+				}
+			}
+			
+			
 			
 			//TODO verificar se op1 e identificador de variavel simples (int,char,boolean), selecao de campo ou indexacao
 			//Se eh que entendi direito, tudo isso é resumido em VarOp

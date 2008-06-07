@@ -115,7 +115,6 @@ public class VarDeclaration extends Declaration {
 			int s = 0;
 			
 			// Buscando simbolos e referencias cruzadas
-
 			String tamanho = ((VectorType)this.getType()).getSize();
 
 			try{
