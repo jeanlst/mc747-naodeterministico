@@ -37,7 +37,15 @@ public class Compiler {
 		try {
 			//use buffering, reading one line at a time
 			//FileReader always assumes default encoding is OK!
-			BufferedReader input =  new BufferedReader(new FileReader(file));
+			BufferedReader input = null;
+			try{
+				input =  new BufferedReader(new FileReader(file));
+			}
+			catch(Exception e)
+			{
+				System.out.println("Erro: Arquivo não encontrado");
+				return;
+			}
 			try {
 				String line = null; //not declared within while loop
 				/*
