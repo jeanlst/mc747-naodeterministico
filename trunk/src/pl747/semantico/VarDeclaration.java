@@ -140,8 +140,10 @@ public class VarDeclaration extends Declaration {
 				tSymb = new VectorTypeSymb(s, elementType);
 			}
 			else{
-				errorList.add("Tamanho invalido para o vetor");	
-				result = false;			
+				if(result != false){
+					errorList.add("Tamanho invalido para o vetor");	
+					result = false;			
+				}
 			}		
 		}
 		/* Verificando se a variavel eh um struct */
