@@ -23,7 +23,7 @@ public class VectorTypeSymb extends PrimTypeSymb{
 	
 	/** getters & setters **/
 	public int getSize() {
-		System.out.println("VectorTypeSymb.getSize():"+this.toString());
+		//System.out.println("VectorTypeSymb.getSize():"+this.toString());
 		return size; 
 	}
 	public Symbol getElementType() { return elementType; }
