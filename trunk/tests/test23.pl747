@@ -6,7 +6,7 @@ int isPrime(int n){
     if((n % k ) == 0) return false;
     k = k+1;
   }
-  return true;
+  return true; // erro semantico
 }
 
 /** funcao main usada p/ testes **/
@@ -16,7 +16,7 @@ int main()
   while(true){
     print("n:"); readln(n);
     if(n <= 0) return;
-    if(isPrime(n)) println(n," eh primo");
+    if(isPrime(n)) println(n," eh primo"); // erro semantico no condicional
     else println(n," nao eh primo");
   }
 }

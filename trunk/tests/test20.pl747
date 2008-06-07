@@ -4,7 +4,7 @@ int mdc(int a, int b);
 
 int main() {
     int x;
-    x = mdc();
+    x = mdc(); // erro semantico
     return 0;
 }
 

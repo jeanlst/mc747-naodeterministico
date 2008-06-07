@@ -13,14 +13,14 @@ test11.pl747 - Teste de constante - Erro sintatico
 test12.pl747 - Teste de expressoes
 test13.pl747 - Teste de expressoes - Erro sintatico
 test14.pl747 - Teste de operadores aritmeticos
-test15.pl747 - Teste de operadores relacionais
-test16.pl747 - Teste de operadores logicos
+test15.pl747 - Teste de operadores relacionais - Erro semantico
+test16.pl747 - Teste de operadores logicos - Erro semantico
 test17.pl747 - Teste de atribuicao 
-test18.pl747 - Teste do condicional
-test19.pl747 - Teste de comando repetitivo
-test20.pl747 - Teste declaracao funcao e chamada funcao
+test18.pl747 - Teste do condicional - Erro semantico
+test19.pl747 - Teste de comando repetitivo - Erro semantico
+test20.pl747 - Teste declaracao funcao e chamada funcao - Erro semantico
 test21.pl747 - Teste de casting
-test22.pl747 - calcula o mdc entre dois inteiros 
+test22.pl747 - calcula o mdc entre dois inteiros - Erro semantico
 test23.pl747 - verifica se um numero e primo
 test24.pl747 - Bubblesort
 test25.pl747 - Teste de operadores aritmeticos - Erro sintatico
@@ -34,4 +34,9 @@ test32.pl747 - Teste do condicional - Erro sintatico
 test33.pl747 - Teste de comando repetitivo - Erro sintatico
 test34.pl747 - Teste de declaracao e chamada de funcao - Erro sintatico
 test35.pl747 - Teste de casting - Erro sintatico
+test36.pl747 - Teste semantico - Erro semantico
+test37.pl747 - Teste de funcao - Erro semantico 
+test38.pl747 - Teste de funcao - Erro semantico
+
+
 
