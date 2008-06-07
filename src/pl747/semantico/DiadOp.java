@@ -182,6 +182,7 @@ public class DiadOp extends Expression {
 			if (op1.getType() instanceof VectorType) 
 			{
 				VectorType v1 = ((VectorType) op1.getType());
+				VectorType v2 = null;
 				
 				int s1 = 0;
 				try{
@@ -193,12 +194,11 @@ public class DiadOp extends Expression {
 					if (size instanceof ConstSymb) {
 						s1 = Integer.parseInt((((ConstOp)((ConstSymb) size).getValue()).getValue()));						
 					}				
-				}
-				
+				}			
 				
 				if (op2.getType() instanceof VectorType) 
 				{
-					VectorType v2 = ((VectorType) op2.getType());
+					v2 = ((VectorType) op2.getType());
 					
 					int s2 = 0;
 					try{
@@ -214,14 +214,27 @@ public class DiadOp extends Expression {
 					
 					if(s1 != s2)
 					{
-						errorList.add("Tipos incompativeis para a atribuicao");
-						r3 = false;							
+						if(r3 == true)
+						{
+							errorList.add("Tipos incompativeis para a atribuicao");
+							r3 = false;
+						}						
 					}
 				}
 				else
 				{
 					errorList.add("Tipos incompativeis para a atribuicao");
 					r3 = false;	
+				}
+				String tipo1 = ((Type)v1.getType()).getName();
+				String tipo2 = ((Type)v2.getType()).getName();				
+				if(!tipo1.equals(tipo2))
+				{
+					if(r3 == true)
+					{
+						errorList.add("Tipos incompativeis para a atribuicao");
+						r3 = false;
+					}
 				}
 				
 			}
