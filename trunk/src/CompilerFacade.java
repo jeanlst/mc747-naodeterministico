@@ -14,7 +14,7 @@ public class CompilerFacade {
 		Scanner scanner = null;
 		
 		/* Analise lexica */
-		try {
+		try {			
 			scanner = new Scanner( new java.io.FileReader(file) );
 		}
 		catch (java.io.FileNotFoundException e) {
