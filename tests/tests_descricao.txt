@@ -45,4 +45,10 @@ test43.pl747 - Teste de declaracao - Erro semantico
 test44.pl747 - Teste de declaracao - Erro semantico
 test45.pl747 - Teste de declaracao
 test46.pl747 - Teste de declaracao
+test47.pl747 - Teste de declaracao - Erro semantico
+test48.pl747 - Teste de declaracao - Erro semantico
+test49.pl747 - Teste de declaracao
+test50.pl747 - Teste de declaracao - Erro semantico
+test51.pl747 - Teste de declaracao - Erro semantico
+test52.pl747 - Teste de declaracao - Erro semantico
 

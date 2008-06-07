@@ -1,0 +1,7 @@
+/* Teste de declaracao */
+
+int main() {
+	int p = -10;
+	int[10] vetor;
+	return 0;
+}

@@ -3,7 +3,7 @@
 int main() {
 	int f = 10, b = f;
 	char c = 'f';
-	char[10] e;
-	e = "Good Morning!";
+	char[12] e;
+	e = "Good Morning";
 	return 0;
 }

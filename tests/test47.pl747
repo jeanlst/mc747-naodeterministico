@@ -1,0 +1,7 @@
+/* Teste de declaracao - Erro semantico */
+
+int main() {
+	int p = 10;
+	char[p] vetor; // erro semantico
+	return 0;
+}

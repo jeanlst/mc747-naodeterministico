@@ -1,0 +1,9 @@
+/* Teste de declaracao - Erro semantico */
+
+int main() {
+	int f = 10, b = f;
+	char c = 'f';
+	char[1] e;
+	e = "Good Morning"; // erro semantico
+	return 0;
+}
