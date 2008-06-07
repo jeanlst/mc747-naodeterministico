@@ -1,0 +1,11 @@
+/* Teste declaracao de vetor  - Erro semantico */
+
+
+int main() {
+	int[1] a;
+	int[2][2] b;
+	int[3][3][3] c;
+	
+	c = b; // erro
+    return 0;
+}

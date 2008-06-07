@@ -1,0 +1,10 @@
+/* Teste declaracao de estruturas - Erro sintatico */
+
+struct{
+	int a;
+	int b;
+} estrutura = {}; // erro
+
+int main() {
+    return 0;
+}

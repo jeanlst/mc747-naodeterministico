@@ -1,0 +1,8 @@
+/* Teste declaracao constante */
+
+const a = 25;
+const b = a;
+
+int main() {
+    return 0;
+}

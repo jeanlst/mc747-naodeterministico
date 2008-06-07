@@ -1,0 +1,16 @@
+/* Teste declaracao de estruturas  */
+
+struct{
+	int b;
+	struct {
+		int b;
+		struct {
+			int[10] b;
+		}[10] a;
+	}[10] a;
+}[10] estrutura ;
+
+int main() {
+	estrutura[1].a[2].a[3].b[4] = 10;
+    return 0;
+}
