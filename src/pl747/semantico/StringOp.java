@@ -15,6 +15,8 @@ public class StringOp extends Expression {
 	
 	public StringOp(String value) {
 		this.value = value;
+		this.type = new VectorType(String.valueOf(this.value.length()),(TreeNode)new Type("char")); 
+		
 	}
 
 	public void addChild(TreeNode child) throws Exception {
