@@ -1,0 +1,8 @@
+/* Teste de comentario - Erro sintatico */
+
+/* comentario incorreto *
+
+
+int main() {
+    return 0;
+}

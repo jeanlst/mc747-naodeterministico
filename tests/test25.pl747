@@ -1,0 +1,7 @@
+/* Teste de operadores aritmeticos - Erro sintatico */
+
+int main() {
+    int a,b;
+    a = -a++b; //erro
+    return 0;
+}

@@ -1,0 +1,8 @@
+/* Teste de comando repetitivo - Erro sintatico */
+
+int main() {
+	int a,c;
+     while (a<c) do
+     	a = a + c;
+     return 0;
+}

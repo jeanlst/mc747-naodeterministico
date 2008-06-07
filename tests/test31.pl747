@@ -1,0 +1,7 @@
+/* Teste de operadores logicos - Erro sintatico */
+
+int main() {
+    boolean b = a&& struct { int x;} y;
+    return 0;
+}
+

@@ -1,0 +1,11 @@
+/* Teste de casting - Erro sintatico */
+
+/* Teste de casting */
+
+int main() {
+    int a;
+    char b;
+    char c;
+    a = int(b,c);
+    return 0;
+}

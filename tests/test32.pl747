@@ -1,0 +1,12 @@
+/* Teste do condicional - Erro sintatico */
+
+int main() {
+	int a, b;
+    if (a==b) 
+    { a = a+b; }
+    { b = 10;  } //erro
+    else
+      return 0;
+    
+    return 0;
+}

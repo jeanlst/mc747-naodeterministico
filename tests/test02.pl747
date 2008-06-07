@@ -1,0 +1,11 @@
+/* Teste declaracao de variavel */
+
+int teste;
+char char_test = 'a';
+boolean a = false;
+
+int main() {
+    int a, b, c;
+    int x =1, y = 2, z = x+y;
+    return 0;
+}

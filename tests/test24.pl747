@@ -1,0 +1,53 @@
+/* Bubblesort */
+
+const nSize = 5; // tamanho de uma cadeia de caracteres
+const vSize = 7; // tamanho do vetor a ser ordenado
+int a;
+/** compara duas cadeias de caracteres **/
+boolean greaterThan(ref char[nSize] n1, ref char[nSize] n2){
+  int i;
+  for i = 0 to nSize-1 do {
+    if(n1[i] > n2[i]) return true;
+    if(n1[i] < n2[i]) return false;
+  }
+  return false;
+}
+ 
+/** troca o conteudo de duas cadeias de caracteres **/
+void exch(ref char[nSize] n1, ref char[nSize] n2){
+  int i;
+  for i = 0 to nSize-1 do {
+    char t = n1[i]; 
+    n1[i] = n2[i];
+    n2[i] = t;
+  }
+}
+
+/** escreve o conteudo do vetor (prototipo) **/
+void print(ref char[vSize][n] v);
+void bubbleSort(ref char[vSize][nSize] v){
+  int k;
+  do{
+      k = 0;
+      int i = 0;
+      for i = 0 to vSize-2 do {
+        if(greaterThan(v[i],v[i+1])){ exch(v[i],v[i+1]); inc(k); }
+      }
+  } while(k != 0);
+}
+
+void print(char[vSize][nSize] v,int n) {
+  int i;
+  for i = 0 to vSize-1 do print(v[i]," ");
+  println();
+}
+
+/** funcao main  **/
+void main()
+{
+  char[vSize][nSize] v;
+  int i;
+  for i = 0 to vSize-1 do readln(v[i]);
+  bubbleSort(v);
+  print(v);
+}

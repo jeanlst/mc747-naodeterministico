@@ -1,0 +1,33 @@
+/* Teste do condicional */
+
+int main() {
+	int a, b, c;
+    if (a==b) {
+       a = a+b;
+       b = 10;
+       b = a + 10;
+    } else
+      return 0;
+    
+    if (a==(b!=c)){
+       a = b;
+    }
+
+    if (a)
+       a = b;
+    else
+       b = a;
+
+    if (a)
+       if (b)
+	  if(c)
+		c = b;
+	  else
+		c = a;
+       else
+	  b = a;
+    else 
+       a = c;
+
+    return 0;
+}

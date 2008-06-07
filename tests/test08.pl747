@@ -1,0 +1,22 @@
+/* Teste declaracao de estruturas */
+
+struct{
+     char[30] nome;
+     int idade;
+     struct{
+          int dia;
+          int mes;
+          int ano;
+     } nasc, contrato;
+     int salario;
+}[30] funcionario;
+
+struct{
+     int x;
+     int y;
+     boolean visible;
+ } p0 = {0,0,false}, p1 = {10,10,true}, p3 = {10, -10, true};
+
+int main() {
+    return 0;
+}

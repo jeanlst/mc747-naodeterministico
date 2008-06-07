@@ -1,0 +1,26 @@
+/* Teste de comando repetitivo */
+
+int main() {
+	int a, b, c;
+     while (a<c)
+     	a = a + c;
+
+     do {
+     	b = c;
+	a = b;
+	c = a;
+     } while (1);
+
+     for i = 0 to b do {
+     	a = c;
+	c = b;
+ 	b = a;
+     }
+
+     for i = b downto 0 do {
+     	a = c;
+	c = b;
+ 	b = a;
+     }
+     return 0;
+}
