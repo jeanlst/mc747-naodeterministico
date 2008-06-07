@@ -141,7 +141,7 @@ public class AbsNodeFactory implements TreeNodeFactory{
 	 * @return - o objeto TreNode que representa a constante.
 	 */
 	public TreeNode makeBoolConstOp(String value){
-		TreeNode no = new ConstOp(value,makePrimType("string"));		
+		TreeNode no = new ConstOp(value,makePrimType("boolean"));		
 		return no;
 	}
 	
