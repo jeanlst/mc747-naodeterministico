@@ -141,18 +141,16 @@ public class Program extends CompoundStat{
 		boolean result = true;
 		  
 		// Verificando todos os nos da arvore de programa
-		for (TreeNode no: this.getStatList()) {
-			try {
-				if (no.check(errorList) == false){
-					result = false;
-				}
-			} catch (Exception e) {
-				result = false;
-				errorList.add("Erro ao checar semantica do programa");
-				e.printStackTrace();
-			}				
+		if(this.getStatList() != null)
+		{
+			for (TreeNode no: this.getStatList()) {			
+				try {
+					if (no.check(errorList) == false){
+						result = false;						
+					}
+				} catch (Exception e) {}
+			}
 		}
-		
 		// Verificando se a funcao main foi declarada
 		if(SymbolTable.search("main") == null){
 			errorList.add("Funcao main() nao declarada");
