@@ -78,6 +78,11 @@ public class DiadOp extends Expression {
 		boolean r2 = op2.check(errorList);
 		boolean r3 = true;
 		
+		if(!r1 || !r2)
+		{
+			return false;
+		}
+		
 		// Indexacao de vetor
 		if (kind == 0){
 
@@ -135,9 +140,9 @@ public class DiadOp extends Expression {
 			
 			// Verificando se os dois operandos do mesmo tipo		
 			if( (((Type)this.op1.getType()).getName() != ((Type)this.op2.getType()).getName())
-				|| !(((Type)this.op1.getType()).getName().equals("int")
-						|| ((Type)this.op1.getType()).getName().equals("char")
-						|| !((Type)this.op1.getType()).getName().equals("boolean")
+				        || !(((Type)this.op1.getType()).getName().equals("int")
+						||   ((Type)this.op1.getType()).getName().equals("char")
+						||   ((Type)this.op1.getType()).getName().equals("boolean")
 					)
 				) {			
 					errorList.add("Tipos incompativeis para a operacao.");

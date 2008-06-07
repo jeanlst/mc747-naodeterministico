@@ -84,8 +84,7 @@ public class VarDeclaration extends Declaration {
 			try {
 				result = result && value.check(errorList);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 						
 			Type tipoValue = null;
@@ -115,29 +114,26 @@ public class VarDeclaration extends Declaration {
 			
 			int s = 0;
 			
-			Symbol size = SymbolTable.search(((VectorType)this.type).getSize());
-			if (size == null){
-				s = Integer.parseInt(((VectorType)this.type).getSize());			
+			// Buscando simbolos e referencias cruzadas
+
+			String tamanho = ((VectorType)this.getType()).getSize();
+
+			try{
+				s = Integer.parseInt(tamanho);
 			}
-			else
-			{		
-				// Buscando simbolos e referencias cruzadas
-				while (size != null)
-				{
-					String name = ((ConstOp)((ConstSymb) size).getValue()).getValue();
-					size = SymbolTable.search(name);					
-				}				
-				
-																
-				// Convertendo valor encontrado para o tamanho (em inteiro) do vetor
-				try{
-				s = Integer.parseInt((((ConstOp)((ConstSymb) size).getValue()).getValue()));
+			catch(Exception e){	
+
+				Symbol size = SymbolTable.search(tamanho);
+
+				if (size instanceof ConstSymb) {
+					s = Integer.parseInt((((ConstOp)((ConstSymb) size).getValue()).getValue()));						
 				}
-				catch(Exception e){
+				else{
 					errorList.add("Tamanho invalido para o vetor");	
 					result = false;
-				}	
-			}
+				}
+			}	
+
 			if (s > 0) {
 				// Incluindo vetor na tabela de Simbolos
 				Symbol elementType = new PrimTypeSymb(((Type)((VectorType) this.type).getType()).getName());
