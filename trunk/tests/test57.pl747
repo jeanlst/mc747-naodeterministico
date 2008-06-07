@@ -1,0 +1,6 @@
+/* Teste de declaracao */
+
+int main() {
+	char[2] c = "a\n";
+	return 0;
+}

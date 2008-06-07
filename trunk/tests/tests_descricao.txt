@@ -51,4 +51,10 @@ test49.pl747 - Teste de declaracao
 test50.pl747 - Teste de declaracao - Erro semantico
 test51.pl747 - Teste de declaracao - Erro semantico
 test52.pl747 - Teste de declaracao - Erro semantico
+test53.pl747 - Teste declaracao de estruturas
+test54.pl747 - Teste declaracao de estruturas - Erro semantico
+test55.pl747 - Teste declaracao de estruturas - Erro semantico
+test56.pl747 - Teste de declaracao
+test57.pl747 - Teste de declaracao
+
 

@@ -1,0 +1,10 @@
+/* Teste declaracao de estruturas */
+
+struct{
+	int a;
+	int b,c;
+} estrutura;
+
+int main() {
+    return 0;
+}
