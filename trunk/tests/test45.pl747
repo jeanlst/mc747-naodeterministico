@@ -1,0 +1,9 @@
+/* Teste de declaracao */
+
+int main() {
+	int f = 10, b = f;
+	char c = 'f';
+	char[10] e = "Hello World";
+	println(e);
+	return 0;
+}

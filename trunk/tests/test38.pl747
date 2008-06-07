@@ -1,4 +1,4 @@
-/* Teste de funcao - Erro semantico */
+/* Teste de funcao */
 
 main() {
 	int a;

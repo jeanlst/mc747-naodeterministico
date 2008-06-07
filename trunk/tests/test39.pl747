@@ -1,0 +1,6 @@
+/* Teste de funcao - Erro sintatico */
+
+struct {int a;} main() {
+	int b;
+	return ;
+}
