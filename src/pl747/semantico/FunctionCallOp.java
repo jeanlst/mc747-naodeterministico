@@ -111,9 +111,16 @@ public class FunctionCallOp extends Expression {
 						paramName = ((VarSymb)SymbolTable.search(var.getName())).getType().getName();
 					}
 					
-					
-					if (!declName.equals(paramName)){
-						errorList.add("O argumento" + i + "  da funcao " + this.name + " deve ser " + declName +", e nao " + paramName + "");
+					/*teste especial para type castings*/
+					if (this.name.equals("int") || this.name.equals("char") || this.name.equals("boolean") ) {
+						if (!((declName.equals("int") || declName.equals("char") || declName.equals("boolean"))) ) {
+						
+							errorList.add("Type castings, como o " + this.name + " soh podem receber valores do tipo int, char ou boolean, e nao " + declName);
+							result = false;
+						}
+					}
+					else if (!declName.equals(paramName)){
+						errorList.add("O argumento " + (i+1) + "  da funcao " + this.name + " deve ser " + paramName +", e nao " + declName + "");
 						result = false;
 					
 					}
@@ -167,8 +174,7 @@ public class FunctionCallOp extends Expression {
 						}
 					}
 					else{
-						String diferenca = (thisTam > otherTam) ? "menos" : "mais";
-						errorList.add("A funcao " + this.name + " necessita " + diferenca + " parametros");
+						errorList.add("A funcao " + this.name + " necessita " + otherTam + " parametros, e nao " + thisTam);
 						result = false;
 					}
 					
