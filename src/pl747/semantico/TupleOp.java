@@ -32,8 +32,7 @@ public class TupleOp extends Expression {
 	 * @return true se nao houver erros e false em caso contrario
 	 */
 	public boolean check(List<String> errorList) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
+		return true;	
 	}
 
 }

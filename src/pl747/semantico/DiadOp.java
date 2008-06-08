@@ -246,8 +246,7 @@ public class DiadOp extends Expression {
 				}
 			}
 			
-			
-			
+						
 			//TODO verificar se op1 e identificador de variavel simples (int,char,boolean), selecao de campo ou indexacao
 			//Se eh que entendi direito, tudo isso é resumido em VarOp
 			if ( !(this.op1 instanceof VarOp)) {

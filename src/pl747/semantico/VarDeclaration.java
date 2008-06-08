@@ -66,8 +66,9 @@ public class VarDeclaration extends Declaration {
 	 * Faz a verificacao semantica da sub-arvore representada por este objeto. Retorna true se nao houver erros e false em caso contrario. A lista errorList acumula os erros encontrados.
 	 * @param errorList lista de erros encontrados em toda a verificacao
 	 * @return true se nao houver erros e false em caso contrario
+	 * @throws Exception 
 	 */
-	public boolean check( List<String> errorList ) {
+	public boolean check( List<String> errorList ) throws Exception {
 	
 		boolean result = true;
 				
@@ -79,13 +80,13 @@ public class VarDeclaration extends Declaration {
 		
 		/* Verificando se a variavel foi inicializada */
 		if(this.value != null){	
-			//TODO verificar se a inicialização de um struct está correta!
 			
-			try {
+			
+			try 
+			{
 				result = result && value.check(errorList);
-			} catch (Exception e) {
-				
-			}
+			} 
+			catch (Exception e){}
 						
 			Type tipoValue = null;
 			if (this.value.getType() instanceof Type) {
@@ -98,13 +99,54 @@ public class VarDeclaration extends Declaration {
 				tipoVariavel = (Type) this.type;
 			}
 			
+			if (this.getType() instanceof StructType) {
+				if (this.value instanceof TupleOp) {
+					StructType struct = (StructType)this.getType();
+					
+					List<VarDeclaration> campos = struct.getElementList();					
+					List<Expression> valores = ((TupleOp)this.value).getElementList();
+					
+					int tam_c = campos.size();
+					int tam_v = valores.size();
+					
+					if (tam_c == tam_v)
+					{
+						for(int i = 0; i<tam_c; i++)
+						{
+							result = result && campos.get(i).check(errorList);
+							result = result && valores.get(i).check(errorList);
+							if (result)
+							{
+								if(campos.get(i).getType() != valores.get(i).getType())
+								{
+									errorList.add("Tipos incompatíveis na inicialização da estrutura");	
+									result = false;	
+								}
+							}
+						}
+						
+					}
+					else
+					{
+						errorList.add("Tupla e estrutura não possuem mesmo número de campos");	
+						result = false;		
+					}
+					
+				}
+				
+				
+			}
+			
+			
+			
 			String tipoCerto = tipoVariavel.getName();
 			
 			/* Verificando se a inicializacao eh compativel */
 			if (esteTipo != tipoCerto) {
 				errorList.add("Variavel " + this.name + " nao pode ser " + esteTipo + ", pois foi declarada como " + tipoCerto + "");
 				result = false;
-			}
+			}			
+			
 		}
 		
 		Symbol tSymb = null; 
@@ -157,8 +199,12 @@ public class VarDeclaration extends Declaration {
 			//Para cada campo da estrutura, tenta inseri-lo no simbolo da mesma
 			for (VarDeclaration no: elementList) {
 				
-				FieldSymb campo = new FieldSymb(no.getName(), SymbolTable.getCurLevel(), (PrimTypeSymb)SymbolTable.search(no.getType().getName()));
+				String nome_campo = no.getName();
+				int level_campo = SymbolTable.getCurLevel();
+				String nome_tipo_campo = no.getType().getName();
+				PrimTypeSymb tipo_campo = new PrimTypeSymb(nome_tipo_campo);
 				
+				FieldSymb campo = new FieldSymb(nome_campo, level_campo, tipo_campo);				
 				if (! ((StructTypeSymb)tSymb).addField(campo)) {
 					errorList.add("Campo "+ campo.getName()+" invalido para a estrutura. Ja existe outro campo com esse nome");
 					result = false;
