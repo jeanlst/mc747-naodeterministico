@@ -178,6 +178,59 @@ public class DiadOp extends Expression {
 		// Atribuicao
 		if (kind == 17){
 			
+			
+				/* Verificando se a variavel foi inicializada */
+							
+				if (this.op1.getType() instanceof StructType) {
+					if (this.op2 instanceof TupleOp) {
+						
+						StructType struct = (StructType)this.op1.getType();
+						
+						List<VarDeclaration> campos = struct.getElementList();					
+						List<Expression> valores = ((TupleOp)this.op2).getElementList();
+						
+						int tam_c = campos.size();
+						int tam_v = valores.size();
+						
+						if (tam_c == tam_v)
+						{
+							for(int i = 0; i<tam_c; i++)
+							{
+								r3 = r3 && campos.get(i).check(errorList);
+								r3 = r3 && valores.get(i).check(errorList);
+								if (r3)
+								{
+									if(campos.get(i).getType().getName() != valores.get(i).getType().getName())
+									{
+										errorList.add("Tipos incompatíveis na inicialização da estrutura");	
+										r3 = false;	
+									}
+								}
+							}
+							
+						}
+						else
+						{
+							errorList.add("Tupla e estrutura não possuem mesmo número de campos");	
+							r3 = false;		
+						}
+						
+					}				
+					
+				}
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			// Verificação de Vetores
 			if (op1.getType() instanceof VectorType) 
 			{

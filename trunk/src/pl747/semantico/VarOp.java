@@ -1,5 +1,6 @@
 package pl747.semantico;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import pl747.TreeNode;
@@ -33,8 +34,9 @@ public class VarOp extends Expression {
 	 * Faz a verificacao semantica da sub-arvore representada por este objeto. Retorna true se nao houver erros e false em caso contrario. A lista errorList acumula os erros encontrados.
 	 * @param errorList lista de erros encontrados em toda a verificacao
 	 * @return true se nao houver erros e false em caso contrario
+	 * @throws Exception 
 	 */
-	public boolean check(List<String> errorList){
+	public boolean check(List<String> errorList) throws Exception{
 		VarSymb symb = (VarSymb) SymbolTable.search(this.name);
 		if (symb == null){			
 			errorList.add("Variavel "+ this.name +" nao declarada ou nao acessivel neste escopo");
@@ -42,7 +44,20 @@ public class VarOp extends Expression {
 		}
 		else
 		{
-			if (symb.getType() instanceof VectorTypeSymb) {
+			if (symb.getType() instanceof StructTypeSymb){
+				StructTypeSymb stSymb = (StructTypeSymb) symb.getType();
+				LinkedList<FieldSymb> campos = stSymb.getFieldList();
+				StructType struct = new StructType();	
+				for (FieldSymb symb2 : campos) {
+					Type tipo_campo = new Type(symb2.getType().getName());
+					String nome = symb2.getName();
+					VarDeclaration decl = new VarDeclaration(false,tipo_campo,nome);
+					struct.addChild(decl);
+				}
+				this.type = struct;
+							
+			}			
+			else if (symb.getType() instanceof VectorTypeSymb) {
 				
 				String tipoElem = ((VectorTypeSymb) symb.getType()).getElementType().getName();			
 				String tamVetor = Integer.toString(((VectorTypeSymb) symb.getType()).getSize());					
