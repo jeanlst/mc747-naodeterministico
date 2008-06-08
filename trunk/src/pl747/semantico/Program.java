@@ -113,15 +113,31 @@ public class Program extends CompoundStat{
 		printlnSymb.setParmList(printlnParamList);
 
 // TODO descomentar essa parte VAI retornar erros, por enquanto... eh preciso tratar deles antes...
-/*		//type casting inteiro
+		//type casting inteiro (int -> int)
 		FunctionSymb castInt = new FunctionSymb("int",new PrimTypeSymb("int"),false);
 		SymbolTable.getCurScope().addSymbol(castInt);
 		List<ParmSymb> castIntParamList = new ArrayList<ParmSymb>();
 		ParmSymb castIntParam = new ParmSymb(null,new PrimTypeSymb("int"),false);				
 		castIntParamList.add(castIntParam);
 		castInt.setParmList(castIntParamList);
+		
+		//type casting inteiro (char -> int)
+		FunctionSymb castChar2Int = new FunctionSymb("int",new PrimTypeSymb("int"),false);
+		SymbolTable.getCurScope().addSymbol(castChar2Int);
+		List<ParmSymb> castChar2IntParamList = new ArrayList<ParmSymb>();
+		ParmSymb castChar2IntParam = new ParmSymb(null,new PrimTypeSymb("char"),false);				
+		castChar2IntParamList.add(castChar2IntParam);
+		castChar2Int.setParmList(castChar2IntParamList);
+		
+		//type casting inteiro (boolean -> int)
+		FunctionSymb castBool2Int = new FunctionSymb("int",new PrimTypeSymb("int"),false);
+		SymbolTable.getCurScope().addSymbol(castBool2Int);
+		List<ParmSymb> castBool2IntParamList = new ArrayList<ParmSymb>();
+		ParmSymb castBool2IntParam = new ParmSymb(null,new PrimTypeSymb("boolean"),false);				
+		castBool2IntParamList.add(castBool2IntParam);
+		castBool2Int.setParmList(castBool2IntParamList);
 
-		//type casting de caracteres
+		//type casting de caracteres (char -> char)
 		FunctionSymb castChar = new FunctionSymb("char",new PrimTypeSymb("char"),false);
 		SymbolTable.getCurScope().addSymbol(castChar);
 		List<ParmSymb> castCharParamList = new ArrayList<ParmSymb>();
@@ -129,14 +145,48 @@ public class Program extends CompoundStat{
 		castCharParamList.add(castCharParam);
 		castChar.setParmList(castCharParamList);
 		
-		//type casting booleano
+		//type casting de caracteres (int -> char)
+		FunctionSymb castInt2Char = new FunctionSymb("char",new PrimTypeSymb("char"),false);
+		SymbolTable.getCurScope().addSymbol(castInt2Char);
+		List<ParmSymb> castInt2CharParamList = new ArrayList<ParmSymb>();
+		ParmSymb castInt2CharParam = new ParmSymb(null,new PrimTypeSymb("int"),false);				
+		castInt2CharParamList.add(castInt2CharParam);
+		castInt2Char.setParmList(castInt2CharParamList);
+		
+		//type casting de caracteres (boolean -> char)
+		FunctionSymb castBool2Char = new FunctionSymb("char",new PrimTypeSymb("char"),false);
+		SymbolTable.getCurScope().addSymbol(castBool2Char);
+		List<ParmSymb> castBool2CharParamList = new ArrayList<ParmSymb>();
+		ParmSymb castBool2CharParam = new ParmSymb(null,new PrimTypeSymb("boolean"),false);				
+		castBool2CharParamList.add(castBool2CharParam);
+		castBool2Char.setParmList(castBool2CharParamList);
+		
+		
+		//type casting booleano (bool -> bool)
 		FunctionSymb castBool = new FunctionSymb("boolean",new PrimTypeSymb("boolean"),false);
 		SymbolTable.getCurScope().addSymbol(castBool);
 		List<ParmSymb> castBoolParamList = new ArrayList<ParmSymb>();
 		ParmSymb castBoolParam = new ParmSymb(null,new PrimTypeSymb("boolean"),false);				
 		castBoolParamList.add(castBoolParam);
 		castBool.setParmList(castBoolParamList);
-*/		
+		
+		//type casting booleano (int -> bool)
+		FunctionSymb castInt2Bool = new FunctionSymb("boolean",new PrimTypeSymb("boolean"),false);
+		SymbolTable.getCurScope().addSymbol(castInt2Bool);
+		List<ParmSymb> castInt2BoolParamList = new ArrayList<ParmSymb>();
+		ParmSymb castInt2BoolParam = new ParmSymb(null,new PrimTypeSymb("int"),false);				
+		castInt2BoolParamList.add(castInt2BoolParam);
+		castInt2Bool.setParmList(castInt2BoolParamList);
+		
+		//type casting booleano (char -> bool)
+		FunctionSymb castChar2Bool = new FunctionSymb("boolean",new PrimTypeSymb("boolean"),false);
+		SymbolTable.getCurScope().addSymbol(castChar2Bool);
+		List<ParmSymb> castChar2BoolParamList = new ArrayList<ParmSymb>();
+		ParmSymb castChar2BoolParam = new ParmSymb(null,new PrimTypeSymb("char"),false);				
+		castChar2BoolParamList.add(castChar2BoolParam);
+		castChar2Bool.setParmList(castChar2BoolParamList);
+		
+		
 		// Variavel de retorno da funcao		
 		boolean result = true;
 		  
