@@ -142,10 +142,11 @@ public class VarDeclaration extends Declaration {
 			String tipoCerto = tipoVariavel.getName();
 			
 			/* Verificando se a inicializacao eh compativel */
-			if (esteTipo != tipoCerto) {
+			//if (esteTipo != tipoCerto) {
+			if ((esteTipo != tipoCerto) && !((esteTipo == "struct") && (tipoCerto == "vector"))) {
 				errorList.add("Variavel " + this.name + " nao pode ser " + esteTipo + ", pois foi declarada como " + tipoCerto + "");
 				result = false;
-			}			
+			}
 			
 		}
 		
