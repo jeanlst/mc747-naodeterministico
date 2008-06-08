@@ -117,7 +117,7 @@ public class VarDeclaration extends Declaration {
 							result = result && valores.get(i).check(errorList);
 							if (result)
 							{
-								if(campos.get(i).getType() != valores.get(i).getType())
+								if(campos.get(i).getType().getName() != valores.get(i).getType().getName())
 								{
 									errorList.add("Tipos incompatíveis na inicialização da estrutura");	
 									result = false;	
