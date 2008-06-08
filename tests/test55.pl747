@@ -1,4 +1,4 @@
-/* Teste declaracao de estruturas - Erro semantico */
+/* Teste declaracao de estruturas - Erro sintatico */
 
 struct{
 	int a;
