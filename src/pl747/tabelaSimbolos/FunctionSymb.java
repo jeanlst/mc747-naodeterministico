@@ -36,7 +36,7 @@ public class FunctionSymb extends VarSymb{
 	
 	
 	/** getters & setters **/
-	public void setParmList(List<ParmSymb> list) { parmList = list; }
+	public void setParmList(List<ParmSymb> list) { this.parmList = list; }
 	public List<ParmSymb> getParmList() { return parmList; }
 
     @Override
