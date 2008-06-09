@@ -60,7 +60,17 @@ public class FunctionDeclaration extends Declaration {
 	public List<VarDeclaration> getParmList() {		
 		return params;
 	}
+	
+	
 
+
+	/**
+	 * Seta a lista de parâmetros da função
+	 * @param params
+	 */
+	public void setParmList (List<VarDeclaration> params) {
+		this.params = params;
+	}
 
 	/**
 	 * Devolve true se este objeto representa um prototipo de funcao.
@@ -132,8 +142,8 @@ public class FunctionDeclaration extends Declaration {
 				String name = no.getName();
 				PrimTypeSymb //type = ((PrimTypeSymb)SymbolTable.search(no.getType().getName()));
 				type = new PrimTypeSymb(no.getType().getName());
-				ParmSymb param = new ParmSymb(name,type,no.isRef());				
-				paramList.add(param);				
+				ParmSymb param = new ParmSymb(name,type,no.isRef());
+				paramList.add(param);
 			}
 			else{
 				errorList.add("Nome "+this.name+" invalido para o parametro" + no.getName() + ". Ja existe outro parametro com esse nome");
