@@ -154,13 +154,13 @@ public class FunctionCallOp extends Expression {
 			else {
 				
 				//Verificando funções print e println
-				if(this.name.equals("print") || this.name.equals("println")){
+				if(this.name.equals("print") || this.name.equals("println")) {
 					for (Expression no : this.childs) {						
 						no.check(errorList);
 					}
 					
-				}else{
-					if(this.name.equals("read") || this.name.equals("readln")){
+				}
+				else if(this.name.equals("read") || this.name.equals("readln")) {
 						for (Expression no : this.childs) {	
 							if (no instanceof VarOp) {
 								no.check(errorList);							
@@ -172,14 +172,12 @@ public class FunctionCallOp extends Expression {
 							}
 							
 						}
-					}
-					else{
+				}
+				else {
 						errorList.add("A funcao " + this.name + " necessita " + otherTam + " parametros, e nao " + thisTam);
 						result = false;
-					}
-					
-					
-				}
+				}					
+				
 			}
 			
 			//Verificando funções inc e dec
