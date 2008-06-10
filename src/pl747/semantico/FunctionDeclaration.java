@@ -134,11 +134,12 @@ public class FunctionDeclaration extends Declaration {
 				// Checando no
 				result = result && no.check(errorList);
 				
-				// Adicionando si�mbolo ao escopo
-				Symbol symbol = new VarSymb(no.getName(),escopo.getLevel(),(PrimTypeSymb)SymbolTable.search(no.getType().getName()));
+				// Adicionando simbolo ao escopo
+				Symbol symbol = new VarSymb(no.getName(),escopo.getLevel(),
+						new PrimTypeSymb(no.getType().getName()));
 				escopo.addSymbol(symbol);							
 				
-				// Adicionando parametro a� lista de parametros da funcao
+				// Adicionando parametro a lista de parametros da funcao
 				String name = no.getName();
 				PrimTypeSymb //type = ((PrimTypeSymb)SymbolTable.search(no.getType().getName()));
 				type = new PrimTypeSymb(no.getType().getName());
@@ -151,12 +152,12 @@ public class FunctionDeclaration extends Declaration {
 			}
 		}
 		
-		// Adicionando lista de parametros ao si�mbolo
-		fSymb.setParmList(paramList);				
+		// Adicionando lista de parametros ao simbolo
+		fSymb.setParmList(paramList);
 		
 		
-		// Cehcando o corpo da função
-		if (body!= null)
+		// Checando o corpo da função
+		if (body!= null){
 			result = result && this.body.check(errorList);
 		
 		
@@ -172,13 +173,15 @@ public class FunctionDeclaration extends Declaration {
 					}
 				}
 				else{
-				if (!noRet.getValue().getType().getName().equals(this.type.getName())) {
+				if (!noRet.getValue().getType().getName().equals(
+						this.type.getName())) {
 						errorList.add("Tipo invalido no retorno da funcao "	+ this.name);
 						result = false;
 					}
 				}
-					
-			}
+			}	
+		}
+		
 		}
 		
 				

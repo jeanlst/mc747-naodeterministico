@@ -61,7 +61,7 @@ public class FunctionCallOp extends Expression {
 		}
 		else {
 			
-			// Verificando se o protótipo foi implementado
+			// Verificando se o prototipo foi implementado
 			
 			if(funcSymb.isPrototype())
 			{
@@ -111,7 +111,7 @@ public class FunctionCallOp extends Expression {
 						paramName = ((VarSymb)SymbolTable.search(var.getName())).getType().getName();
 					}
 					
-					/*teste especial para type castings*/
+					//teste especial para type castings
 					if (this.name.equals("int") || this.name.equals("char") || this.name.equals("boolean") ) {
 						if (!((declName.equals("int") || declName.equals("char") || declName.equals("boolean"))) ) {
 						
