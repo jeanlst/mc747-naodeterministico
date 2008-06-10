@@ -111,7 +111,7 @@ public class DiadOp extends Expression {
 		if (kind == 1){
 			// Verificando se o primeiro operador eh uma estrutura
 			if (op1.getType() instanceof StructType) {
-				errorList.add("Tipo nao indexavel");
+				errorList.add("Nao eh um struct");
 				r3 = false;
 			}
 			this.type = ((Expression)this.op2).getType();	
