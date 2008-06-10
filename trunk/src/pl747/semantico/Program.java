@@ -112,7 +112,6 @@ public class Program extends CompoundStat{
 		List<ParmSymb> printlnParamList = new ArrayList<ParmSymb>();
 		printlnSymb.setParmList(printlnParamList);
 
-// TODO descomentar essa parte VAI retornar erros, por enquanto... eh preciso tratar deles antes...
 		//type casting inteiro (int -> int)
 		FunctionSymb castInt = new FunctionSymb("int",new PrimTypeSymb("int"),false);
 		SymbolTable.getCurScope().addSymbol(castInt);
@@ -160,8 +159,7 @@ public class Program extends CompoundStat{
 		ParmSymb castBool2CharParam = new ParmSymb(null,new PrimTypeSymb("boolean"),false);				
 		castBool2CharParamList.add(castBool2CharParam);
 		castBool2Char.setParmList(castBool2CharParamList);
-		
-		
+				
 		//type casting booleano (bool -> bool)
 		FunctionSymb castBool = new FunctionSymb("boolean",new PrimTypeSymb("boolean"),false);
 		SymbolTable.getCurScope().addSymbol(castBool);
@@ -193,12 +191,14 @@ public class Program extends CompoundStat{
 		// Verificando todos os nos da arvore de programa
 		if(this.getStatList() != null)
 		{
-			for (TreeNode no: this.getStatList()) {			
+			List<Expression> statList = this.getStatList();
+			for (TreeNode no: statList) {
 				try {
 					if (no.check(errorList) == false){
 						result = false;						
 					}
 				} catch (Exception e) {}
+				//} catch (Exception e) {e.printStackTrace();}
 			}
 		}
 		// Verificando se a funcao main foi declarada
