@@ -110,7 +110,7 @@ public class DiadOp extends Expression {
 		// Selecao de campo 
 		if (kind == 1){
 			// Verificando se o primeiro operador eh uma estrutura
-			if (op1.getType() instanceof StructType) {
+			if (!(op1.getType() instanceof StructType)) {
 				errorList.add("Nao eh um struct");
 				r3 = false;
 			}
@@ -217,19 +217,7 @@ public class DiadOp extends Expression {
 						
 					}				
 					
-				}
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+				}			
 			
 			// Verificação de Vetores
 			if (op1.getType() instanceof VectorType) 
@@ -301,10 +289,22 @@ public class DiadOp extends Expression {
 			
 						
 			//TODO verificar se op1 e identificador de variavel simples (int,char,boolean), selecao de campo ou indexacao
-			//Se eh que entendi direito, tudo isso é resumido em VarOp
-			if ( !(this.op1 instanceof VarOp)) {
-				errorList.add("O primeiro operando da atribuicao nao pode receber valores, pois nao eh variavel de tipo primitivo, selecao de campo, nem indexacao de vetor");
-				r3 = false;
+			//Se eh que entendi direito, tudo isso é resumido em VarOp			
+			if (!(this.op1 instanceof VarOp))
+			{
+				if(this.op1 instanceof DiadOp)
+				{
+					DiadOp op = (DiadOp) this.op1;
+					if ((op.getKind() != INDEX_OP) && (op.getKind() != SEL_OP))
+					{
+						errorList.add("O primeiro operando da atribuicao nao pode receber valores, pois nao eh variavel de tipo primitivo, selecao de campo, nem indexacao de vetor");
+						r3 = false;
+					}
+				}	
+				else{
+					errorList.add("O primeiro operando da atribuicao nao pode receber valores, pois nao eh variavel de tipo primitivo, selecao de campo, nem indexacao de vetor");
+					r3 = false;					
+				}
 			}
 			
 			
