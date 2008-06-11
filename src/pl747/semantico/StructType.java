@@ -26,7 +26,7 @@ public class StructType extends Type {
 	@Override
 	public void addChild(TreeNode child) throws Exception {
 		
-		/*
+		
 		List<Declaration> list = null;
 		if (child instanceof VarDeclaration) {
 			list = new ArrayList<Declaration>();
@@ -34,9 +34,9 @@ public class StructType extends Type {
 		}
 		else {
 			list = ((VarDeclList) child).getDeclarations();
-		}*/
+		}
 		
-		List<Declaration> list = ((VarDeclList) child).getDeclarations();
+		//List<Declaration> list = ((VarDeclList) child).getDeclarations();
 		
 		for (Declaration dec : list) {
 			this.elementList.add((VarDeclaration)dec);
