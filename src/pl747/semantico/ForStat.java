@@ -85,8 +85,10 @@ public class ForStat extends StatOp {
 		if (r1 == true)
 		{			
 		// Verificando se os tipos sao iguais
-			
-				
+		
+		start.check(errorList);
+		finish.check(errorList);
+		
 		// Encontrando tipo da Expressao start
 		String tStart = null; 
 		if (start instanceof VarOp) 
@@ -103,8 +105,7 @@ public class ForStat extends StatOp {
 		{
 			tStart = ((Type)start.getType()).getName();
 		}
-		
-		
+				
 		//	Encontrando tipo da Expressao finish
 		String tFinish = null; 
 		if (finish instanceof VarOp) 

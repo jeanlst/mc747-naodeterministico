@@ -195,8 +195,8 @@ public class Program extends CompoundStat{
 					if (no.check(errorList) == false){
 						result = false;						
 					}
-				} catch (Exception e) {}
-				//} catch (Exception e) {e.printStackTrace();}
+				//} catch (Exception e) {}
+				} catch (Exception e) {e.printStackTrace();}
 			}
 		}
 		// Verificando se a funcao main foi declarada

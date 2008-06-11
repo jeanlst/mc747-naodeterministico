@@ -75,7 +75,11 @@ public class DiadOp extends Expression {
 		
 		// Verificando os dois operadores
 		boolean r1 = op1.check(errorList);
-		boolean r2 = op2.check(errorList);
+		boolean r2 = true;
+		
+		if(kind != 1)
+			 r2 = op2.check(errorList);
+		
 		boolean r3 = true;
 		
 		if(!r1 || !r2)
@@ -109,12 +113,23 @@ public class DiadOp extends Expression {
 		
 		// Selecao de campo 
 		if (kind == 1){
+			
+			String var1Name = ((VarOp)this.op1).getName();
+			VarSymb var1Symb = ((VarSymb)SymbolTable.search(var1Name));
+			StructTypeSymb Tsymb = (StructTypeSymb) var1Symb.getType();			
+			String var2Name = ((VarOp)this.op2).getName();			
+			FieldSymb field = Tsymb.getField(var2Name);
+			String Tname = field.getType().getName();
+			
+			
+			this.type = new Type(Tname) ;
+			
 			// Verificando se o primeiro operador eh uma estrutura
 			if (!(op1.getType() instanceof StructType)) {
 				errorList.add("Nao eh um struct");
 				r3 = false;
 			}
-			this.type = ((Expression)this.op2).getType();	
+				
 		}
 		
 		
