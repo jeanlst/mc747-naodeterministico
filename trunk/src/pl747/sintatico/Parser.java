@@ -772,6 +772,7 @@ class CUP$Parser$actions {
 	 * Funcao que adiciona os nos de TreeNode armazenado em um arraylist 
 	 * em uma variavel Treenode
 	 */
+	@SuppressWarnings("unchecked")
 	private TreeNode addChildNodes(TreeNode parent, ArrayList list) {
 		ArrayList <TreeNode>aList = list;
 		for (TreeNode node : aList) {
@@ -2085,7 +2086,7 @@ class CUP$Parser$actions {
 		int identright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		String ident = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-   		lv.add(nodeFactory.makeVarOp(ident));
+   		lv.add(nodeFactory.makeVarDecl(ident,null));
 		RESULT=lv;
 	
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("lista_variaveis_estrutura",40, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
@@ -2101,7 +2102,7 @@ class CUP$Parser$actions {
 		String ident = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		 
 		ArrayList lv = new ArrayList<TreeNode>();
-	   	lv.add(nodeFactory.makeVarOp(ident));
+	   	lv.add(nodeFactory.makeVarDecl(ident,null));
 	   	RESULT=lv; 
 	
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("lista_variaveis_estrutura",40, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
