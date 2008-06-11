@@ -11,9 +11,7 @@ public class Program extends CompoundStat{
 	
 	public Program() {
 		super();			
-	}
-	
-	
+	}	
 	
  	public Scope getScope() {
 		return scope;
