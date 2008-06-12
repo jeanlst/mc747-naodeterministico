@@ -701,14 +701,14 @@ public class Parser extends java_cup.runtime.lr_parser {
 	public void report_error(String message, Object info) {
 		syntaxErrors = true;
 
-		System.out.print(message);
+		System.err.print(message);
 
 		if ( !(info instanceof Symbol) ) return;
 		Symbol symbol = (Symbol) info;
 
 		if ( symbol.left < 0 || symbol.right < 0 ) return;
 
-		System.out.println(" at line "+symbol.left+", column "+symbol.right);
+		System.err.println(" at line "+symbol.left+", column "+symbol.right);
 		System.exit(1);
 	}
 	

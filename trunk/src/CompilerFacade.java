@@ -53,8 +53,9 @@ public class CompilerFacade {
 		}
 
 		if (!check) {
+			System.err.println("Semantic Error");
 			for (String string : errorList) {
-				System.out.println(string);
+				System.err.println(string);
 			}
 		}
 		else {
