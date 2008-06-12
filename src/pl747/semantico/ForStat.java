@@ -111,7 +111,18 @@ public class ForStat extends StatOp {
 		if (finish instanceof VarOp) 
 		{
 			VarOp vFinish = (VarOp) finish;
-			tFinish = ((VarSymb) SymbolTable.search(vFinish.getName())).getType().getName();	
+			//tFinish = ((VarSymb) SymbolTable.search(vFinish.getName())).getType().getName();
+			Object tempSymb= SymbolTable.search(vFinish.getName());
+			if (tempSymb instanceof VarSymb) 
+			{
+				VarSymb varSymb = (VarSymb) tempSymb;
+				tFinish = varSymb.getType().getName();
+			}
+			else if (tempSymb instanceof ConstSymb) 
+			{
+				ConstSymb constSymb = (ConstSymb) tempSymb;
+				tFinish = ((Type)constSymb.getValue().getType()).getName();
+			}
 		}
 		else if(finish instanceof ConstOp)
 		{
