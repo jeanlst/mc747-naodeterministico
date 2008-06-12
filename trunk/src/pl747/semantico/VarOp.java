@@ -86,7 +86,9 @@ public class VarOp extends Expression {
 				return true;
 			}
 		}
-		return false;
+		
+		errorList.add("Variavel " + this.name + " nao declarada ou nao acessivel neste escopo");
+		return false;		
 	}
 
 }
