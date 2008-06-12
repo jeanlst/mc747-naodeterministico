@@ -36,41 +36,57 @@ public class VarOp extends Expression {
 	 * @return true se nao houver erros e false em caso contrario
 	 * @throws Exception 
 	 */
-	public boolean check(List<String> errorList) throws Exception{
-		VarSymb symb = (VarSymb) SymbolTable.search(this.name);
-		if (symb == null){			
-			errorList.add("Variavel "+ this.name +" nao declarada ou nao acessivel neste escopo");
-			return false;
+	public boolean check(List<String> errorList) throws Exception {
+
+		Object tSymb = SymbolTable.search(this.name);
+
+		if (tSymb instanceof VarSymb) {
+
+			VarSymb symb = (VarSymb) tSymb;
+
+			if (symb == null) 
+			{
+				errorList.add("Variavel " + this.name + " nao declarada ou nao acessivel neste escopo");
+				return false;
+			} 
+			else 
+			{
+				if (symb.getType() instanceof StructTypeSymb) {
+					StructTypeSymb stSymb = (StructTypeSymb) symb.getType();
+					LinkedList<FieldSymb> campos = stSymb.getFieldList();
+					StructType struct = new StructType();
+					for (FieldSymb symb2 : campos) {
+						Type tipo_campo = new Type(symb2.getType().getName());
+						String nome = symb2.getName();
+						VarDeclaration decl = new VarDeclaration(false,
+								tipo_campo, nome);
+						struct.addChild(decl);
+					}
+					this.type = struct;
+
+				} else if (symb.getType() instanceof VectorTypeSymb) {
+
+					String tipoElem = ((VectorTypeSymb) symb.getType())
+							.getElementType().getName();
+					String tamVetor = Integer.toString(((VectorTypeSymb) symb
+							.getType()).getSize());
+					this.type = new VectorType(tamVetor, new Type(tipoElem));
+				} else {
+					String tname = symb.getType().getName();
+					this.type = new Type(tname);
+				}
+				return true;
+			}
 		}
 		else
 		{
-			if (symb.getType() instanceof StructTypeSymb){
-				StructTypeSymb stSymb = (StructTypeSymb) symb.getType();
-				LinkedList<FieldSymb> campos = stSymb.getFieldList();
-				StructType struct = new StructType();	
-				for (FieldSymb symb2 : campos) {
-					Type tipo_campo = new Type(symb2.getType().getName());
-					String nome = symb2.getName();
-					VarDeclaration decl = new VarDeclaration(false,tipo_campo,nome);
-					struct.addChild(decl);
-				}
-				this.type = struct;
-							
-			}			
-			else if (symb.getType() instanceof VectorTypeSymb) {
-				
-				String tipoElem = ((VectorTypeSymb) symb.getType()).getElementType().getName();			
-				String tamVetor = Integer.toString(((VectorTypeSymb) symb.getType()).getSize());					
-				this.type = new VectorType(tamVetor, new Type(tipoElem));				
+			if (tSymb instanceof ConstSymb) {
+				ConstSymb symb = (ConstSymb) tSymb;	
+				this.type = (Type) symb.getValue().getType();
+				return true;
 			}
-			else
-			{
-				String tname = symb.getType().getName();
-				this.type = new Type(tname);
-			} 
-			return true;
 		}
-		
+		return false;
 	}
 
 }
