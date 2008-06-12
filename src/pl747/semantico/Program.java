@@ -204,6 +204,22 @@ public class Program extends CompoundStat{
 			errorList.add("Funcao main() nao declarada");
 			result = false;
 		}
+
+		
+		FunctionSymb funcSymb = null;
+		for(Symbol no: SymbolTable.getCurScope().getSymbList()) {
+			
+			if (no instanceof FunctionSymb) {
+				// Verificando se o prototipo foi implementado
+				
+				funcSymb = (FunctionSymb) no;
+				if(funcSymb.isPrototype())	{
+					result = false;
+					errorList.add("Prototipo da funcao " + funcSymb.getName() + " nao implementado");		
+				}
+			}
+			
+		}
 		
 		return result;
 	}

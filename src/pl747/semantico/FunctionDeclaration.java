@@ -106,7 +106,7 @@ public class FunctionDeclaration extends Declaration {
 		boolean result = true;
 		FunctionSymb fSymb = null;
 		
-		FunctionSymb tempSymb = (FunctionSymb)SymbolTable.getCurScope().getSymbol(this.name); 
+		FunctionSymb tempSymb = (FunctionSymb)SymbolTable.getCurScope().getSymbol(this.name);
 		
 		// Verificando se a funcao ja foi declarada/prototipada
 		if (tempSymb != null && (this.isPrototype() || (!tempSymb.isPrototype()))) {
@@ -124,6 +124,7 @@ public class FunctionDeclaration extends Declaration {
 				tempSymb.setPrototype(this.isPrototype);
 			}
 		}
+		
 		
 		// Definindo escopo da funcao		
 		List<ParmSymb> paramList = new ArrayList<ParmSymb>();
@@ -152,8 +153,10 @@ public class FunctionDeclaration extends Declaration {
 			}
 		}
 		
-		// Adicionando lista de parametros ao simbolo
-		fSymb.setParmList(paramList);
+		// Adicionando lista de parametros ao simbolo (se a funcao nao existia como prototipo)
+		if (tempSymb == null) {
+			fSymb.setParmList(paramList);
+		}
 		
 		
 		// Checando o corpo da função
