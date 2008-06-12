@@ -8,15 +8,31 @@ import pl747.tabelaSimbolos.*;
 
 public class DiadOp extends Expression {
 
+/* Atributos da Classe */	
+	
+	/**
+	 * Tipo da operacao
+	 */	
 	private int kind;
+	
+	/**
+	 * Operador 1 
+	 */
 	private Expression op1;
+	
+	/**
+	 * Operador 2
+	 */
 	private Expression op2;
 	
-	
-	
+		
 /* Metodos publicos */	
 	
-	public DiadOp(int kind, TreeNode opn1, TreeNode  opn2) {
+	/**
+	 * Construtor de DiadOp
+	 */
+	public DiadOp(int kind, TreeNode opn1, TreeNode  opn2) 
+	{
 		this.kind = kind;
 		this.op1 = (Expression) opn1;
 		this.op2 = (Expression) opn2;
@@ -43,22 +59,28 @@ public class DiadOp extends Expression {
 		
 	}
 
-	public void addChild(TreeNode child) throws Exception {				
-
+	/**
+	 * Método herdado (sem funcionalidade nesta classe)
+	 */
+	public void addChild(TreeNode child) throws Exception 
+	{	
+		Exception e = new Exception("Método nao se aplica a objetos desta classe");
+		throw e;
 	}
 	
 	/**
 	 * Devolve o primeiro operando da operacao representada por este objeto.
 	 */
-	public Expression getFirstOperand() {
-
+	public Expression getFirstOperand() 
+	{
 		return (Expression) this.op1;
 	}
 
 	/**
 	 * Devolve o segundo operando da operacao representada por este objeto.
 	 */
-	public Expression getSecondOperand() {
+	public Expression getSecondOperand() 
+	{
 
 		return (Expression) this.op2;
 	}
@@ -66,15 +88,17 @@ public class DiadOp extends Expression {
 	/**
 	 * Devolve o 'codigo' da operacao representada por este objeto (definido em PL747Consts.java)
 	 */
-	public int getKind() {
+	public int getKind() 
+	{
 		return kind;
 	}
-
 	
 	
 /* Verificacoes por tipo de Operacao*/
 	
-	// Indexacao de vetor
+	/**
+	 * Indexacao de vetor
+	 */
 	private boolean VerificaIndexacao(List<String> errorList) 
 	{
 				
@@ -103,7 +127,11 @@ public class DiadOp extends Expression {
 		
 	}
 	
-	// Selecao de campo 
+	/**  
+	 * Selecao de campo
+	 * @param errorList
+	 * @return
+	 */
 	private boolean VerificaSelecao(List<String> errorList) 
 	{
 		boolean r = true;
@@ -126,7 +154,11 @@ public class DiadOp extends Expression {
 		return r;
 	}
 			
-	// Comandos aritmeticos
+	/** 
+	 * Comandos aritmeticos
+	 * @param errorList
+	 * @return
+	 */
 	private boolean VerificaAritmeticos(List<String> errorList)
 	{		
 		boolean r = true;
@@ -143,7 +175,9 @@ public class DiadOp extends Expression {
 		return r;
 	}
 	
-	// Comandos de comparacao
+	/**
+	 * Comandos de comparacao
+	 */
 	private boolean VerificaComparacao(List<String> errorList)
 	{
 		boolean r = true;
@@ -164,7 +198,9 @@ public class DiadOp extends Expression {
 		return r;
 	}
 	
-	// Comandos logicos
+	/**
+	 * Comandos logicos
+	 */
 	private boolean VerificaComandoLogico(List<String> errorList)
 	{
 
@@ -194,7 +230,9 @@ public class DiadOp extends Expression {
 		return r;
 	}	
 			
-	// Atribuicao de estrutura
+	/** 
+	 * Atribuicao de estrutura
+	 */
 	private boolean VerificaAtribuicaoEstrutura(List<String> errorList) 
 	{		
 		boolean r = true;
@@ -238,7 +276,9 @@ public class DiadOp extends Expression {
 
 	}
 	
-	// Atribuicao de vetor	
+	/**
+	 * Atribuicao de vetor
+	 */	
 	private boolean VerificaAtribuicaoVetor(List<String> errorList)
 	{
 		
@@ -295,7 +335,9 @@ public class DiadOp extends Expression {
 		return r;
 	}
 		
-	// Atribuicao de tipos primitivos
+	/**
+	 * Atribuicao de tipos primitivos
+	 */
 	private boolean VerificaAtribuicaoPrimarios(List<String> errorList)
 	{
 		boolean r = true;
@@ -308,7 +350,11 @@ public class DiadOp extends Expression {
 		return r;
 	}
 	
-	// Atribuicao
+	/** 
+	 * Atribuicao
+	 * @param errorList
+	 * @return
+	 */
 	private boolean VerificaAtribuicao(List<String> errorList) 
 	{
 		boolean r = true;
@@ -349,7 +395,7 @@ public class DiadOp extends Expression {
 		return r;
 	}
 
-		
+	
 /* Verificacao do Noh DiadOp*/
 	
 	/**
