@@ -113,7 +113,7 @@ public class VarDeclaration extends Declaration {
 					{
 						for(int i = 0; i<tam_c; i++)
 						{
-							result = result && campos.get(i).check(errorList);
+							//result = result && campos.get(i).check(errorList);
 							result = result && valores.get(i).check(errorList);
 							if (result)
 							{
