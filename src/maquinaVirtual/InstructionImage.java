@@ -1,3 +1,5 @@
+package maquinaVirtual;
+
 public class InstructionImage {
 	
 	/* "nomes" das instruções */
