@@ -63,11 +63,11 @@ public class FunctionCallOp extends Expression {
 			
 			// Verificando se o prototipo foi implementado
 			
-			if(funcSymb.isPrototype())
+			/*if(funcSymb.isPrototype())
 			{
 				result = false;
 				errorList.add("Protótipo não implementado");		
-			}
+			}*/
 			
 			
 			// Setando tipo de retorno do metodo de acordo com a declaracao da funcao
