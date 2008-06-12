@@ -297,7 +297,8 @@ public class Scanner implements java_cup.runtime.Scanner, sym {
 	}
   
 	private void error(String message) {
-		System.out.println("Error at line "+(yyline+1)+", column "+(yycolumn+1)+" : "+message);
+		System.err.println("Lexic error");
+		System.err.println("Error at line "+(yyline+1)+", column "+(yycolumn+1)+" : "+message);
 	}
   
 
