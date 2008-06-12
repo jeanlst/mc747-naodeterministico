@@ -103,9 +103,9 @@ public class DiadOp extends Expression {
 	{
 				
 			boolean r = true;
-
+						
 			// Verificando se o primeiro operador eh um vetor
-			if (op1.getType() instanceof VectorType) {
+			if (!(op1.getType() instanceof VectorType)) {
 				errorList.add("Tipo nao indexavel");
 				r = false;
 			}
