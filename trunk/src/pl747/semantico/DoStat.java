@@ -3,6 +3,7 @@ package pl747.semantico;
 import java.util.List;
 
 import pl747.TreeNode;
+import pl747.Visitor;
 
 /**
  * Representa um comando do tipo 'do-while'.
@@ -62,4 +63,8 @@ public class DoStat extends StatOp {
 		
 	}
 
+	public Object accept( Visitor v ) {
+		v.visit(this);
+		return null;
+	}
 }

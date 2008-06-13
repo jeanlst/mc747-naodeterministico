@@ -2,6 +2,7 @@ package pl747.semantico;
 import java.util.*;
 
 import pl747.TreeNode;
+import pl747.Visitor;
 
 /**
  * Representa um comando composto.
@@ -53,4 +54,8 @@ public class CompoundStat extends StatOp {
 		return result;
 	}
 	
+	public Object accept( Visitor v ) {
+		v.visit(this);
+		return null;
+	}
 }

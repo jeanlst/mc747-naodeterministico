@@ -3,6 +3,7 @@ package pl747.semantico;
 import java.util.List;
 
 import pl747.TreeNode;
+import pl747.Visitor;
 
 /**
  * Representa um comando 'return'.
@@ -73,4 +74,8 @@ public class ReturnStat extends StatOp {
 		return /*r1 &&*/ r2;
 	}
 
+	public Object accept( Visitor v ) {
+		v.visit(this);
+		return null;
+	}
 }

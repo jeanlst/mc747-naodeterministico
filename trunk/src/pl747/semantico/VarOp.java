@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import pl747.TreeNode;
+import pl747.Visitor;
 import pl747.tabelaSimbolos.*;
 
 public class VarOp extends Expression {
@@ -91,4 +92,8 @@ public class VarOp extends Expression {
 		return false;		
 	}
 
+	public Object accept( Visitor v ) {
+		v.visit(this);
+		return null;
+	}
 }

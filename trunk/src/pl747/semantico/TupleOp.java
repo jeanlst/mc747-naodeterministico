@@ -3,6 +3,7 @@ package pl747.semantico;
 import java.util.*;
 
 import pl747.TreeNode;
+import pl747.Visitor;
 /**
  * Descreve uma tupla.
  */
@@ -35,4 +36,8 @@ public class TupleOp extends Expression {
 		return true;	
 	}
 
+	public Object accept( Visitor v ) {
+		v.visit(this);
+		return null;
+	}
 }

@@ -3,6 +3,7 @@ package pl747.semantico;
 import java.util.List;
 
 import pl747.TreeNode;
+import pl747.Visitor;
 import pl747.tabelaSimbolos.*;
 
 
@@ -448,5 +449,10 @@ public class DiadOp extends Expression {
 		}
 
 		return r;
+	}
+	
+	public Object accept( Visitor v ) {
+		v.visit(this);
+		return null;
 	}
 }
