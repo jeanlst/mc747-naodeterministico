@@ -1,2 +1,2 @@
 Semantic Error
-A string nao tem tamanho compativel com o vetor
+O valor atribuido tem tamanho diferente da variavel que recebe a atribuicao

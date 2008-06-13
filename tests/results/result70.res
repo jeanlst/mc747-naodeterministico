@@ -1,2 +1,2 @@
 Semantic Error
-Tipos incompativeis para a atribuicao
+O valor atribuido tem tamanho diferente da variavel que recebe a atribuicao
