@@ -3,7 +3,6 @@ package pl747.semantico;
 import java.util.*;
 
 import pl747.TreeNode;
-import pl747.Visitor;
 import pl747.tabelaSimbolos.*;
 
 /**
@@ -132,8 +131,7 @@ public class FunctionCallOp extends Expression {
 							VarOp varRef = (VarOp) no;
 											
 							Symbol symbRef = SymbolTable.search(varRef.getName());
-							errorList.add(((VarSymb)symbRef).getType().getName());
-							
+														
 							//TODO isso eh suficiente? Porque ele acaba pegando qualquer coisa que nao seja
 							//vetor ou estrutura e fala que estah errado,mas uma variavel primitiva pode ser passada
 							if (    !(((VarSymb)symbRef).getType().getName().equals("vector") ||
@@ -161,16 +159,22 @@ public class FunctionCallOp extends Expression {
 					}
 					
 				}
-				else if(this.name.equals("read") || this.name.equals("readln")) {
+				else 
+					if(this.name.equals("read") || this.name.equals("readln")) {
 						for (Expression no : this.childs) {	
 							if (no instanceof VarOp) {
 								no.check(errorList);							
 							}
-							else
+							else if (no instanceof DiadOp)
 							{
-								errorList.add("As funções reads e readln aceitam apenas variáveis como parâmetro");
-								result = false;
+								DiadOp noDiad = (DiadOp) no;
+								if(!(noDiad.getKind() == INDEX_OP) && !(noDiad.getKind() == SEL_OP))
+								{
+									errorList.add("As funções reads e readln aceitam apenas variáveis como parâmetro");
+									result = false;
+								}		
 							}
+							
 							
 						}
 				}
@@ -196,7 +200,7 @@ public class FunctionCallOp extends Expression {
 		
 		return result;
 	}
-
+	
 	public Object accept( Visitor v ) {
 		v.visit(this);
 		return null;
