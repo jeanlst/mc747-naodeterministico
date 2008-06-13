@@ -179,7 +179,22 @@ public class VarDeclaration extends Declaration {
 
 			if (s > 0) {
 				// Incluindo vetor na tabela de Simbolos
-				Symbol elementType = new PrimTypeSymb(((Type)((VectorType) this.type).getType()).getName());
+				
+				Type tipo = ((Type)((VectorType) this.type).getType());
+				Symbol elementType;
+				if (tipo instanceof StructType)
+				{
+					elementType = new StructTypeSymb();
+				}
+				else if (tipo instanceof VectorType)
+				{
+					VectorType vetor = (VectorType) tipo; 
+					elementType = new VectorTypeSymb(Integer.parseInt(vetor.getSize()),new PrimTypeSymb(vetor.getElementType().getName()));
+				}
+				else
+				{
+					elementType = new PrimTypeSymb(tipo.getName());
+				}
 				tSymb = new VectorTypeSymb(s, elementType);
 			}
 			else{
