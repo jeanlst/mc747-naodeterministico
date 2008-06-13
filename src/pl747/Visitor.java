@@ -1,9 +1,8 @@
 package pl747;
 
-import java.io.IOException;
 import java.util.List;
 
-import com.sun.org.apache.xpath.internal.operations.Variable;
+import com.sun.corba.se.impl.orbutil.graph.Node;
 
 import pl747.codigo.gerador;
 import pl747.semantico.*;
@@ -12,9 +11,9 @@ import pl747.tabelaSimbolos.*;
 public class Visitor {
 	
     public void visit(VarDeclaration node) {
-    	int i, j, size;
+    	int size;
     	Type type;
-    	List varList;
+    	List varList;    	    
     	
     	try {
     		type = node.getType();
@@ -22,23 +21,24 @@ public class Visitor {
     		if ( type instanceof VectorType )
     		{    			
     			size = Integer.parseInt(((VectorType)type).getSize());
-    			gerador.oFile.writeChars("ALLOC " + size + "\n");
+    			gerador.pWriter.println("ALLOC " + size);
     		}
     		else if ( type instanceof StructType )
     		{
     			varList = ((StructType)type).getElementList();    			
     			size = GetTotalSize(varList);    			
-    			gerador.oFile.writeChars("ALLOC " + size + "\n");
+    			gerador.pWriter.println("ALLOC " + size);
     		}
     		else
     		{
-    			gerador.oFile.writeChars("ALLOC 1\n");
+    			size = 1;
+    			gerador.pWriter.println("ALLOC 1");
 			}
-    		
-    		
-    		gerador.oFile.writeChars("");
+    		    	
+    		// atualiza a tabela de simbolos 
+    		gerador.addr += size;    		
     	}
-    	catch (IOException ex) {
+    	catch (Exception ex) {
     		ex.printStackTrace();
     		System.err.print("VarDeclarition node exception.\n");
     		System.exit(1);
@@ -77,7 +77,8 @@ public class Visitor {
     	TreeNode body;
     	List param;
     	boolean isPrototype;
-    	Scope scope;    	
+    	Scope scope;
+    	int i, n;
     	
     	body = node.getBody();
     	param = node.getParmList();
@@ -89,52 +90,190 @@ public class Visitor {
     	
     	if ( !isPrototype ) {    		
     		try {
-    			gerador.oFile.writeChars(":" + node.getName() + "\n");
-    			gerador.oFile.writeChars("ENTER\n");
+    			gerador.pWriter.println(":" + node.getName());
+    			gerador.pWriter.println("ENTER");
     			
-    			/*if ( body instanceof CompoundStat )
-    				((CompoundStat)body).getStatList();
-    			else*/
-    				
+    			// accept(body);
     		}
-    		catch (IOException ex) {
+    		catch (Exception ex) {
     			ex.printStackTrace();
-    			System.err.print("Erro ao escrever no arquivo\n");
+    			System.err.print("Erro ao escrever no arquivo.\n");
     			System.exit(1);
     		}    		
     	}    	
     }
 
     public void visit(ConstDeclaration node) {
-
+    	
     }
 
     public void visit(FunctionCallOp node) {
-	
+    	int i, n;
+    	List param = node.getParmList();
+    	
+    	n = param.size();
+    	for ( i = 0; i < n; i++ ) // accept(param.get(i));
+    		;
+    	
+    	gerador.pWriter.println("LOADR B");
+    	gerador.pWriter.println("LOADR T");
+    	gerador.pWriter.println("CTE 1");
+    	gerador.pWriter.println("SUB");
+    	gerador.pWriter.println("STORER B");
+    	gerador.pWriter.println("LOADR PC");
+    	gerador.pWriter.println("CTE 3");
+    	gerador.pWriter.println("ADD");
+    	gerador.pWriter.println("CALL :" + node.getFunctionName().toUpperCase());
     }
 
     public void visit(ConstOp node) {
-
+    	
     }
 
     public void visit(StringOp node) {
-
-    }
+    	int i;
+    	int n;
+    	String s;
+    	
+    	s = node.getValue();
+    	n = s.length();
+    	
+    	for ( i = 0; i < n; i++ )
+    		gerador.pWriter.println("CTE " + s.charAt(i));    		
+    }    
 
     public void visit(TupleOp node) {
-
+    	
     }
 
     public void visit(VarOp node) {
-
+    	gerador.pWriter.println("LOAD B " + 0 /* Get address */ );
     }
 
     public void visit(DiadOp node) {
-
+    	int OP;
+    	Expression expr;
+    	    	
+    	OP = node.getKind();
+    	
+    	switch (OP) {
+    	
+    	case PL747Consts.INDEX_OP:
+    		break;
+    		
+    	case PL747Consts.SEL_OP:
+    		break;
+    		
+    	case PL747Consts.ADD_OP:
+    		// accept(node.getFirstOperand());
+    		// accept(node.getSecondOperand());
+    		gerador.pWriter.println("ADD");
+    		break;
+    		
+    	case PL747Consts.SUB_OP:
+    		// accept(node.getFirstOperand());
+    		// accept(node.getSecondOperand());
+    		gerador.pWriter.println("SUB");
+    		break;
+    		    		
+    	case PL747Consts.MULT_OP:
+    		// accept(node.getFirstOperand());
+    		// accept(node.getSecondOperand());
+    		gerador.pWriter.println("MUL");
+    		break;
+    		
+    	case PL747Consts.DIV_OP:
+    		// accept(node.getFirstOperand());
+    		// accept(node.getSecondOperand());
+    		gerador.pWriter.println("DIV");
+    		break;
+    		
+    	case PL747Consts.MOD_OP:
+    		// accept(node.getFirstOperand());
+    		// accept(node.getSecondOperand());
+    		gerador.pWriter.println("MOD");
+    		break;
+    		
+    	case PL747Consts.EQ_OP:
+    		// accept(node.getFirstOperand());
+    		// accept(node.getSecondOperand());
+    		gerador.pWriter.println("EQL");
+    		break;
+    		
+    	case PL747Consts.NE_OP:
+    		// accept(node.getFirstOperand());
+    		// accept(node.getSecondOperand());
+    		gerador.pWriter.println("NEQ");
+    		break;
+    		
+    	case PL747Consts.GT_OP:
+    		// accept(node.getFirstOperand());
+    		// accept(node.getSecondOperand());
+    		gerador.pWriter.println("GT");
+    		break;
+    		
+    	case PL747Consts.LT_OP:
+    		// accept(node.getFirstOperand());
+    		// accept(node.getSecondOperand());
+    		gerador.pWriter.println("LT");
+    		break;
+    		
+    	case PL747Consts.GE_OP:
+    		// accept(node.getFirstOperand());
+    		// accept(node.getSecondOperand());
+    		gerador.pWriter.println("GTE");
+    		break;
+    		
+    	case PL747Consts.LE_OP:
+    		// accept(node.getFirstOperand());
+    		// accept(node.getSecondOperand());
+    		gerador.pWriter.println("LTE");
+    		break;
+    		
+    	case PL747Consts.AND_OP:
+    		// accept(node.getFirstOperand());
+    		// accept(node.getSecondOperand());
+    		gerador.pWriter.println("AND");
+    		break;
+    		
+    	case PL747Consts.OR_OP:
+    		// accept(node.getFirstOperand());
+    		// accept(node.getSecondOperand());
+    		gerador.pWriter.println("OR");
+    		break;
+    		    		
+    	case PL747Consts.ASSIGN_OP:
+    		// accept(node.getSecondOperand());
+    		
+    		expr = node.getFirstOperand();
+    		
+    		if ( expr instanceof VarOp )
+    		{
+    			/* ((VarOp)expr).getName();
+    			 * pegar na tebela de simbolos e dar
+    			 * um store
+    			 */
+    		}
+    		else if ( expr instanceof DiadOp )
+    		{
+    			OP = ((DiadOp)(expr)).getKind();
+    			if ( OP == PL747Consts.INDEX_OP ) {
+    				// accept(node.getSecondOperand());
+    				/* Usar indireção para acessar a posição
+    				 * do vetor na pilha.
+    				 * Tem que fazer uma soma.
+    				 */
+    			}
+    			
+    		}
+    		break;
+    		
+    	}
+    	
     }
 
     public void visit(UnaryOp node) {
-
+    	
     }
 
     public void visit(CompoundStat node) {
