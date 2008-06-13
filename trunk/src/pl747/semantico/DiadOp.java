@@ -100,57 +100,97 @@ public class DiadOp extends Expression {
 	/**
 	 * Indexacao de vetor
 	 */
-	private boolean VerificaIndexacao(List<String> errorList) 
-	{
+	private boolean VerificaIndexacao(List<String> errorList) {
+
+		boolean r = true;
+
+		if (op1 instanceof VarOp) {
+			VarOp var = (VarOp) op1;
+
+			Symbol symb = SymbolTable.search(var.getName());
+
+			if ((symb instanceof VarSymb)) {
 				
-			boolean r = true;
-						
+				VarSymb varSymb = (VarSymb) symb;
+				
+				if(!(varSymb.getType() instanceof VectorTypeSymb))
+				{
+					errorList.add("Tipo nao indexavel");
+					r = false;
+				}
+			}
+		}
+
+		else 
+		{
 			// Verificando se o primeiro operador eh um vetor
 			if (!(op1.getType() instanceof VectorType)) {
 				errorList.add("Tipo nao indexavel");
 				r = false;
 			}
+		}
 
-			// Verificando se o segundo operador eh um inteiro
-			if (!op2.getType().getName().equals("int")) {
-				errorList.add("Indice invalido");
-				r = false;
-			}
+		// Verificando se o segundo operador eh um inteiro
+		if (!op2.getType().getName().equals("int")) {
+			errorList.add("Indice invalido");
+			r = false;
+		}
 
-			// Encontrando o tipo armazenado pelo vetor
-			Symbol symbol = SymbolTable.search(((VarOp) this.op1).getName());
-			VarSymb vSymb = (VarSymb) symbol;
-			PrimTypeSymb type = vSymb.getType();
-			String tName = ((VectorTypeSymb) type).getElementType().getName();
+		// Encontrando o tipo armazenado pelo vetor
+		Symbol symbol = SymbolTable.search(((VarOp) this.op1).getName());
+		VarSymb vSymb = (VarSymb) symbol;
+		PrimTypeSymb type = vSymb.getType();
+		String tName = ((VectorTypeSymb) type).getElementType().getName();
 
-			this.type = new Type(tName);
-			return r;
-		
+		this.type = new Type(tName);
+		return r;
+
 	}
 	
-	/**  
+	/**
 	 * Selecao de campo
+	 * 
 	 * @param errorList
 	 * @return
+	 * @throws Exception 
 	 */
-	private boolean VerificaSelecao(List<String> errorList) 
+	private boolean VerificaSelecao(List<String> errorList) throws Exception 
 	{
-		boolean r = true;
+		boolean r = true;		
+		VarSymb var1Symb = null;
 		
-		String var1Name = ((VarOp)this.op1).getName();
-		VarSymb var1Symb = ((VarSymb)SymbolTable.search(var1Name));
-		StructTypeSymb Tsymb = (StructTypeSymb) var1Symb.getType();			
-		String var2Name = ((VarOp)this.op2).getName();			
-		FieldSymb field = Tsymb.getField(var2Name);
-		String Tname = field.getType().getName();
-		
-		
-		this.type = new Type(Tname) ;
-		
-		// Verificando se o primeiro operador eh uma estrutura
-		if (!(op1.getType() instanceof StructType)) {
-			errorList.add("Nao eh um struct");
-			r = false;
+		if (this.op1 instanceof VarOp) {
+			String var1Name = ((VarOp) this.op1).getName();
+			var1Symb = ((VarSymb) SymbolTable.search(var1Name));
+			StructTypeSymb Tsymb = (StructTypeSymb) var1Symb.getType();
+			String var2Name = ((VarOp) this.op2).getName();
+			FieldSymb field = Tsymb.getField(var2Name);
+			String Tname = field.getType().getName();
+
+			this.type = new Type(Tname);
+
+			// Verificando se o primeiro operador eh uma estrutura
+			if (!(op1.getType() instanceof StructType)) {
+				errorList.add("Nao eh um struct");
+				r = false;
+			}
+		}
+		else
+		{
+			if(this.op1 instanceof Expression)
+			{
+				Type t = op1.getType();
+				if (t instanceof StructType) 
+				{
+					
+				}
+				else
+				{
+					errorList.add("Nao eh um struct");
+					r = false;					
+				}
+			}
+			
 		}
 		return r;
 	}
@@ -317,7 +357,7 @@ public class DiadOp extends Expression {
 
 			if (s1 != s2) {
 				if (r == true) {
-					errorList.add("Tipos incompativeis para a atribuicao");
+					errorList.add("O valor atribuido tem tamanho diferente da variavel que recebe a atribuicao");
 					r = false;
 				}
 			}
