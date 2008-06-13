@@ -3,6 +3,7 @@ package pl747.semantico;
 import java.util.*;
 
 import pl747.TreeNode;
+import pl747.Visitor;
 import pl747.tabelaSimbolos.*;
 
 /**
@@ -196,4 +197,8 @@ public class FunctionCallOp extends Expression {
 		return result;
 	}
 
+	public Object accept( Visitor v ) {
+		v.visit(this);
+		return null;
+	}
 }

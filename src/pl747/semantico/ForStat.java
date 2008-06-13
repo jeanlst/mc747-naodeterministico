@@ -3,6 +3,7 @@ package pl747.semantico;
 import java.util.List;
 
 import pl747.TreeNode;
+import pl747.Visitor;
 import pl747.tabelaSimbolos.*;
 
 /**
@@ -148,6 +149,11 @@ public class ForStat extends StatOp {
 		boolean r3 = this.body.check(errorList);
 		
 		return r1 && r2 && r3;
+	}
+	
+	public Object accept( Visitor v ) {
+		v.visit(this);
+		return null;
 	}
 
 }

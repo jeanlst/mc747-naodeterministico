@@ -3,6 +3,7 @@ package pl747.semantico;
 import java.util.List;
 
 import pl747.TreeNode;
+import pl747.Visitor;
 
 /**
  * Representa um string.
@@ -44,4 +45,8 @@ public class StringOp extends Expression {
 		return false;
 	}
 
+	public Object accept( Visitor v ) {
+		v.visit(this);
+		return null;
+	}
 }

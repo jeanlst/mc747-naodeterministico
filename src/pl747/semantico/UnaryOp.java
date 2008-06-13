@@ -3,6 +3,7 @@ package pl747.semantico;
 import java.util.List;
 
 import pl747.TreeNode;
+import pl747.Visitor;
 
 public class UnaryOp extends Expression {
 
@@ -71,4 +72,8 @@ public class UnaryOp extends Expression {
 		return r1 && r2;
 	}
 	
+	public Object accept( Visitor v ) {
+		v.visit(this);
+		return null;
+	}
 }
