@@ -1,7 +1,7 @@
 package pl747.semantico;
 
 import java.util.*;
-
+import pl747.Visitor;
 import pl747.TreeNode;
 import pl747.tabelaSimbolos.*;
 
