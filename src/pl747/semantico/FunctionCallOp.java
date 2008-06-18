@@ -91,7 +91,7 @@ public class FunctionCallOp extends Expression {
 				
 					Expression no = this.childs.get(i);
 					VarSymb var = funcSymb.getParmList().get(i);
-				
+					result = result && no.check(errorList);
 					
 					no.check(errorList);					 
 					
@@ -159,33 +159,30 @@ public class FunctionCallOp extends Expression {
 					}
 					
 				}
-				else 
-					if(this.name.equals("read") || this.name.equals("readln")) {
-						for (Expression no : this.childs) {	
-							if (no instanceof VarOp) {
-								no.check(errorList);							
+				else if (this.name.equals("read")
+						|| this.name.equals("readln")) {
+					for (Expression no : this.childs) {
+						if (no instanceof VarOp) {
+							no.check(errorList);
+						} else if (no instanceof DiadOp) {
+							DiadOp noDiad = (DiadOp) no;
+							if (!(noDiad.getKind() == INDEX_OP)
+									&& !(noDiad.getKind() == SEL_OP)) {
+								errorList
+										.add("As funções reads e readln aceitam apenas variáveis como parâmetro");
+								result = false;
 							}
-							else if (no instanceof DiadOp)
-							{
-								DiadOp noDiad = (DiadOp) no;
-								if(!(noDiad.getKind() == INDEX_OP) && !(noDiad.getKind() == SEL_OP))
-								{
-									errorList.add("As funções reads e readln aceitam apenas variáveis como parâmetro");
-									result = false;
-								}		
-							}
-							
-							
 						}
-				}
+					}
+				} 
 				else {
-						errorList.add("A funcao " + this.name + " necessita " + otherTam + " parametros, e nao " + thisTam);
-						result = false;
-				}					
-				
+					errorList.add("A funcao " + this.name + " necessita "
+							+ otherTam + " parametros, e nao " + thisTam);
+					result = false;
+				}
 			}
 			
-			//Verificando funções inc e dec
+			// Verificando funções inc e dec
 			if (this.name.equals("inc") || this.name.equals("dec")){
 				for (Expression no : this.childs) {						
 					if (!((no.getType().getName().equals("int")) ||
