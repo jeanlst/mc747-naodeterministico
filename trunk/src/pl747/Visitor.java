@@ -10,6 +10,8 @@ import pl747.tabelaSimbolos.*;
 
 public class Visitor {
 	
+	private int Label = 0;
+	
     public void visit(VarDeclaration node) {
     	int size;
     	Type type;
@@ -94,6 +96,16 @@ public class Visitor {
     			gerador.pWriter.println("ENTER");
     			
     			// accept(body);
+    			
+    			n = GetTotalSize(param);
+    			
+    			gerador.pWriter.println("" /* Label de return */);
+    			gerador.pWriter.println("STORE B -" + (n+1)); // tomara que isso seja valido
+    			gerador.pWriter.println("LOADR B");
+    			gerador.pWriter.println("CTE -3");
+    			gerador.pWriter.println("ADD");
+    			gerador.pWriter.println("RET");
+
     		}
     		catch (Exception ex) {
     			ex.printStackTrace();
@@ -273,7 +285,19 @@ public class Visitor {
     }
 
     public void visit(UnaryOp node) {
+    	int OP = node.getKind();
     	
+    	switch (OP) {
+    	case PL747Consts.MINUS_OP:
+    		// accept(node.getOperand());
+    		gerador.pWriter.println("NEG");
+    		break;
+    		
+    	case PL747Consts.NOT_OP:
+    		// accept(node.getOperand());
+    		gerador.pWriter.println("NOT");
+    		break;
+    	}
     }
 
     public void visit(CompoundStat node) {
@@ -281,22 +305,54 @@ public class Visitor {
     }
 
     public void visit(IfStat node) {
-
+    	// accept(node.getCondition());
+    	gerador.pWriter.println("JMPF :cond_" + Label);
+    	// accept(node.getThenPart());
+    	gerador.pWriter.println("JMP :end_" + Label);
+    	gerador.pWriter.println(":cond_" + Label);
+    	// accept(node.getElsePart());
+    	gerador.pWriter.println(":end_" + Label);
+    	Label++;
     }
 
     public void visit(WhileStat node) {
-
+    	gerador.pWriter.println(":cond_" + Label);
+    	// accept(node.getCondition());
+    	gerador.pWriter.println("JMPF :end_" + Label);
+    	// accept(node.getStat());
+    	gerador.pWriter.println("JMP :cond_" + Label);
+    	gerador.pWriter.println(":end_" + Label);
+    	Label++;
     }
 
     public void visit(DoStat node) {
-
+    	gerador.pWriter.println(":cond_" + Label);
+    	// accept(node.getStat());
+    	// accept(node.getCondition());
+    	gerador.pWriter.println("JMPT :cond_" + Label);    	    	
     }
 
     public void visit(ForStat node) {
-
+    	String var = node.getVariable();
+    	
+    	// accept(node.getStartValue());
+    	gerador.pWriter.println("STORE B " + "" /* getAdress */);
+    	
+    	gerador.pWriter.println(":cond_" + Label);
+    	// accept(node.getFinalValue());
+    	gerador.pWriter.println("JMPF :end_" + Label);    	
+    	// accept(node.getStat());
+    	if ( node.getDirection() == true )
+    		gerador.pWriter.println("INC B " + "" /* getAdress */);
+    	else
+    		gerador.pWriter.println("DEC B " + "" /* getAdress */);
+    	gerador.pWriter.println("JMP cond_" + Label);
+    	gerador.pWriter.println(":end_" + Label);
+    	Label++;
     }
 
     public void visit(ReturnStat node) {
-
+    	// accept(node.getValue());
+    	gerador.pWriter.println("JMP :" + "" /* Gerar Label */);
     }
 }
