@@ -35,7 +35,7 @@ public class VectorType extends Type {
 	 * @return tipo dos elementos do vetor
 	 */
 	public Type getElementType() {
-		return this.type.type;
+		return this.type;
 	}
 
 	@Override
