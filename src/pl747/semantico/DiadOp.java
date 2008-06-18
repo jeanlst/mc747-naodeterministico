@@ -137,7 +137,17 @@ public class DiadOp extends Expression {
 		}
 
 		// Encontrando o tipo armazenado pelo vetor
-		Symbol symbol = SymbolTable.search(((VarOp) this.op1).getName());
+		AbsNode var;
+		if (this.op1 instanceof VarOp) {
+			var = (VarOp) this.op1;
+		}
+		else {
+			var = this.op1;
+			while(var instanceof DiadOp) {
+				var = ((DiadOp) var).op1;
+			}
+		}
+		Symbol symbol = SymbolTable.search(/*((VarOp) this.op1)*/((VarOp)var).getName());
 		VarSymb vSymb = (VarSymb) symbol;
 		PrimTypeSymb type = vSymb.getType();
 		String tName = ((VectorTypeSymb) type).getElementType().getName();
