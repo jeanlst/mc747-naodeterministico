@@ -93,12 +93,12 @@ public class FunctionCallOp extends Expression {
 					VarSymb var = funcSymb.getParmList().get(i);
 					result = result && no.check(errorList);
 					
-					no.check(errorList);					 
+					result = result && no.check(errorList);					 
 					
 					String declName; 
 					try {
 						declName = no.getType().getName();
-					} catch (Exception e) {
+					} catch (Exception e) {									
 						declName = ((VarSymb)SymbolTable.search(((VarOp)no).getName())).getType().getName();
 					}
 					

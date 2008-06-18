@@ -19,6 +19,7 @@ public class VectorType extends Type {
 		super(null);
 		this.size = size;
 		this.type = (Type) type;
+		this.name = "vector";
 	}
 	
 
@@ -44,19 +45,22 @@ public class VectorType extends Type {
 	}
 	
 	@Override
-	  public PrimTypeSymb getSymbType() {
-	      if(symbType == null) {
+	public PrimTypeSymb getSymbType() 
+	{
+	      if(symbType == null) 
+	      {
 	          if(elementType != null)
-				try {
+				try 
+	          	{
 					elementType.check(new ArrayList<String>());
 			        symbType = new VectorTypeSymb(Integer.parseInt(size),SymbolTable.getTypeAsSymbol(elementType));
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
+				} catch (Exception e) 
+				{
 					e.printStackTrace();
 				}
 
 	      }
 	      return (PrimTypeSymb)symbType;
-	  }
+	}
 
 }

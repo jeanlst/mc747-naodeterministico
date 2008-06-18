@@ -66,11 +66,15 @@ public class VarOp extends Expression {
 					this.type = struct;
 
 				} else if (symb.getType() instanceof VectorTypeSymb) {
-
-					String tipoElem = ((VectorTypeSymb) symb.getType())
-							.getElementType().getName();
-					String tamVetor = Integer.toString(((VectorTypeSymb) symb
-							.getType()).getSize());
+					String tipoElem = null;
+					try{
+						tipoElem = ((VectorTypeSymb)((VectorTypeSymb) symb.getType()).getElementType()).getElementType().getName();
+					}
+					catch(Exception e)
+					{
+						tipoElem = ((VectorTypeSymb) symb.getType()).getElementType().getName();
+					}
+					String tamVetor = Integer.toString(((VectorTypeSymb) symb.getType()).getSize());
 					this.type = new VectorType(tamVetor, new Type(tipoElem));
 				} else {
 					String tname = symb.getType().getName();
