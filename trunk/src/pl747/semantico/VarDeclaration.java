@@ -188,8 +188,20 @@ public class VarDeclaration extends Declaration {
 				}
 				else if (tipo instanceof VectorType)
 				{
-					VectorType vetor = (VectorType) tipo; 
-					elementType = new VectorTypeSymb(Integer.parseInt(vetor.getSize()),new PrimTypeSymb(vetor.getElementType().getName()));
+					int size = 0;
+					VectorType vetor = (VectorType) tipo;
+					try
+					{
+						Integer.parseInt(vetor.getSize());
+					}
+					catch(Exception e)
+					{
+						ConstSymb sizeSymb = (ConstSymb) SymbolTable.search(vetor.getSize());
+						ConstOp sizeOp = (ConstOp) sizeSymb.getValue();
+						size = Integer.parseInt(sizeOp.getValue());
+					}
+					
+					elementType = new VectorTypeSymb(size,new PrimTypeSymb(vetor.getElementType().getName()));
 				}
 				else
 				{
