@@ -5,11 +5,11 @@ test03.pl747 - Teste declaracao de variavel
 test04.pl747 - Teste declaracao de variavel - Erro declaracao
 test05.pl747 - Teste de declaracao de vetor
 test06.pl747 - Teste de declaracao de vetor - Erro sintatico
-test07.pl747 - Teste de declaracao de vetor - Erro sintatico
+test07.pl747 - Teste de declaracao de vetor - Erro semantico
 test08.pl747 - Teste declaracao de estruturas
 test09.pl747 - Teste declaracao de estruturas - Erro sintatico
 test10.pl747 - Teste de constante
-test11.pl747 - Teste de constante - Erro sintatico
+test11.pl747 - Teste de constante
 test12.pl747 - Teste de expressoes
 test13.pl747 - Teste de expressoes - Erro sintatico
 test14.pl747 - Teste de operadores aritmeticos

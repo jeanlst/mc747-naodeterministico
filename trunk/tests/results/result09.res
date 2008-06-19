@@ -1,1 +1,2 @@
-Syntax error at line 20, column 14
+Semantic Error
+Variavel a nao declarada ou nao acessivel neste escopo

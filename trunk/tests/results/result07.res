@@ -1,1 +1,1 @@
-Syntax error at line 3, column 41
+Variavel v nao declarada ou nao acessivel neste escopo

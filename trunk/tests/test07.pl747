@@ -1,4 +1,4 @@
-/* Teste de declaracao de vetor - Erro sintatico */
+/* Teste de declaracao de vetor - Erro semantico */
 
 int [10] v = { 2,4,5,6,8,19,12,14,16,18,v}; // erro
 int [2][2] m = { {1,2}, {3,4} } ;
