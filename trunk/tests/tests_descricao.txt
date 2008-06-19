@@ -69,4 +69,4 @@ test67.pl747 - Teste declaracao de vetor
 test68.pl747 - Teste declaracao de constante
 test69.pl747 - Teste declaracao de estruturas  - Erro semantico
 test70.pl747 - Teste declaracao de vetor - Erro semantico
-
+test71.pl747 - Teste de atribuicao - Erro semantico

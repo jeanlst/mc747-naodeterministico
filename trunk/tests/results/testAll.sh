@@ -23,7 +23,7 @@ initializeANSI
 
 cd ../..
 
-for ((  i = 0 ;  i <= 70;  i++  ))
+for ((  i = 0 ;  i <= 71;  i++  ))
 do
 	n=$(printf '%02d' $i)
 	file="tests/test"$n".pl747";

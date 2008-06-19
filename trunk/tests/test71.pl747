@@ -1,0 +1,6 @@
+/* Teste de atribuicao - Erro semantico */
+
+void main () {
+	int a = a;
+    return;
+}
