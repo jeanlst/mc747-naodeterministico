@@ -32,7 +32,7 @@ do
 	#echo $n
 	if [ -e $fileRes ] ; then
 		java -classpath bin/:lib/java-cup-11a.jar Compiler $file 2> $fileOut 1>/dev/null
-		r=$(diff $fileOut $fileRes 2>/dev/null)
+		r=$(diff -b $fileOut $fileRes 2>/dev/null)
 		if [[ -z $r ]] ; then
 			echo $fileRes" ${greenf}OK${reset}"
 		else

@@ -5,7 +5,7 @@ const nome  = "Bartolomeu Guimaraes";
 const tab = { {'0','x','0'}, {'x','0','0'}, {'x','0','x'} };
 const p1 = { 0,0,true};
 const p2 = { 10,10,true};
-const p3 = { 10,-10,p2}; //erro
+const p3 = { 10,-10,p2};
 
 int main() {
 
