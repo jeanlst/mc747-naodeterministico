@@ -86,6 +86,18 @@ public class VarDeclaration extends Declaration {
 			try 
 			{
 				result = result && value.check(errorList);
+				
+				if (this.value instanceof TupleOp) {
+					List<Expression> tupla = ((TupleOp)value).getElementList();
+					for (Expression no: tupla) {
+						if (no instanceof VarOp) {
+							if ( ((VarOp)no).getName().equals(this.name) ) {
+								errorList.add("A variavel '" + this.name + "' da inicializacao da variavel '" + this.name + "' nao foi declarada");
+								result = false;
+							}
+						}
+					}
+				}
 			} 
 			catch (Exception e){}
 						
