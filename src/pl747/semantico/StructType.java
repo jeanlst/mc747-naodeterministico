@@ -36,6 +36,7 @@ public class StructType extends Type {
 			list = ((VarDeclList) child).getDeclarations();
 		}		
 		
+		//inclui campos da estrutura
 		for (Declaration dec : list) {
 			this.elementList.add((VarDeclaration)dec);
 		}		
