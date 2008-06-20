@@ -1,4 +1,5 @@
 
+import pl747.codigo.gerador;
 import pl747.semantico.AbsNode;
 import pl747.sintatico.*;
 import java.util.ArrayList;
@@ -12,6 +13,10 @@ public class CompilerFacade {
 	@SuppressWarnings("hiding")
 	public void compile(String file) {
 		Scanner scanner = null;
+		/* Declaração usada para geração de código */
+		/* start */
+		gerador G = new gerador();
+		/* end */
 		
 		/* Analise lexica */
 		try {			
@@ -63,6 +68,9 @@ public class CompilerFacade {
 		}
 		
 		/* Geracao de codigo */
+		/* G.GenerateCode(((AbsNode)program), "/tmp/ra042272/test.sith");
+		   System.out.println("-> END <-");
+		   */
 		
 		return ;
 	}

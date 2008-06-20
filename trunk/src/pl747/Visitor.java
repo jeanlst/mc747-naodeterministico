@@ -1,21 +1,36 @@
 package pl747;
 
 import java.util.List;
-
-import com.sun.corba.se.impl.orbutil.graph.Node;
+import java.util.Vector;
 
 import pl747.codigo.gerador;
 import pl747.semantico.*;
 import pl747.tabelaSimbolos.*;
+import pl747.codigo.VarSymbTbl;
 
 public class Visitor {
 	
 	private int Label = 0;
 	
+	public void visit(Program node) {		
+		List<TreeNode> L = node.getStatList();
+		
+		if(L != null)
+			for (TreeNode exp: L)
+			{
+    			if ( exp instanceof VarDeclaration )
+    				((VarDeclaration)exp).accept(gerador.v);
+    			else if ( exp instanceof FunctionDeclaration )
+    				((FunctionDeclaration)exp).accept(gerador.v);
+    			else if ( exp instanceof ConstDeclaration )
+    				((ConstDeclaration)exp).accept(gerador.v);
+			}
+	}
+	
     public void visit(VarDeclaration node) {
     	int size;
     	Type type;
-    	List varList;    	    
+    	List varList;
     	
     	try {
     		type = node.getType();
@@ -36,8 +51,8 @@ public class Visitor {
     			size = 1;
     			gerador.pWriter.println("ALLOC 1");
 			}
-    		    	
-    		// atualiza a tabela de simbolos 
+    		
+    		((VarSymbTbl)SymbolTable.search(node.getName())).setAddress(gerador.addr);    		
     		gerador.addr += size;    		
     	}
     	catch (Exception ex) {
@@ -76,35 +91,78 @@ public class Visitor {
     }
 
     public void visit(FunctionDeclaration node) {
-    	TreeNode body;
+    	CompoundStat body;
+    	List<TreeNode> sList;
     	List param;
     	boolean isPrototype;
     	Scope scope;
-    	int i, n;
+    	int i, n;    	
+    	String oldLabel = gerador.rLabel;
     	
-    	body = node.getBody();
+    	body = (CompoundStat)node.getBody();
     	param = node.getParmList();
     	isPrototype = node.isPrototype();
     	scope = node.getScope();
     	
+    	/*
     	Symbol s;
-    	s = scope.getSymbol(node.getName());    	
+    	s = scope.getSymbol(node.getName());
+    	*/    	    	
     	
-    	if ( !isPrototype ) {    		
+    	if ( !isPrototype ) {
     		try {
-    			gerador.pWriter.println(":" + node.getName());
-    			gerador.pWriter.println("ENTER");
+    			gerador.rLabel = ":RET_" + node.getName().toUpperCase();
     			
-    			// accept(body);
+    			gerador.pWriter.println(":" + node.getName().toUpperCase());
+    			gerador.pWriter.println("ENTER");
+    			    			
+    			sList = body.getStatList();
+    			
+    			for (TreeNode exp: sList)
+    			{
+        			if ( exp instanceof VarDeclaration )
+        				((VarDeclaration)exp).accept(gerador.v);
+        			else if ( exp instanceof FunctionDeclaration )
+        				((FunctionDeclaration)exp).accept(gerador.v);
+        			else if ( exp instanceof ConstDeclaration )
+        				((ConstDeclaration)exp).accept(gerador.v);
+        			else if ( exp instanceof DiadOp )
+        				((DiadOp)exp).accept(gerador.v);
+        			else if ( exp instanceof VarOp )
+        				((VarOp)exp).accept(gerador.v);
+        			else if ( exp instanceof FunctionCallOp )
+        				((FunctionCallOp)exp).accept(gerador.v);
+        			else if ( exp instanceof ConstOp )
+        				((ConstOp)exp).accept(gerador.v);
+        			else if ( exp instanceof TupleOp )
+        				((TupleOp)exp).accept(gerador.v);
+        			else if ( exp instanceof UnaryOp )
+        				((UnaryOp)exp).accept(gerador.v);
+        			else if ( exp instanceof StringOp )
+        				((StringOp)exp).accept(gerador.v);
+        			else if ( exp instanceof IfStat )
+        				((IfStat)exp).accept(gerador.v);
+        			else if ( exp instanceof WhileStat )
+        				((WhileStat)exp).accept(gerador.v);
+        			else if ( exp instanceof DoStat )
+        				((DoStat)exp).accept(gerador.v);
+        			else if ( exp instanceof ForStat )
+        				((ForStat)exp).accept(gerador.v);
+        			else if ( exp instanceof ReturnStat )
+        				((ReturnStat)exp).accept(gerador.v);
+    			}
     			
     			n = GetTotalSize(param);
     			
-    			gerador.pWriter.println("" /* Label de return */);
-    			gerador.pWriter.println("STORE B -" + (n+1)); // tomara que isso seja valido
+    			gerador.pWriter.println(":RET_" + node.getName().toUpperCase());
+    			if ( node.getName().compareTo("main") != 0 )
+    				gerador.pWriter.println("STORE B -" + (n+1));
     			gerador.pWriter.println("LOADR B");
     			gerador.pWriter.println("CTE -3");
     			gerador.pWriter.println("ADD");
     			gerador.pWriter.println("RET");
+    			
+    			gerador.rLabel = oldLabel;
 
     		}
     		catch (Exception ex) {
@@ -116,17 +174,50 @@ public class Visitor {
     }
 
     public void visit(ConstDeclaration node) {
+    	int tSize = 0;
+    	Type lsType = node.getTipo();
+    	Type rsType = node.getValue().getType();
+    	List varList;
     	
+    /*	if ( rsType instanceof VectorType )
+			tSize = Integer.parseInt(((VectorType)lsType).getSize());
+		else if ( lsType instanceof )
+		{
+			tSize = GetTotalSize(varList);
+		}
+		else
+			tSize = 1;
+    	*/
     }
 
     public void visit(FunctionCallOp node) {
     	int i, n;
-    	List param = node.getParmList();
+    	Expression exp;
+    	List<Expression> param = node.getParmList();
+    	
+    	System.out.println("visit(FunctionCallOp " + node);    	
     	
     	n = param.size();
-    	for ( i = 0; i < n; i++ ) // accept(param.get(i));
-    		;
-    	
+    	for ( i = 0; i < n; i++ )
+    		{
+    			exp = param.get(i);
+    		
+    			if ( exp instanceof DiadOp )
+    				((DiadOp)exp).accept(gerador.v);
+    			else if ( exp instanceof VarOp )
+    				((VarOp)exp).accept(gerador.v);
+    			else if ( exp instanceof FunctionCallOp )
+    				((FunctionCallOp)exp).accept(gerador.v);
+    			else if ( exp instanceof ConstOp )
+    				((ConstOp)exp).accept(gerador.v);
+    			else if ( exp instanceof TupleOp )
+    				((TupleOp)exp).accept(gerador.v);
+    			else if ( exp instanceof UnaryOp )
+    				((UnaryOp)exp).accept(gerador.v);
+    			else if ( exp instanceof StringOp )
+    				((StringOp)exp).accept(gerador.v);
+    		}
+    	    	
     	gerador.pWriter.println("LOADR B");
     	gerador.pWriter.println("LOADR T");
     	gerador.pWriter.println("CTE 1");
@@ -151,7 +242,7 @@ public class Visitor {
     	n = s.length();
     	
     	for ( i = 0; i < n; i++ )
-    		gerador.pWriter.println("CTE " + s.charAt(i));    		
+    		gerador.pWriter.println("CTE " + (int)(s.charAt(i)-'\0'));    		
     }    
 
     public void visit(TupleOp node) {
@@ -353,6 +444,6 @@ public class Visitor {
 
     public void visit(ReturnStat node) {
     	// accept(node.getValue());
-    	gerador.pWriter.println("JMP :" + "" /* Gerar Label */);
+    	gerador.pWriter.println("JMP " + gerador.rLabel);
     }
 }
