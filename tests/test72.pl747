@@ -1,0 +1,10 @@
+/* Teste de expressoes */
+
+struct{
+     int b;
+ }[5] a;
+
+int main() {
+    a[3].b = 2;
+
+}
