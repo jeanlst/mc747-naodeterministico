@@ -1,1 +1,2 @@
-Variavel v nao declarada ou nao acessivel neste escopo
+Semantic Error
+A variavel 'v' da inicializacao da variavel 'v' nao foi declarada
