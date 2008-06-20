@@ -140,7 +140,7 @@ public class DiadOp extends Expression {
 		AbsNode var;
 		if (this.op1 instanceof VarOp) {
 			var = (VarOp) this.op1;
-			var.getType().getType();
+			this.type = (Type) var.getType();
 		}
 		else {
 			var = this.op1;
