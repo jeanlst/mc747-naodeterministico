@@ -76,19 +76,23 @@ public class VarOp extends Expression {
 	
 	
 	/**
-	 * Faz a verificacao semantica da sub-arvore representada por este objeto. Retorna true se nao houver erros e false em caso contrario. A lista errorList acumula os erros encontrados.
-	 * @param errorList lista de erros encontrados em toda a verificacao
+	 * Faz a verificacao semantica da sub-arvore representada por este objeto.
+	 * Retorna true se nao houver erros e false em caso contrario. A lista
+	 * errorList acumula os erros encontrados.
+	 * 
+	 * @param errorList
+	 *            lista de erros encontrados em toda a verificacao
 	 * @return true se nao houver erros e false em caso contrario
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public boolean check(List<String> errorList) throws Exception {
 
+		// Obtendo símbolo da variável no escopo
 		Object tSymb = SymbolTable.search(this.name);
 
-		//  Se a variável não foi declarada, a busca retornará null, lançar erro
+		// Se a variável não foi declarada, a busca retornará null, lançar erro
 		if (tSymb == null) {
-			errorList.add("Variavel " + this.name
-					+ " nao declarada ou nao acessivel neste escopo");
+			errorList.add("Variavel " + this.name + " nao declarada ou nao acessivel neste escopo");
 			return false;
 		}
 
@@ -98,65 +102,35 @@ public class VarOp extends Expression {
 			this.type = (Type) symb.getValue().getType();
 			return true;
 		}
-
-		// Verificando se o identificador é uma variável
-		if (tSymb instanceof VarSymb) {
+		
+		// Verificando se o identificador é uma variável e atribuindo valor de retorno
+		else if (tSymb instanceof VarSymb) {
 
 			VarSymb symb = (VarSymb) tSymb;
 
 			// Verificação para estrutura
 			if (symb.getType() instanceof StructTypeSymb) {
-				
-				this.type = findType(symb.getType());
-				
-				/*
-				StructTypeSymb stSymb = (StructTypeSymb) symb.getType();
-				LinkedList<FieldSymb> campos = stSymb.getFieldList();
-				StructType struct = new StructType();
-				for (FieldSymb symb2 : campos) {
-					Type tipo_campo = new Type(symb2.getType().getName());
-					String nome = symb2.getName();
-					VarDeclaration decl = new VarDeclaration(false, tipo_campo,
-							nome);
-					struct.addChild(decl);
-				}
-				*/
-				
-			} 
-			
+				this.type = findType(symb);
+				return true;
+			}
 			// Verificação para Vetor
-			if (symb.getType() instanceof VectorTypeSymb) {
-				
+			else if (symb.getType() instanceof VectorTypeSymb) {
 				VectorTypeSymb vetor = (VectorTypeSymb) symb.getType();
-				findType(vetor);
-												
-				String tipoElem = null;
-
-				String tamVetor = Integer.toString(((VectorTypeSymb) symb
-						.getType()).getSize());
-				try 
-				{
-					tipoElem = ((VectorTypeSymb) ((VectorTypeSymb) symb
-							.getType()).getElementType()).getElementType()
-							.getName();
-				} 
-				catch (Exception e)
-				{
-					tipoElem = ((VectorTypeSymb) symb.getType())
-							.getElementType().getName();
-					this.type = new VectorType(tamVetor, new Type(tipoElem));
-				}
-				
-
-			} else {
+				this.type = (Type) findType(vetor).getType();
+				return true;
+			} 
+			// 
+			else {
 				String tname = symb.getType().getName();
 				this.type = new Type(tname);
+				return true;
 			}
-			return true;
+			
 		}
-
-		errorList.add("Variavel " + this.name
-				+ " nao declarada ou nao acessivel neste escopo");
+		errorList.add("Variavel " + this.name + " nao declarada ou nao acessivel neste escopo");
 		return false;
-	}	
+	}
+		
 }
+
+
