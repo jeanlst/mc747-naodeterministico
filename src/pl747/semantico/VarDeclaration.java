@@ -100,67 +100,68 @@ public class VarDeclaration extends Declaration {
 				}
 			} 
 			catch (Exception e){}
+			
+			if (result) {
+				Type tipoValue = null;
+				if (this.value.getType() instanceof Type) {
+					tipoValue = (Type) this.value.getType();
+				}
+				
+				String esteTipo = tipoValue.getName();
+				Type tipoVariavel = null;
+				if (this.type instanceof Type) {
+					tipoVariavel = (Type) this.type;
+				}
+				
+				if (this.getType() instanceof StructType) {
+					if (this.value instanceof TupleOp) {
+						StructType struct = (StructType)this.getType();
 						
-			Type tipoValue = null;
-			if (this.value.getType() instanceof Type) {
-				tipoValue = (Type) this.value.getType();
-			}
-			
-			String esteTipo = tipoValue.getName();
-			Type tipoVariavel = null;
-			if (this.type instanceof Type) {
-				tipoVariavel = (Type) this.type;
-			}
-			
-			if (this.getType() instanceof StructType) {
-				if (this.value instanceof TupleOp) {
-					StructType struct = (StructType)this.getType();
-					
-					List<VarDeclaration> campos = struct.getElementList();					
-					List<Expression> valores = ((TupleOp)this.value).getElementList();
-					
-					int tam_c = campos.size();
-					int tam_v = valores.size();
-					
-					if (tam_c == tam_v)
-					{
-						for(int i = 0; i<tam_c; i++)
+						List<VarDeclaration> campos = struct.getElementList();					
+						List<Expression> valores = ((TupleOp)this.value).getElementList();
+						
+						int tam_c = campos.size();
+						int tam_v = valores.size();
+						
+						if (tam_c == tam_v)
 						{
-							//result = result && campos.get(i).check(errorList);
-							result = result && valores.get(i).check(errorList);
-							if (result)
+							for(int i = 0; i<tam_c; i++)
 							{
-								if(campos.get(i).getType().getName() != valores.get(i).getType().getName())
+								//result = result && campos.get(i).check(errorList);
+								result = result && valores.get(i).check(errorList);
+								if (result)
 								{
-									errorList.add("Tipos incompatíveis na inicialização da estrutura");	
-									result = false;	
+									if(campos.get(i).getType().getName() != valores.get(i).getType().getName())
+									{
+										errorList.add("Tipos incompatíveis na inicialização da estrutura");	
+										result = false;	
+									}
 								}
 							}
+							
+						}
+						else
+						{
+							errorList.add("Tupla e estrutura não possuem mesmo número de campos");	
+							result = false;		
 						}
 						
 					}
-					else
-					{
-						errorList.add("Tupla e estrutura não possuem mesmo número de campos");	
-						result = false;		
-					}
+					
 					
 				}
 				
 				
+				
+				String tipoCerto = tipoVariavel.getName();
+				
+				/* Verificando se a inicializacao eh compativel */
+				//if (esteTipo != tipoCerto) {
+				if ((esteTipo != tipoCerto) && !((esteTipo == "struct") && (tipoCerto == "vector"))) {
+					errorList.add("Tipos incompativeis para a operacao.");
+					result = false;
+				}
 			}
-			
-			
-			
-			String tipoCerto = tipoVariavel.getName();
-			
-			/* Verificando se a inicializacao eh compativel */
-			//if (esteTipo != tipoCerto) {
-			if ((esteTipo != tipoCerto) && !((esteTipo == "struct") && (tipoCerto == "vector"))) {
-				errorList.add("Tipos incompativeis para a operacao.");
-				result = false;
-			}
-			
 		}
 		
 		Symbol tSymb = null; 
