@@ -45,7 +45,7 @@ public class StructType extends Type {
 
 	@Override
 	public String getName() {
-		return "struct";
+		return null; //"struct";
 	}
 	
 	@Override
