@@ -18,8 +18,9 @@ public class VectorType extends Type {
 	public VectorType(String size, TreeNode type) {
 		super(null);
 		this.size = size;
+		this.elementType = (Type) type;
 		this.type = (Type) type;
-		this.name = "vector";
+		//this.name = "vector";
 	}
 	
 
@@ -41,7 +42,7 @@ public class VectorType extends Type {
 
 	@Override
 	public String getName() {		
-		return "vector";
+		return null; //"vector";
 	}
 	
 	@Override

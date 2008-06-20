@@ -31,7 +31,7 @@ public class CompoundStat extends StatOp {
 	 * Devolve a lista de comandos que constituem o comando composto representado por este objeto.
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Expression> getStatList() {			
+	public List<TreeNode> getStatList() {			
 		return (List) this.statList;
 	}
 
