@@ -3,21 +3,22 @@ package pl747.codigo;
 import pl747.TreeNode;
 import pl747.Visitor;
 import pl747.tabelaSimbolos.*;
+import pl747.semantico.AbsNode;
 
 import java.io.FileWriter;
 import java.io.PrintWriter;
-import java.io.RandomAccessFile;
 
 public class gerador {
 	
 	public static FileWriter oFile;
 	public static PrintWriter pWriter;
 	public static int addr;
+	public static String rLabel;
+	public static Visitor v = new Visitor();
 	
 	public boolean GenerateCode(TreeNode tree, String filename) {
 		
-		int i;
-		Visitor v = new Visitor();
+		int i;		
 		
 		this.addr = 0;
 		
@@ -39,7 +40,11 @@ public class gerador {
 			pWriter.println("CALL :MAIN");
 			pWriter.println("STOP");
 			
-			// tree.accept(v);	
+			if ( tree != null )
+			 ((AbsNode)tree).accept(v);
+			
+			pWriter.close();
+			oFile.close();
 		}
 		catch (Exception e) {
 			e.printStackTrace();
