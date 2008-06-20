@@ -92,8 +92,7 @@ public class FunctionCallOp extends Expression {
 					Expression no = this.childs.get(i);
 					VarSymb var = funcSymb.getParmList().get(i);
 					result = result && no.check(errorList);
-					
-					result = result && no.check(errorList);					 
+													 
 					
 					String declName; 
 					try {

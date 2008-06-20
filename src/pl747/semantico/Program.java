@@ -190,7 +190,7 @@ public class Program extends CompoundStat{
 		// Verificando todos os nos da arvore de programa
 		if(this.getStatList() != null)
 		{
-			List<Expression> statList = this.getStatList();
+			List<TreeNode> statList = this.getStatList();
 			for (TreeNode no: statList) {
 				try {
 					if (no.check(errorList) == false){
