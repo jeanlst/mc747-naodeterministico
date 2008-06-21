@@ -68,9 +68,9 @@ public class CompilerFacade {
 		}
 		
 		/* Geracao de codigo */
-		/* G.GenerateCode(((AbsNode)program), "/tmp/ra042272/test.sith");
-		   System.out.println("-> END <-");
-		   */
+		/*G.GenerateCode(((AbsNode)program), "/tmp/ra042272/test.sith");
+		System.out.println("-> END <-");*/
+		
 		
 		return ;
 	}

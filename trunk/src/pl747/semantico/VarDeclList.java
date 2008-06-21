@@ -3,6 +3,7 @@ package pl747.semantico;
 import java.util.*;
 
 import pl747.TreeNode;
+import pl747.Visitor;
 
 
 /**
@@ -66,6 +67,11 @@ public class VarDeclList extends AbsNode {
 			}				
 		}
 		return result;
+	}
+	
+	public Object accept( Visitor v ) {
+		v.visit(this);
+		return null;
 	}
 
 
