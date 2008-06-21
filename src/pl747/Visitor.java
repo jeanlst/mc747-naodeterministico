@@ -142,10 +142,7 @@ public class Visitor {
     	isPrototype = node.isPrototype();
     	scope = node.getScope();
     	
-    	/*
-    	Symbol s;
-    	s = scope.getSymbol(node.getName());
-    	*/    	    	
+    	
     	
     	if ( !isPrototype ) {
     		System.out.println("  >> not prototype");
@@ -342,7 +339,7 @@ public class Visitor {
     	
     	for ( i = n-1; i >= 0; i-- )
     		gerador.pWriter.println("CTE " + (int)(s.charAt(i)-'\0'));    		
-    }    
+    }
 
     public void visit(TupleOp node) {
     	System.out.println("visit(TupleOp " + node + " )");

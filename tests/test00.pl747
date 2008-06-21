@@ -11,5 +11,6 @@
 // cometario de linha
 
 void main () {
+	char c;
     return;
 }
