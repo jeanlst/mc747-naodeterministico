@@ -28,18 +28,6 @@ public class gerador {
 			
 			i = 0;
 			
-			pWriter.println("INIT");
-			pWriter.println("LOADR T");
-			pWriter.println("STORER B");
-			pWriter.println("LOADR B");
-			pWriter.println("STORER BM");
-			pWriter.println("CTE 0");
-			pWriter.println("LOADR PC");
-			pWriter.println("CTE 3");
-			pWriter.println("ADD");
-			pWriter.println("CALL :MAIN");
-			pWriter.println("STOP");
-			
 			if ( tree != null )
 			 ((AbsNode)tree).accept(v);
 			

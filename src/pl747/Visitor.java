@@ -3,6 +3,8 @@ package pl747;
 import java.util.List;
 import java.util.Vector;
 
+import com.sun.org.apache.xpath.internal.operations.Variable;
+
 import pl747.codigo.gerador;
 import pl747.semantico.*;
 import pl747.tabelaSimbolos.*;
@@ -12,10 +14,42 @@ public class Visitor {
 	
 	private int Label = 0;
 	
-	public void visit(Program node) {		
+	public void visit(Program node) {
+		int i, n;
 		List<TreeNode> L = node.getStatList();		
+		Scope scope = node.getScope();
+		List<Symbol> sList;
+		Symbol symb;
 		
 		System.out.println("visit(Program " + node + " )");
+		
+		SymbolTable.setCurScope(scope);
+		sList = scope.getSymbList();
+		n = sList.size();
+		
+		gerador.pWriter.println("INIT");
+		
+		System.out.println("n is " + n);
+		
+		for ( i = 0; i < n; i++ )
+		{
+			symb = sList.get(i);
+			if ( symb.getKind() == Symbol.VAR_SYMB )
+				alloc((VarSymb)symb);
+			else if ( symb.getKind() == Symbol.CONST_SYMB )
+				alloc((ConstSymb)symb);
+		}
+		
+		gerador.pWriter.println("LOADR T");
+		gerador.pWriter.println("STORER B");
+		gerador.pWriter.println("LOADR B");
+		gerador.pWriter.println("STORER BM");
+		gerador.pWriter.println("CTE 0");
+		gerador.pWriter.println("LOADR PC");
+		gerador.pWriter.println("CTE 3");
+		gerador.pWriter.println("ADD");
+		gerador.pWriter.println("CALL :MAIN");
+		gerador.pWriter.println("STOP");		
 		
 		if(L != null)
 			for (TreeNode exp: L)
@@ -27,6 +61,36 @@ public class Visitor {
     			else if ( exp instanceof ConstDeclaration )
     				((ConstDeclaration)exp).accept(gerador.v);
 			}
+		
+		gerador.addr += 2;
+		
+	//	SymbolTable.closeScope();
+	}
+	
+	public void alloc(VarSymb s) {
+		int n;
+		
+		n = 0;
+		n = n + 1;
+		
+		if ( s.getType() instanceof VectorTypeSymb )
+		{
+			
+		}
+		else if ( s.getType() instanceof StructTypeSymb )
+		{
+			
+		}
+		else
+		{
+			gerador.pWriter.println("ALLOC 1");
+			((VarSymb)SymbolTable.search(s.getName())).setAddress(gerador.addr);
+			gerador.addr++;
+		}
+	}
+	
+	public void alloc(ConstSymb s) {
+		
 	}
 	
 	public void visit(VarDeclList node) {
@@ -47,9 +111,12 @@ public class Visitor {
     	int size, j;
     	Type type;
     	List varList;
-    	Expression exp;
+    	Expression exp;    	
     	
     	System.out.println("visit(VarDeclaration " + node + " )");
+    	
+    	if ( 1 == 1)
+    		return;
     	
     	try {
     		type = node.getType();
@@ -70,7 +137,8 @@ public class Visitor {
     			size = 1;
     			gerador.pWriter.println("ALLOC 1");
     			
-    			((VarSymbTbl)SymbolTable.search(node.getName())).setAddress(gerador.addr);
+    			((VarSymb)SymbolTable.search(node.getName())).setAddress(gerador.addr);
+    			// ((VarSymbTbl)SymbolTable.search(node.getName())).setAddress(gerador.addr);
     			
     			exp = node.getInitialValue();
     			
@@ -85,7 +153,7 @@ public class Visitor {
     			else if ( exp instanceof UnaryOp )
     				((UnaryOp)exp).accept(gerador.v);
     			
-    			gerador.pWriter.println("STORE B " + ((VarSymbTbl)SymbolTable.search(node.getName())).getAddress());
+    			gerador.pWriter.println("STORE B " + SymbolTable.search(node.getName()));
 			}
     		
     		// ((VarSymbTbl)SymbolTable.search(node.getName())).setAddress(gerador.addr);
@@ -134,6 +202,8 @@ public class Visitor {
     	Scope scope;
     	int i, n;    	
     	String oldLabel = gerador.rLabel;
+    	Symbol symb;
+    	List<Symbol> syList;
     	
     	System.out.println("visit(FunctionDeclaration " + node + " )");
     	
@@ -142,7 +212,9 @@ public class Visitor {
     	isPrototype = node.isPrototype();
     	scope = node.getScope();
     	
-    	
+    	SymbolTable.setCurScope(scope);
+    	syList = scope.getSymbList();
+    	n = syList.size();		
     	
     	if ( !isPrototype ) {
     		System.out.println("  >> not prototype");
@@ -151,7 +223,18 @@ public class Visitor {
     			
     			gerador.pWriter.println(":" + node.getName().toUpperCase());
     			gerador.pWriter.println("ENTER");
+    			
+    			gerador.addr = 2;
     			    			
+    			for ( i = 0; i < n; i++ )
+    			{
+    				symb = syList.get(i);
+    				if ( symb.getKind() == Symbol.VAR_SYMB )
+    					alloc((VarSymb)symb);
+    				else if ( symb.getKind() == Symbol.CONST_SYMB )
+    					alloc((ConstSymb)symb);
+    			}
+    			
     			sList = body.getStatList();
     			for (TreeNode exp: sList)
     			{
@@ -211,8 +294,10 @@ public class Visitor {
     			ex.printStackTrace();
     			System.err.print("Erro ao escrever no arquivo.\n");
     			System.exit(1);
-    		}    		
-    	}    	
+    		}
+    	}
+    	
+    	// SymbolTable.closeScope();
     }
 
     public void visit(ConstDeclaration node) {
@@ -238,6 +323,7 @@ public class Visitor {
     	int i, j, n;
     	Expression exp;
     	List<Expression> param = node.getParmList();
+    	String s;
     	
     	System.out.println("visitPrint(FunctionCallOp " + node + " )");
     	
@@ -248,8 +334,16 @@ public class Visitor {
     		
     			if ( exp instanceof DiadOp )
     				((DiadOp)exp).accept(gerador.v);
-    			else if ( exp instanceof VarOp )
+    			else if ( exp instanceof VarOp ) {
     				((VarOp)exp).accept(gerador.v);
+    				s = ((VarOp)exp).getType().getName();
+    				if ( s.compareTo("int") == 0 )
+    					gerador.pWriter.println("PRINT INT");
+    				else if ( s.compareTo("char") == 0 )
+    					gerador.pWriter.println("PRINT CHAR");
+    				else if ( s.compareTo("boolean") == 0 )
+    					gerador.pWriter.println("PRINT BOOLEAN");
+    			}
     			else if ( exp instanceof FunctionCallOp )
     				((FunctionCallOp)exp).accept(gerador.v);
     			else if ( exp instanceof ConstOp )
@@ -317,14 +411,23 @@ public class Visitor {
     }
 
     public void visit(ConstOp node) {
-    	int i, n;    	
+    	int i, n;    
+    	String type;
     	String s = node.getValue();
     	
     	System.out.println("visit(ConstOp " + node + " )");
     	
-    	n = s.length();
-    	for ( i = n-1; i >= 0; i-- )
-    		gerador.pWriter.println("CTE " + (int)(s.charAt(i)-'\0'));
+    	type = node.getType().getName();
+    	
+    	if ( type.compareTo("int") == 0 )
+    		gerador.pWriter.println("CTE " + Integer.parseInt(s));
+    	else if ( type.compareTo("boolean") == 0 )
+    		if ( s.charAt(0) == 't' )
+    			gerador.pWriter.println("CTE 1");
+    		else
+    			gerador.pWriter.println("CTE 0");
+    	else if ( type.compareTo("char") == 0 )
+    		gerador.pWriter.println("CTE " + (int)(s.charAt(0)-'\0'));
     }
 
     public void visit(StringOp node) {
@@ -346,8 +449,11 @@ public class Visitor {
     }
 
     public void visit(VarOp node) {
-    	System.out.println("visit(VarOp " + node + " )");
-    	gerador.pWriter.println("LOAD B " + 0 /* Get address */ );
+    	System.out.println("visit(VarOp " + node + " )");    	
+    	if ( SymbolTable.search(node.getName()).getLevel() == 0 )
+    		gerador.pWriter.println("LOAD 0 " + ((VarSymb)SymbolTable.search(node.getName())).getAddress());
+    	else
+    		gerador.pWriter.println("LOAD B " + ((VarSymb)SymbolTable.search(node.getName())).getAddress());
     }
 
     public void visit(DiadOp node) {
@@ -367,94 +473,108 @@ public class Visitor {
     		break;
     		
     	case PL747Consts.ADD_OP:
-    		// accept(node.getFirstOperand());
-    		// accept(node.getSecondOperand());
+    		((DiadOp)node.getFirstOperand()).accept(gerador.v);
+    		((DiadOp)node.getSecondOperand()).accept(gerador.v);
     		gerador.pWriter.println("ADD");
     		break;
     		
     	case PL747Consts.SUB_OP:
-    		// accept(node.getFirstOperand());
-    		// accept(node.getSecondOperand());
+    		((DiadOp)node.getFirstOperand()).accept(gerador.v);
+    		((DiadOp)node.getSecondOperand()).accept(gerador.v);
     		gerador.pWriter.println("SUB");
     		break;
     		    		
     	case PL747Consts.MULT_OP:
-    		// accept(node.getFirstOperand());
-    		// accept(node.getSecondOperand());
+    		((DiadOp)node.getFirstOperand()).accept(gerador.v);
+    		((DiadOp)node.getSecondOperand()).accept(gerador.v);
     		gerador.pWriter.println("MUL");
     		break;
     		
     	case PL747Consts.DIV_OP:
-    		// accept(node.getFirstOperand());
-    		// accept(node.getSecondOperand());
+    		((DiadOp)node.getFirstOperand()).accept(gerador.v);
+    		((DiadOp)node.getSecondOperand()).accept(gerador.v);
     		gerador.pWriter.println("DIV");
     		break;
     		
     	case PL747Consts.MOD_OP:
-    		// accept(node.getFirstOperand());
-    		// accept(node.getSecondOperand());
+    		((DiadOp)node.getFirstOperand()).accept(gerador.v);
+    		((DiadOp)node.getSecondOperand()).accept(gerador.v);
     		gerador.pWriter.println("MOD");
     		break;
     		
     	case PL747Consts.EQ_OP:
-    		// accept(node.getFirstOperand());
-    		// accept(node.getSecondOperand());
+    		((DiadOp)node.getFirstOperand()).accept(gerador.v);
+    		((DiadOp)node.getSecondOperand()).accept(gerador.v);
     		gerador.pWriter.println("EQL");
     		break;
     		
     	case PL747Consts.NE_OP:
-    		// accept(node.getFirstOperand());
-    		// accept(node.getSecondOperand());
+    		((DiadOp)node.getFirstOperand()).accept(gerador.v);
+    		((DiadOp)node.getSecondOperand()).accept(gerador.v);
     		gerador.pWriter.println("NEQ");
     		break;
     		
     	case PL747Consts.GT_OP:
-    		// accept(node.getFirstOperand());
-    		// accept(node.getSecondOperand());
+    		((DiadOp)node.getFirstOperand()).accept(gerador.v);
+    		((DiadOp)node.getSecondOperand()).accept(gerador.v);
     		gerador.pWriter.println("GT");
     		break;
     		
     	case PL747Consts.LT_OP:
-    		// accept(node.getFirstOperand());
-    		// accept(node.getSecondOperand());
+    		((DiadOp)node.getFirstOperand()).accept(gerador.v);
+    		((DiadOp)node.getSecondOperand()).accept(gerador.v);
     		gerador.pWriter.println("LT");
     		break;
     		
     	case PL747Consts.GE_OP:
-    		// accept(node.getFirstOperand());
-    		// accept(node.getSecondOperand());
+    		((DiadOp)node.getFirstOperand()).accept(gerador.v);
+    		((DiadOp)node.getSecondOperand()).accept(gerador.v);
     		gerador.pWriter.println("GTE");
     		break;
     		
     	case PL747Consts.LE_OP:
-    		// accept(node.getFirstOperand());
-    		// accept(node.getSecondOperand());
+    		((DiadOp)node.getFirstOperand()).accept(gerador.v);
+    		((DiadOp)node.getSecondOperand()).accept(gerador.v);
     		gerador.pWriter.println("LTE");
     		break;
     		
     	case PL747Consts.AND_OP:
-    		// accept(node.getFirstOperand());
-    		// accept(node.getSecondOperand());
+    		((DiadOp)node.getFirstOperand()).accept(gerador.v);
+    		((DiadOp)node.getSecondOperand()).accept(gerador.v);
     		gerador.pWriter.println("AND");
     		break;
     		
     	case PL747Consts.OR_OP:
-    		// accept(node.getFirstOperand());
-    		// accept(node.getSecondOperand());
+    		((DiadOp)node.getFirstOperand()).accept(gerador.v);
+    		((DiadOp)node.getSecondOperand()).accept(gerador.v);    		
     		gerador.pWriter.println("OR");
     		break;
-    		    		
+    		
     	case PL747Consts.ASSIGN_OP:
-    		// accept(node.getSecondOperand());
+    		expr = node.getSecondOperand();
+    		if ( expr instanceof FunctionCallOp )
+    			((FunctionCallOp)expr).accept(gerador.v);
+    		else if ( expr instanceof ConstOp )
+    			((ConstOp)expr).accept(gerador.v);
+    		else if ( expr instanceof StringOp )
+    			((StringOp)expr).accept(gerador.v);
+    		else if ( expr instanceof TupleOp )
+    			((TupleOp)expr).accept(gerador.v);
+    		else if ( expr instanceof VarOp )
+    			((VarOp)expr).accept(gerador.v);
+    		else if ( expr instanceof DiadOp )
+    			((DiadOp)expr).accept(gerador.v);
+    		else if ( expr instanceof UnaryOp )
+    			((UnaryOp)expr).accept(gerador.v);
     		
     		expr = node.getFirstOperand();
     		
     		if ( expr instanceof VarOp )
     		{
-    			/* ((VarOp)expr).getName();
-    			 * pegar na tebela de simbolos e dar
-    			 * um store
-    			 */
+    			if ( SymbolTable.search(((VarOp)expr).getName()).getLevel() == 0 )
+    				gerador.pWriter.println("STORE 0 " + ((VarSymb)SymbolTable.search(((VarOp)expr).getName())).getAddress());
+    			else
+    				gerador.pWriter.println("STORE B " + ((VarSymb)SymbolTable.search(((VarOp)expr).getName())).getAddress());
     		}
     		else if ( expr instanceof DiadOp )
     		{
