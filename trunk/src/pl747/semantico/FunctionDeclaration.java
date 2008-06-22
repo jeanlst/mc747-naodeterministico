@@ -12,7 +12,7 @@ public class FunctionDeclaration extends Declaration {
 	private boolean isPrototype;
 	private CompoundStat body;
 	private List<VarDeclaration> params;
-	
+	private Scope scope;
 	
 	public void addChild(TreeNode child) throws Exception {		
 		this.params.add((VarDeclaration)child);
@@ -88,8 +88,7 @@ public class FunctionDeclaration extends Declaration {
 	 */
 	public Scope getScope() {
 
-		//TODO
-		return null;
+		return this.scope;
 	}
 	
 	/**
@@ -130,6 +129,7 @@ public class FunctionDeclaration extends Declaration {
 		// Definindo escopo da funcao		
 		List<ParmSymb> paramList = new ArrayList<ParmSymb>();
 		Scope escopo = SymbolTable.newScope();
+		this.scope = escopo;
 		
 		for (VarDeclaration no: this.params) {
 			if (SymbolTable.localSearch(no.getName()) == null){		

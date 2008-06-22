@@ -6,6 +6,9 @@ package pl747.tabelaSimbolos;
 
 public class VarSymb extends Symbol {
 	
+	/* Variáel adicionada */
+	private int address;
+	
 	PrimTypeSymb type; // tipo da vari�vel descrita por este s�mbolo
 	
 	/**
@@ -30,6 +33,13 @@ public class VarSymb extends Symbol {
     	return "[var name:"+name+" level:"+level+" type:"+type.toString()+"]";
     }
     
-
+    /* Código adicionado */
+    public void setAddress(int address) {
+		this.address = address;
+	}
+	
+	public int getAddress() {
+		return this.address;
+	}
 
 }
