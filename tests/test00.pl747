@@ -10,7 +10,6 @@
 
 // cometario de linha
 
-void main () {
-	char c;
+void main () {	
     return;
 }
