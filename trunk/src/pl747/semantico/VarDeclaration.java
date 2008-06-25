@@ -92,7 +92,7 @@ public class VarDeclaration extends Declaration {
 					for (Expression no: tupla) {
 						if (no instanceof VarOp) {
 							if ( ((VarOp)no).getName().equals(this.name) ) {
-								errorList.add("A variavel '" + this.name + "' da inicializacao da variavel '" + this.name + "' nao foi declarada");
+								errorList.add("A inicializacao da variavel nao eh valida");
 								result = false;
 							}
 						}
