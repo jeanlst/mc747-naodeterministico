@@ -69,6 +69,12 @@ public class VarOp extends Expression {
 			}
 			return type;			
 		}
+		if(symb instanceof PrimTypeSymb)
+		{
+			
+			Type tipo = new Type(symb.getName());
+			return tipo;
+		}
 		
 		return null;
 	}
@@ -116,7 +122,7 @@ public class VarOp extends Expression {
 			// Verificação para Vetor
 			else if (symb.getType() instanceof VectorTypeSymb) {
 				VectorTypeSymb vetor = (VectorTypeSymb) symb.getType();
-				this.type = (Type) findType(vetor).getType();
+				this.type = (Type) findType(vetor);
 				return true;
 			} 
 			// 
