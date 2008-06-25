@@ -116,7 +116,7 @@ public class VarOp extends Expression {
 
 			// Verificação para estrutura
 			if (symb.getType() instanceof StructTypeSymb) {
-				this.type = findType(symb);
+				this.type = findType(symb.getType());
 				return true;
 			}
 			// Verificação para Vetor
