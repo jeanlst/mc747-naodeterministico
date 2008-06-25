@@ -30,8 +30,6 @@ public class Visitor {
 		
 		gerador.pWriter.println("INIT");
 		
-		System.out.println("n is " + n);
-		
 		for ( i = 0; i < n; i++ )
 		{
 			symb = sList.get(i);
@@ -102,7 +100,30 @@ public class Visitor {
 	}
 	
 	public void alloc(ConstSymb s) {
+		int i, size, addr;
+		AbsNode n = s.getValue();
 		
+		if ( n instanceof ConstOp ) {
+			gerador.pWriter.println("ALLOC 1");
+			((ConstSymb)SymbolTable.search(s.getName())).setAddress(gerador.addr);
+			gerador.addr++;
+			((ConstOp)n).accept(gerador.v);
+			gerador.pWriter.println("STORE B " + ((ConstSymb)SymbolTable.search(s.getName())).getAddress());
+		}
+		else if ( n instanceof StringOp ) {
+			size = ((StringOp)n).getValue().length();
+			gerador.pWriter.println("ALLOC " + size);
+			((ConstSymb)SymbolTable.search(s.getName())).setAddress(gerador.addr);
+			gerador.addr += size;
+		
+			addr = ((ConstSymb)SymbolTable.search(s.getName())).getAddress();
+			
+			((StringOp)n).accept(gerador.v);
+			for ( i = 0; i < size; i++ )
+				gerador.pWriter.println("STORE B " + (addr + i));
+		}
+		else if ( n instanceof TupleOp )
+			;
 	}
 	
 	public void visit(VarDeclList node) {
@@ -231,8 +252,7 @@ public class Visitor {
     	syList = scope.getSymbList();
     	n = syList.size();		
     	
-    	if ( !isPrototype ) {
-    		System.out.println("  >> not prototype");
+    	if ( !isPrototype ) {    		
     		try {
     			gerador.rLabel = ":RET_" + node.getName().toUpperCase();
     			
@@ -292,12 +312,12 @@ public class Visitor {
         				System.out.println("  >> exp not found");
     			}
     			
-    			n = GetTotalSize(param);
+    			n = GetTotalSize(param);    			
     			
     			gerador.pWriter.println(":RET_" + node.getName().toUpperCase());
-    			if ( node.getName().compareTo("main") != 0 )
+    			if ( ((Declaration)node.getType()).getName().compareTo("void") != 0 )
     				gerador.pWriter.println("STORE B -" + (n+1));
-    			gerador.pWriter.println("LOADR B");
+    			gerador.pWriter.println("LOADR T");
     			gerador.pWriter.println("CTE -3");
     			gerador.pWriter.println("ADD");
     			gerador.pWriter.println("RET");
@@ -349,9 +369,9 @@ public class Visitor {
     		
     			if ( exp instanceof DiadOp )
     				((DiadOp)exp).accept(gerador.v);
-    			else if ( exp instanceof VarOp ) {
-    				((VarOp)exp).accept(gerador.v);
-    				s = ((VarOp)exp).getType().getName();
+    			else if ( exp instanceof ConstOp ) {
+    				((ConstOp)exp).accept(gerador.v);
+    				s = ((ConstOp)exp).getType().getName();
     				if ( s.compareTo("int") == 0 )
     					gerador.pWriter.println("PRINT INT");
     				else if ( s.compareTo("char") == 0 )
@@ -359,14 +379,49 @@ public class Visitor {
     				else if ( s.compareTo("boolean") == 0 )
     					gerador.pWriter.println("PRINT BOOLEAN");
     			}
-    			else if ( exp instanceof FunctionCallOp )
+    			else if ( exp instanceof FunctionCallOp ) {
     				((FunctionCallOp)exp).accept(gerador.v);
-    			else if ( exp instanceof ConstOp )
-    				((ConstOp)exp).accept(gerador.v);
-    			else if ( exp instanceof TupleOp )
+    				s = ((FunctionCallOp)exp).getType().getName();
+    				if ( s.compareTo("int") == 0 )
+    					gerador.pWriter.println("PRINT INT");
+    				else if ( s.compareTo("char") == 0 )
+    					gerador.pWriter.println("PRINT CHAR");
+    				else if ( s.compareTo("boolean") == 0 )
+    					gerador.pWriter.println("PRINT BOOLEAN");
+    			}
+    			else if ( exp instanceof VarOp ) {
+     				if ( ((VarOp)exp).getType() instanceof VectorType ) {
+     					// TODO HERE     					
+     				}
+     				else if ( ((VarOp)exp).getType() instanceof StructType ) {
+     					// TODO
+     				}
+     				else {
+    					((VarOp)exp).accept(gerador.v);
+    					s = ((VarOp)exp).getType().getName();
+    					if ( s.compareTo("int") == 0 )
+    						gerador.pWriter.println("PRINT INT");
+    					else if ( s.compareTo("char") == 0 )
+    						gerador.pWriter.println("PRINT CHAR");
+    					else if ( s.compareTo("boolean") == 0 )
+    						gerador.pWriter.println("PRINT BOOLEAN");
+    				}
+    			}
+    			else if ( exp instanceof TupleOp ) {
     				((TupleOp)exp).accept(gerador.v);
-    			else if ( exp instanceof UnaryOp )
+    				System.out.println("Wrong argument for print ...");
+    				System.exit(1);
+    			}
+    			else if ( exp instanceof UnaryOp ) {
     				((UnaryOp)exp).accept(gerador.v);
+    				s = ((UnaryOp)exp).getType().getName();
+    				if ( s.compareTo("int") == 0 )
+    					gerador.pWriter.println("PRINT INT");
+    				else if ( s.compareTo("char") == 0 )
+    					gerador.pWriter.println("PRINT CHAR");
+    				else if ( s.compareTo("boolean") == 0 )
+    					gerador.pWriter.println("PRINT BOOLEAN");
+    			}
     			else if ( exp instanceof StringOp ) {    				
     				((StringOp)exp).accept(gerador.v);    				
     				for ( j = 0; j < ((StringOp)exp).getValue().length(); j++ )
@@ -393,6 +448,9 @@ public class Visitor {
     		return;
     	}
     	
+    	if ( (node.getType()).getName().compareTo("void") != 0 )
+    		gerador.pWriter.println("ALLOC 1");
+    	
     	n = param.size();
     	for ( i = 0; i < n; i++ )
     		{
@@ -413,7 +471,7 @@ public class Visitor {
     			else if ( exp instanceof StringOp )
     				((StringOp)exp).accept(gerador.v);
     		}
-    	    	
+    	
     	gerador.pWriter.println("LOADR B");
     	gerador.pWriter.println("LOADR T");
     	gerador.pWriter.println("CTE 1");
@@ -482,11 +540,18 @@ public class Visitor {
     }
 
     public void visit(VarOp node) {
-    	System.out.println("visit(VarOp " + node + " )");    	
-    	if ( SymbolTable.search(node.getName()).getLevel() == 0 )
-    		gerador.pWriter.println("LOAD 0 " + ((VarSymb)SymbolTable.search(node.getName())).getAddress());
+    	System.out.println("visit(VarOp " + node + " )");
+    	
+    	if ( SymbolTable.search(node.getName()) instanceof ConstSymb )
+    		if ( SymbolTable.search(node.getName()).getLevel() == 0 )
+        		gerador.pWriter.println("LOAD 0 " + ((ConstSymb)SymbolTable.search(node.getName())).getAddress());
+        	else			
+        		gerador.pWriter.println("LOAD B " + ((ConstSymb)SymbolTable.search(node.getName())).getAddress());
     	else
-    		gerador.pWriter.println("LOAD B " + ((VarSymb)SymbolTable.search(node.getName())).getAddress());
+    		if ( SymbolTable.search(node.getName()).getLevel() == 0 )
+    			gerador.pWriter.println("LOAD 0 " + ((VarSymb)SymbolTable.search(node.getName())).getAddress());
+    		else			
+    			gerador.pWriter.println("LOAD B " + ((VarSymb)SymbolTable.search(node.getName())).getAddress());
     }
     
     public void visitExp(Expression exp) {
@@ -517,6 +582,12 @@ public class Visitor {
     	switch (OP) {
     	
     	case PL747Consts.INDEX_OP:
+    		visitExp(node.getSecondOperand());
+    		gerador.pWriter.println("CTE " + ((VarSymb)SymbolTable.search(((VarOp)node.getFirstOperand()).getName())).getAddress());
+    		gerador.pWriter.println("LOADR B");
+    		gerador.pWriter.println("ADD");
+    		gerador.pWriter.println("ADD");
+    		gerador.pWriter.println("LDX");
     		break;
     		
     	case PL747Consts.SEL_OP:
@@ -837,6 +908,7 @@ public class Visitor {
     public void visit(ReturnStat node) {
     	System.out.println("visit(ReturnStat " + node + " )");
     	// accept(node.getValue());
+    	visitExp(node.getValue());
     	gerador.pWriter.println("JMP " + gerador.rLabel);
     }
 }
