@@ -10,6 +10,8 @@ public class ConstSymb extends Symbol{
 	
     private AbsNode value;  // valor da constante (string ou tupla)
     
+    private int address;
+    
     /**
      * Construtor
      * @param name - nome da constante
@@ -29,5 +31,14 @@ public class ConstSymb extends Symbol{
     public String toString(){
     	return "[const name:"+name+" level:"+level+" value:"+value+"]";
     }
+    
+    /* Código adicionado */
+    public void setAddress(int address) {
+		this.address = address;
+	}
+	
+	public int getAddress() {
+		return this.address;
+	}
     
 }
