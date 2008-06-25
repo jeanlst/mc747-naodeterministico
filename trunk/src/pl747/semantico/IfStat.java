@@ -38,7 +38,7 @@ public class IfStat extends StatOp {
 	 */
 	public Expression getThenPart() {
 
-		return null;
+		return (Expression) stat1;
 	}
 
 	/**
@@ -46,7 +46,7 @@ public class IfStat extends StatOp {
 	 */
 	public Expression getElsePart() {
 
-		return null;
+		return (Expression) stat2;
 	}
 
 	/**
