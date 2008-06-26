@@ -448,6 +448,13 @@ public class Visitor {
     		return;
     	}
     	
+    	if ( node.getFunctionName().compareTo("println") == 0 ) {
+    		visitPrint(node);
+    		gerador.pWriter.println("CTE 10");
+    		gerador.pWriter.println("PRINT CHAR");
+    		return;
+    	}
+    	
     	if ( (node.getType()).getName().compareTo("void") != 0 )
     		gerador.pWriter.println("ALLOC 1");
     	
@@ -722,12 +729,12 @@ public class Visitor {
     	
     	switch (OP) {
     	case PL747Consts.MINUS_OP:
-    		// accept(node.getOperand());
+    		visitExp(node.getOperand()); 
     		gerador.pWriter.println("NEG");
     		break;
     		
     	case PL747Consts.NOT_OP:
-    		// accept(node.getOperand());
+    		visitExp(node.getOperand());
     		gerador.pWriter.println("NOT");
     		break;
     	}
@@ -826,33 +833,6 @@ public class Visitor {
     	
     	((CompoundStat)exp).accept(gerador.v);
     	
-    	/*
-    	if ( exp instanceof DiadOp )
-			((DiadOp)exp).accept(gerador.v);
-		else if ( exp instanceof VarOp )
-			((VarOp)exp).accept(gerador.v);
-		else if ( exp instanceof FunctionCallOp )
-			((FunctionCallOp)exp).accept(gerador.v);
-		else if ( exp instanceof ConstOp )
-			((ConstOp)exp).accept(gerador.v);
-		else if ( exp instanceof TupleOp )
-			((TupleOp)exp).accept(gerador.v);
-		else if ( exp instanceof UnaryOp )
-			((UnaryOp)exp).accept(gerador.v);
-		else if ( exp instanceof StringOp )
-			((StringOp)exp).accept(gerador.v);
-		else if ( exp instanceof IfStat )
-			((IfStat)exp).accept(gerador.v);
-		else if ( exp instanceof WhileStat )
-			((WhileStat)exp).accept(gerador.v);
-		else if ( exp instanceof DoStat )
-			((DoStat)exp).accept(gerador.v);
-		else if ( exp instanceof ForStat )
-			((ForStat)exp).accept(gerador.v);
-		else if ( exp instanceof ReturnStat )
-			((ReturnStat)exp).accept(gerador.v);        			
-    	*/
-    	
     	gerador.pWriter.println("JMP :cond_" + Label);
     	gerador.pWriter.println(":end_" + Label);
     	Label++;
@@ -862,12 +842,10 @@ public class Visitor {
     	Expression exp;
     	
     	System.out.println("visit(DoStat " + node + " )");
-    	gerador.pWriter.println(":cond_" + Label);
-    	// accept(node.getStat());
+    	gerador.pWriter.println(":cond_" + Label); 
     	exp = node.getStat();
-    	((CompoundStat)exp).accept(gerador.v);
-    	
-    	// accept(node.getCondition());
+    	((CompoundStat)exp).accept(gerador.v);    	
+ 
     	exp = node.getCondition();
     	visitExp(exp);    	
     	
