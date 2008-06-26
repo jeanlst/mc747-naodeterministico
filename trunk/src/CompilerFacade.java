@@ -65,14 +65,15 @@ public class CompilerFacade {
 			}
 		}
 		else {
-			System.out.println("Nenhum erro encontrado");
-		}
+		
+		System.out.println("Nenhum erro encontrado");
+		
 		
 		/* Geracao de codigo */
-		/* G.GenerateCode(((AbsNode)program), "/tmp/ra042272/test.sith");
-		System.out.println("-> END <-"); */
+		G.GenerateCode(((AbsNode)program), "/tmp/ra042272/test.sith");
 		
-		
+		}	
+		System.out.println("-> END <-");
 		return ;
 	}
 }
