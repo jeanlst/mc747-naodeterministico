@@ -165,7 +165,7 @@ public class Visitor {
     				n = Integer.parseInt(((VectorType)type).getSize());
     				
     				for ( i = 0; i < n; i++ )
-    					gerador.pWriter.println("STORE B " + ((VarSymb)SymbolTable.search(node.getName())).getAddress() + i);
+    					gerador.pWriter.println("STORE B " + ( ((VarSymb)SymbolTable.search(node.getName())).getAddress() + i));
     			}
     		}
     		else if ( type instanceof StructType )
@@ -367,8 +367,19 @@ public class Visitor {
     		{
     			exp = param.get(i);
     		
-    			if ( exp instanceof DiadOp )
+    			if ( exp instanceof DiadOp ) 
+    			{
+    				
     				((DiadOp)exp).accept(gerador.v);
+    				
+    				s = ((DiadOp)exp).getType().getName();
+    				if ( s.compareTo("int") == 0 )
+    					gerador.pWriter.println("PRINT INT");
+    				else if ( s.compareTo("char") == 0 )
+    					gerador.pWriter.println("PRINT CHAR");
+    				else if ( s.compareTo("boolean") == 0 )
+    					gerador.pWriter.println("PRINT BOOLEAN");
+    			}
     			else if ( exp instanceof ConstOp ) {
     				((ConstOp)exp).accept(gerador.v);
     				s = ((ConstOp)exp).getType().getName();
@@ -588,12 +599,12 @@ public class Visitor {
     	
     	switch (OP) {
     	
-    	case PL747Consts.INDEX_OP:
+    	case PL747Consts.INDEX_OP:    		
     		visitExp(node.getSecondOperand());
     		gerador.pWriter.println("CTE " + ((VarSymb)SymbolTable.search(((VarOp)node.getFirstOperand()).getName())).getAddress());
     		gerador.pWriter.println("LOADR B");
     		gerador.pWriter.println("ADD");
-    		gerador.pWriter.println("ADD");
+    		gerador.pWriter.println("ADD");    		
     		gerador.pWriter.println("LDX");
     		break;
     		
@@ -713,6 +724,15 @@ public class Visitor {
     				 * do vetor na pilha.
     				 * Tem que fazer uma soma.
     				 */
+    				visitExp(((DiadOp)expr).getSecondOperand());
+    				gerador.pWriter.println("CTE " + ((VarSymb)SymbolTable.search(((VarOp)((DiadOp)expr).getFirstOperand()).getName())).getAddress());
+    	    		gerador.pWriter.println("LOADR B");
+    	    		gerador.pWriter.println("ADD");
+    	    		gerador.pWriter.println("ADD");
+    	    		
+    	    		gerador.pWriter.println("STX");
+    				
+    				
     			}
     			
     		}
