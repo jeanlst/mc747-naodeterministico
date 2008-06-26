@@ -120,7 +120,6 @@ public class DiadOp extends Expression {
 				}
 			}
 		}
-
 		else 
 		{
 			// Verificando se o primeiro operador eh um vetor
@@ -140,7 +139,7 @@ public class DiadOp extends Expression {
 		AbsNode var;
 		if (this.op1 instanceof VarOp) {
 			var = (VarOp) this.op1;
-			this.type = (Type) var.getType();
+			this.type = ((VectorType) var.getType()).getElementType();
 		}
 		else {
 			var = this.op1;
