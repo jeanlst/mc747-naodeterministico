@@ -578,7 +578,7 @@ public class SVM
 	}  
 	
 	private static void STX() { 
-		stack[stack[T - 1]] = stack[T];
+		stack[stack[T]] = stack[T-1];
 		T = T - 2;
 	}  
 	
