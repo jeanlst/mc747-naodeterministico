@@ -260,7 +260,7 @@ public class Visitor {
     			gerador.pWriter.println("ENTER");
     			
     			gerador.addr = 2;
-    			    			
+    			 //################################################################################################################################   			
     			for ( i = 0; i < n; i++ )
     			{
     				symb = syList.get(i);
@@ -315,7 +315,7 @@ public class Visitor {
     			n = GetTotalSize(param);    			
     			
     			gerador.pWriter.println(":RET_" + node.getName().toUpperCase());
-    			if ( ((Declaration)node.getType()).getName().compareTo("void") != 0 )
+    			if ( ((Declaration)node.getType()).getName().compareTo("void") != 0 && (node.getName()).compareTo("main") != 0 )
     				gerador.pWriter.println("STORE B -" + (n+1));
     			gerador.pWriter.println("LOADR T");
     			gerador.pWriter.println("CTE -3");
@@ -518,7 +518,7 @@ public class Visitor {
     		else
     			gerador.pWriter.println("CTE 0");
     	else if ( type.compareTo("char") == 0 )
-    		gerador.pWriter.println("CTE " + (int)(s.charAt(0)-'\0'));
+    		gerador.pWriter.println("CTE " + (int)(s.charAt(1)-'\0'));
     }
 
     public void visit(StringOp node) {
@@ -736,6 +736,8 @@ public class Visitor {
     			}
     			
     		}
+    		/*!!!!!POG!!!!!!  PASSIVEL DE INSUCESSO!!!!!!*/
+    		gerador.pWriter.println("LOAD B " + ((VarSymb)SymbolTable.search(((VarOp)expr).getName())).getAddress());
     		break;
     		
     	}
@@ -807,7 +809,8 @@ public class Visitor {
 
     public void visit(IfStat node) {
     	Expression exp;
-    	
+    	int localL = Label;
+    	Label++;
     	System.out.println("visit(IfStat " + node + " )");
     	// accept(node.getCondition());
     	exp = node.getCondition();
@@ -822,74 +825,77 @@ public class Visitor {
     	else if ( exp instanceof FunctionCallOp )
     		((FunctionCallOp)exp).accept(gerador.v);
     	
-    	gerador.pWriter.println("JMPF :cond_" + Label);
+    	gerador.pWriter.println("JMPF :cond_" + localL);
     	// accept(node.getThenPart());
     	// Mudar isso ! ... tem que coloca um IF gigante
     	exp = node.getThenPart();    	
     	((CompoundStat)exp).accept(gerador.v);
     	
-    	gerador.pWriter.println("JMP :end_" + Label);
-    	gerador.pWriter.println(":cond_" + Label);
+    	gerador.pWriter.println("JMP :end_" + localL);
+    	gerador.pWriter.println(":cond_" + localL);
     	// accept(node.getElsePart());
     	exp = node.getElsePart();
     	((CompoundStat)exp).accept(gerador.v);
     	
-    	gerador.pWriter.println(":end_" + Label);
-    	Label++;
+    	gerador.pWriter.println(":end_" + localL);
+    	
     }
 
     public void visit(WhileStat node) {
     	Expression exp;
-    	
+    	int localL = Label;
+    	Label++;
     	System.out.println("visit(WhileStat " + node + " )");
-    	gerador.pWriter.println(":cond_" + Label);
+    	gerador.pWriter.println(":cond_" + localL);
     	// accept(node.getCondition());
     	exp = node.getCondition();
     	visitExp(exp);    	
     	
-    	gerador.pWriter.println("JMPF :end_" + Label);
+    	gerador.pWriter.println("JMPF :end_" + localL);
     	// accept(node.getStat());
     	exp = node.getStat();
     	
     	((CompoundStat)exp).accept(gerador.v);
     	
-    	gerador.pWriter.println("JMP :cond_" + Label);
-    	gerador.pWriter.println(":end_" + Label);
-    	Label++;
+    	gerador.pWriter.println("JMP :cond_" + localL);
+    	gerador.pWriter.println(":end_" + localL);
+    	
     }
 
     public void visit(DoStat node) {
     	Expression exp;
-    	
+    	int localL = Label;
+    	Label++;
     	System.out.println("visit(DoStat " + node + " )");
-    	gerador.pWriter.println(":cond_" + Label); 
+    	gerador.pWriter.println(":cond_" + localL); 
     	exp = node.getStat();
     	((CompoundStat)exp).accept(gerador.v);    	
  
     	exp = node.getCondition();
     	visitExp(exp);    	
     	
-    	gerador.pWriter.println("JMPT :cond_" + Label);    	    	
+    	gerador.pWriter.println("JMPT :cond_" + localL);    	    	
     }
 
     public void visit(ForStat node) {
     	Expression exp;
     	String var = node.getVariable();
-    	
+    	int localL = Label;
+    	Label++;
     	System.out.println("visit(ForStat " + node + " )");
     	
     	exp = node.getStartValue();
     	visitExp(exp);
     	gerador.pWriter.println("STORE B " + ((VarSymb)SymbolTable.search(var)).getAddress());
     	
-    	gerador.pWriter.println(":cond_" + Label);
+    	gerador.pWriter.println(":cond_" + localL);
     	// accept(node.getFinalValue());
     	gerador.pWriter.println("LOAD B " + ((VarSymb)SymbolTable.search(var)).getAddress());
     	exp = node.getFinalValue();
     	visitExp(exp);
     	gerador.pWriter.println("EQL");
     	
-    	gerador.pWriter.println("JMPT :end_" + Label);    	
+    	gerador.pWriter.println("JMPT :end_" + localL);    	
     	// accept(node.getStat());
     	exp = node.getStat();
     	((CompoundStat)exp).accept(gerador.v);
@@ -898,9 +904,9 @@ public class Visitor {
     		gerador.pWriter.println("INC B " + ((VarSymb)SymbolTable.search(var)).getAddress());
     	else
     		gerador.pWriter.println("DEC B " + ((VarSymb)SymbolTable.search(var)).getAddress());
-    	gerador.pWriter.println("JMP :cond_" + Label);
-    	gerador.pWriter.println(":end_" + Label);
-    	Label++;
+    	gerador.pWriter.println("JMP :cond_" + localL);
+    	gerador.pWriter.println(":end_" + localL);
+    	
     }
 
     public void visit(ReturnStat node) {
