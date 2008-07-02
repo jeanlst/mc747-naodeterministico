@@ -16,17 +16,32 @@ public class Compiler {
 	@SuppressWarnings("deprecation")
 	public static void main(String[] args) {
 		CompilerFacade compiler = new CompilerFacade();
-		String file = "";
+		String fileIn = "";
+		String fileOut = "";
 		
 		try {
-			file = args[0];
+			fileIn = args[0];
 		}
 		catch (ArrayIndexOutOfBoundsException e) {
-			System.out.println("Digite o endereco do arquivo: ");
+			System.out.println("Arquivo de entrada (codigo fonte): ");
 			DataInputStream in = new DataInputStream(new BufferedInputStream(System.in));
 			try {
-				file = in.readLine();
-				file = "tests/test"+file+".pl747";
+				fileIn = in.readLine();
+			}
+			catch (Exception er) {
+				System.out.println("Erro");				
+			}
+
+		}
+		
+		try {
+			fileOut = args[1];
+		}
+		catch (ArrayIndexOutOfBoundsException e) {
+			System.out.println("Arquivo de saida (executavel a ser gerado): ");
+			DataInputStream in = new DataInputStream(new BufferedInputStream(System.in));
+			try {
+				fileOut = in.readLine();
 			}
 			catch (Exception er) {
 				System.out.println("Erro");				
@@ -39,7 +54,7 @@ public class Compiler {
 			//FileReader always assumes default encoding is OK!
 			BufferedReader input = null;
 			try{
-				input =  new BufferedReader(new FileReader(file));
+				input =  new BufferedReader(new FileReader(fileIn));
 			}
 			catch(Exception e)
 			{
@@ -68,7 +83,7 @@ public class Compiler {
 			ex.printStackTrace();
 		}
 		
-		compiler.compile(file);
+		compiler.compile(fileIn, fileOut);
 	}
 
 }

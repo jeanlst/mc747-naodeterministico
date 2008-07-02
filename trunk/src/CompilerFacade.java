@@ -3,7 +3,6 @@ import pl747.codigo.gerador;
 import pl747.semantico.AbsNode;
 import pl747.sintatico.*;
 import java.util.ArrayList;
-import pl747.tabelaSimbolos.*;
 
 public class CompilerFacade {
 
@@ -12,7 +11,7 @@ public class CompilerFacade {
 	}
 	
 	@SuppressWarnings("hiding")
-	public void compile(String file) {
+	public void compile(String fileIn, String fileOut) {
 		Scanner scanner = null;
 		/* Declaração usada para geração de código */
 		/* start */
@@ -21,14 +20,14 @@ public class CompilerFacade {
 		
 		/* Analise lexica */
 		try {			
-			scanner = new Scanner( new java.io.FileReader(file) );
+			scanner = new Scanner( new java.io.FileReader(fileIn) );
 		}
 		catch (java.io.FileNotFoundException e) {
-			System.out.println("File not found : \""+file+"\"");
+			System.out.println("File not found : \""+fileIn+"\"");
 			System.exit(1);
 		}
 		catch (java.io.IOException e) {
-			System.out.println("Error opening file \""+file+"\"");
+			System.out.println("Error opening file \""+fileIn+"\"");
 			System.exit(1);
 		}
 		
@@ -70,7 +69,7 @@ public class CompilerFacade {
 		
 		
 		/* Geracao de codigo */
-		G.GenerateCode(((AbsNode)program), "/tmp/ra042272/test.sith");
+		G.GenerateCode(((AbsNode)program), fileOut);
 		
 		}	
 		System.out.println("-> END <-");
