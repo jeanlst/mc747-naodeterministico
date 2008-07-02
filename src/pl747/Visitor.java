@@ -234,9 +234,9 @@ public class Visitor {
     	CompoundStat body;
     	List<TreeNode> sList;
     	List param;
-    	boolean isPrototype;
+    	boolean isPrototype, exist;
     	Scope scope;
-    	int i, n;    	
+    	int i,j, n,pn;    	
     	String oldLabel = gerador.rLabel;
     	Symbol symb;
     	List<Symbol> syList;
@@ -245,6 +245,7 @@ public class Visitor {
     	
     	body = (CompoundStat)node.getBody();
     	param = node.getParmList();
+    	pn = param.size();
     	isPrototype = node.isPrototype();
     	scope = node.getScope();
     	
@@ -263,11 +264,27 @@ public class Visitor {
     			 //################################################################################################################################   			
     			for ( i = 0; i < n; i++ )
     			{
+    				exist = false;
     				symb = syList.get(i);
-    				if ( symb.getKind() == Symbol.VAR_SYMB )
-    					alloc((VarSymb)symb);
-    				else if ( symb.getKind() == Symbol.CONST_SYMB )
-    					alloc((ConstSymb)symb);
+    				for(j=0;j<pn;j++)
+    				{
+    					if( ((VarDeclaration)param.get(j)).getName().compareTo(((VarSymb)symb).getName()) == 0)
+    					{
+    						((VarSymb)SymbolTable.search(((VarSymb)symb).getName())).setAddress(j-pn);
+    						exist = true;
+    						break;
+    					}
+    				}
+    				
+					if (exist == false)
+					{
+						if ( symb.getKind() == Symbol.VAR_SYMB )
+							alloc((VarSymb)symb);
+						else if ( symb.getKind() == Symbol.CONST_SYMB )
+							alloc((ConstSymb)symb);
+					}
+					
+						
     			}
     			
     			sList = body.getStatList();
@@ -318,7 +335,7 @@ public class Visitor {
     			if ( ((Declaration)node.getType()).getName().compareTo("void") != 0 && (node.getName()).compareTo("main") != 0 )
     				gerador.pWriter.println("STORE B -" + (n+1));
     			gerador.pWriter.println("LOADR T");
-    			gerador.pWriter.println("CTE -3");
+    			gerador.pWriter.println("CTE " + (-(3+pn)));
     			gerador.pWriter.println("ADD");
     			gerador.pWriter.println("RET");
     			
@@ -737,7 +754,7 @@ public class Visitor {
     			
     		}
     		/*!!!!!POG!!!!!!  PASSIVEL DE INSUCESSO!!!!!!*/
-    		gerador.pWriter.println("LOAD B " + ((VarSymb)SymbolTable.search(((VarOp)expr).getName())).getAddress());
+    		//gerador.pWriter.println("LOAD B " + ((VarSymb)SymbolTable.search(((VarOp)expr).getName())).getAddress());
     		break;
     		
     	}
