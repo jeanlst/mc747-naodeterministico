@@ -64,15 +64,11 @@ public class CompilerFacade {
 			}
 		}
 		else {
-		
-		System.out.println("Nenhum erro encontrado");
-		
-		
-		/* Geracao de codigo */
-		G.GenerateCode(((AbsNode)program), fileOut);
-		
+			System.out.println("Nenhum erro encontrado");
+
+			/* Geracao de codigo */
+			G.GenerateCode(((AbsNode)program), fileOut);
 		}	
-		System.out.println("-> END <-");
 		return ;
 	}
 }

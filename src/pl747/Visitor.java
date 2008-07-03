@@ -11,13 +11,13 @@ import pl747.codigo.VarSymbTbl;
 public class Visitor {
 	
 	/** int Label
-	 * 	Usada para gerar labels para funÃ§Ãµes, laÃ§os de loop e
-	 * 	laÃ§os condicionais 
+	 * 	Usada para gerar labels para funções, laços de loop e
+	 * 	laços condicionais 
 	 * */
 	private int Label = 0;
 	
 	/** public void visit(Program node) 
-	 *  Procedimento visit para o primeiro nÃ³ da Ã¡rvore do programa
+	 *  Procedimento visit para o primeiro nó da árvore do programa
 	 * */
 	public void visit(Program node) {
 		int i, n;
@@ -26,7 +26,7 @@ public class Visitor {
 		List<Symbol> sList;
 		Symbol symb;
 				
-		System.out.println("visit(Program " + node + " )");
+		//System.out.println("visit(Program " + node + " )");
 		
 		/* Configurando a tabela de simbolos atual */
 		SymbolTable.setCurScope(scope);
@@ -35,7 +35,7 @@ public class Visitor {
 		
 		gerador.pWriter.println("INIT");
 		
-		/* Alocando memÃ³ria para as variÃ¡veis */
+		/* Alocando memória para as variáveis */
 		for ( i = 0; i < n; i++ )
 		{
 			symb = sList.get(i);
@@ -45,7 +45,7 @@ public class Visitor {
 				alloc((ConstSymb)symb);
 		}
 		
-		/* Preparando registro de ativaÃ§Ã£o para a funÃ§Ã£o MAIN e chamando a funÃ§Ã£o */
+		/* Preparando registro de ativação para a função MAIN e chamando a função */
 		gerador.pWriter.println("LOADR T");
 		gerador.pWriter.println("STORER B");
 		gerador.pWriter.println("LOADR B");
@@ -69,11 +69,11 @@ public class Visitor {
     				((ConstDeclaration)exp).accept(gerador.v);
 			}
 		
-		/* Inicializando endereÃ§o de variÃ¡veis para o escopo das funÃ§Ãµes */
+		/* Inicializando endereço de variáveis para o escopo das funções */
 		gerador.addr += 2;
 	}
 	
-	/* FunÃ§Ã£o auxiliar para alocar memÃ³ria para uma variÃ¡vel */
+	/* Função auxiliar para alocar memória para uma variável */
 	public void alloc(VarSymb s) {
 		int n;
 		int size;
@@ -107,7 +107,7 @@ public class Visitor {
 		}
 	}
 	
-	/* FunÃ§Ã£o auxiliar para alocar memÃ³ria para uma constante */
+	/* Função auxiliar para alocar memória para uma constante */
 	public void alloc(ConstSymb s) {
 		int i, size, addr;
 		AbsNode n = s.getValue();
@@ -135,12 +135,12 @@ public class Visitor {
 			;
 	}
 	
-	/* Tratando declaraÃ§Ã£o de vÃ¡rias variÃ¡veis */
+	/* Tratando declaração de várias variáveis */
 	public void visit(VarDeclList node) {
 		int i, n;
 		List<VarDeclaration> vList = node.getElements();
 		
-		System.out.println("visit(VarDeclList " + node + " )");
+		//System.out.println("visit(VarDeclList " + node + " )");
 		
 		for (VarDeclaration var: vList)
 			var.accept(gerador.v);				
@@ -148,29 +148,29 @@ public class Visitor {
 
 	/* NÃ£o Ã© visitado diretamente */
 	public void visit(Declaration node) {
-		System.out.println("visit(Declaration " + node + " )");
+		//System.out.println("visit(Declaration " + node + " )");
 	}
 	
-	/* DeclaraÃ§Ãµes */
+	/* Declarações */
     public void visit(VarDeclaration node) {
     	int i, size, j, n;
     	Type type;
     	List varList;
     	Expression exp;    	
     	
-    	System.out.println("visit(VarDeclaration " + node + " )");
+    	//System.out.println("visit(VarDeclaration " + node + " )");
     	
     	try {
     		type = node.getType();
     		 
-    		/* DeclaraÃ§Ã£o de vetores */
+    		/* Declaração de vetores */
     		if ( type instanceof VectorType )
     		{    			
     			exp = node.getInitialValue();
     			
     			if ( exp != null )
     			{
-    				/* AtribuiÃ§Ã£o para vetores */
+    				/* Atribuição para vetores */
     				if ( exp instanceof TupleOp )    					
     					((TupleOp)exp).accept(gerador.v);
     				else if ( exp instanceof StringOp )
@@ -182,14 +182,14 @@ public class Visitor {
     					gerador.pWriter.println("STORE B " + ( ((VarSymb)SymbolTable.search(node.getName())).getAddress() + i));
     			}
     		}
-    		/* DeclaraÃ§Ã£o de estruturas */
+    		/* Declaração de estruturas */
     		else if ( type instanceof StructType )
     		{
     			// TODO
     		}
     		else
     		{
-    			/* DeclaraÃ§Ã£o de variÃ¡veis primitivas */
+    			/* Declaração de variáveis primitivas */
     			size = 1;
     			
     			exp = node.getInitialValue();
@@ -219,7 +219,7 @@ public class Visitor {
     	}
     }
     
-    /* FunÃ§Ã£o auxiliar para verificar o tamanho de uma lista (em bytes) */
+    /* Função auxiliar para verificar o tamanho de uma lista (em bytes) */
     private int GetTotalSize(List varList) {
     	int tSize = 0;
     	int i;
@@ -248,7 +248,7 @@ public class Visitor {
     	return tSize;
     }
 
-    /* DeclaraÃ§Ã£o de funÃ§Ãµes */
+    /* Declaração de funções */
     public void visit(FunctionDeclaration node) {
     	CompoundStat body;
     	List<TreeNode> sList;
@@ -260,7 +260,7 @@ public class Visitor {
     	Symbol symb;
     	List<Symbol> syList;
     	
-    	System.out.println("visit(FunctionDeclaration " + node + " )");
+    	//System.out.println("visit(FunctionDeclaration " + node + " )");
     	
     	body = (CompoundStat)node.getBody();
     	param = node.getParmList();
@@ -273,17 +273,17 @@ public class Visitor {
     	syList = scope.getSymbList();
     	n = syList.size();		
     	
-    	/* NÃ£o Ã© necessÃ¡rio fazer nada caso a funÃ§Ã£o for um prototipo */
+    	/* Não é necessário fazer nada caso a função for um prototipo */
     	if ( !isPrototype ) {    		
     		try {
     			gerador.rLabel = ":RET_" + node.getName().toUpperCase();
     			
-    			/* Gerando label da funÃ§Ã£o */
+    			/* Gerando label da função */
     			gerador.pWriter.println(":" + node.getName().toUpperCase());
     			gerador.pWriter.println("ENTER");
     			
     			gerador.addr = 2;
-    			/* Alocando memÃ³ria para as variÃ¡veis da funÃ§Ã£o */
+    			/* Alocando memória para as variáveis da função */
     			for ( i = 0; i < n; i++ )
     			{
     				exist = false;
@@ -309,7 +309,7 @@ public class Visitor {
 						
     			}
     			
-    			/* Criando corpo da funÃ§Ã£o */
+    			/* Criando corpo da função */
     			sList = body.getStatList();
     			for (TreeNode exp: sList)
     			{
@@ -354,7 +354,7 @@ public class Visitor {
     			
     			n = GetTotalSize(param);    			
     			
-    			/* Gerando cÃ³digo de retorno */
+    			/* Gerando código de retorno */
     			gerador.pWriter.println(":RET_" + node.getName().toUpperCase());
     			if ( ((Declaration)node.getType()).getName().compareTo("void") != 0 && (node.getName()).compareTo("main") != 0 )
     				gerador.pWriter.println("STORE B -" + (n+1));
@@ -374,26 +374,26 @@ public class Visitor {
     	}
     }
 
-    /* DeclaraÃ§Ã£o de constantes */
+    /* Declaração de constantes */
     public void visit(ConstDeclaration node) {
     	int tSize = 0;
     	Type lsType = node.getTipo();
     	Type rsType = node.getValue().getType();
     	List varList;
     	
-    	System.out.println("visit(ConstDeclaration " + node + " )");
+    	//System.out.println("visit(ConstDeclaration " + node + " )");
     	
     	// TODO 
     }
     
-    /* FunÃ§Ã£o auxiliar para chamada da funÃ§Ã£o print() */
+    /* Função auxiliar para chamada da função print() */
     public void visitPrint(FunctionCallOp node) {
     	int i, j, n;
     	Expression exp;
     	List<Expression> param = node.getParmList();
     	String s;
     	
-    	System.out.println("visitPrint(FunctionCallOp " + node + " )");
+    	//System.out.println("visitPrint(FunctionCallOp " + node + " )");
     	
     	n = param.size();
     	for ( i = 0; i < n; i++ )
@@ -476,20 +476,20 @@ public class Visitor {
     		}
     }
     
-    /* FunÃ§Ã£o auxiliar para chamada da funÃ§Ã£o read() */
+    /* Função auxiliar para chamada da função read() */
     public void visitRead(FunctionCallOp node) {
-    	System.out.println("visitRead(FunctionCallOp " + node + " )");
+    	//System.out.println("visitRead(FunctionCallOp " + node + " )");
     }
 
-    /* Chamada de funÃ§Ã£o */
+    /* Chamada de função */
     public void visit(FunctionCallOp node) {
     	int i, n;
     	Expression exp;
     	List<Expression> param = node.getParmList();
     	
-    	System.out.println("visit(FunctionCallOp " + node + " )");
+    	//System.out.println("visit(FunctionCallOp " + node + " )");
     	    	
-    	/* Verificando chamadas de funÃ§Ãµes "built-in" */
+    	/* Verificando chamadas de funções "built-in" */
     	if ( node.getFunctionName().compareTo("print") == 0 ) {
     		visitPrint(node);
     		return;
@@ -502,7 +502,7 @@ public class Visitor {
     		return;
     	}
     	
-    	/* Verificando se a funÃ§Ã£o tem um retorno */
+    	/* Verificando se a função tem um retorno */
     	if ( (node.getType()).getName().compareTo("void") != 0 )
     		gerador.pWriter.println("ALLOC 1");
     	
@@ -528,7 +528,7 @@ public class Visitor {
     				((StringOp)exp).accept(gerador.v);
     		}
     	
-    	/* Gerando registro de ativaÃ§Ã£o e chamando a funÃ§Ã£o */
+    	/* Gerando registro de ativação e chamando a função */
     	gerador.pWriter.println("LOADR B");
     	gerador.pWriter.println("LOADR T");
     	gerador.pWriter.println("CTE 1");
@@ -546,7 +546,7 @@ public class Visitor {
     	String type;
     	String s = node.getValue();
     	
-    	System.out.println("visit(ConstOp " + node + " )");
+    	//System.out.println("visit(ConstOp " + node + " )");
     	
     	type = node.getType().getName();
     	
@@ -567,7 +567,7 @@ public class Visitor {
     	int n;
     	String s;
     	
-    	System.out.println("visit(StringOp " + node + " )");
+    	//System.out.println("visit(StringOp " + node + " )");
     	
     	s = node.getValue();
     	n = s.length();
@@ -582,7 +582,7 @@ public class Visitor {
     	Expression exp;
     	List<Expression> eList = node.getElementList();
     	
-    	System.out.println("visit(TupleOp " + node + " )");
+    	//System.out.println("visit(TupleOp " + node + " )");
     	
     	n = eList.size();
     	for ( i = n - 1; i >= 0; i-- ) {
@@ -599,9 +599,9 @@ public class Visitor {
     		
     }
 
-    /* Tratando variÃ¡veis */
+    /* Tratando variáveis */
     public void visit(VarOp node) {
-    	System.out.println("visit(VarOp " + node + " )");
+    	//System.out.println("visit(VarOp " + node + " )");
     	
     	if ( SymbolTable.search(node.getName()) instanceof ConstSymb )
     		if ( SymbolTable.search(node.getName()).getLevel() == 0 )
@@ -615,7 +615,7 @@ public class Visitor {
     			gerador.pWriter.println("LOAD B " + ((VarSymb)SymbolTable.search(node.getName())).getAddress());
     }
     
-    /* FunÃ§Ã£o auxiliar para visits de uso geral */
+    /* Função auxiliar para visits de uso geral */
     public void visitExp(Expression exp) {
     	if ( exp instanceof DiadOp )
 			((DiadOp)exp).accept(gerador.v);
@@ -638,7 +638,7 @@ public class Visitor {
     	int OP;
     	Expression expr;    	
     	
-    	System.out.println("visit(DiadOp " + node + " )");
+    	//System.out.println("visit(DiadOp " + node + " )");
     	    	
     	OP = node.getKind();
     	
@@ -666,42 +666,42 @@ public class Visitor {
     		gerador.pWriter.println("ADD");
     		break;
     		
-    		/* SubtraÃ§Ã£o */
+    		/* Subtração */
     	case PL747Consts.SUB_OP:
     		visitExp(node.getFirstOperand());
     		visitExp(node.getSecondOperand());
     		gerador.pWriter.println("SUB");
     		break;
     		    		
-    		/* MultiplicaÃ§Ã£o */
+    		/* Multiplicação */
     	case PL747Consts.MULT_OP:
     		visitExp(node.getFirstOperand());
     		visitExp(node.getSecondOperand());
     		gerador.pWriter.println("MUL");
     		break;
     		
-    		/* DivisÃ£o */
+    		/* Divisão */
     	case PL747Consts.DIV_OP:
     		visitExp(node.getFirstOperand());
     		visitExp(node.getSecondOperand());
     		gerador.pWriter.println("DIV");
     		break;
     		
-    		/* OperaÃ§Ãµes modulares */
+    		/* Operações modulares */
     	case PL747Consts.MOD_OP:
     		visitExp(node.getFirstOperand());
     		visitExp(node.getSecondOperand());
     		gerador.pWriter.println("MOD");
     		break;
     		
-    		/* VerificaÃ§Ã£o de igualdade */
+    		/* Verificação de igualdade */
     	case PL747Consts.EQ_OP:
     		visitExp(node.getFirstOperand());
     		visitExp(node.getSecondOperand());
     		gerador.pWriter.println("EQL");
     		break;
     		
-    		/* VerificaÃ§Ã£o de nÃ£o igualdade (!=) */
+    		/* Verificação de não igualdade (!=) */
     	case PL747Consts.NE_OP:
     		visitExp(node.getFirstOperand());
     		visitExp(node.getSecondOperand());
@@ -736,21 +736,21 @@ public class Visitor {
     		gerador.pWriter.println("LTE");
     		break;
     		
-    		/* E lÃ³gico */
+    		/* E lógico */
     	case PL747Consts.AND_OP:
     		visitExp(node.getFirstOperand());
     		visitExp(node.getSecondOperand());
     		gerador.pWriter.println("AND");
     		break;
     		
-    		/* OU lÃ³gico */
+    		/* OU lógico */
     	case PL747Consts.OR_OP:
     		visitExp(node.getFirstOperand());
     		visitExp(node.getSecondOperand());    		
     		gerador.pWriter.println("OR");
     		break;
     		
-    		/* AtribuiÃ§Ãµes */
+    		/* Atribuições */
     	case PL747Consts.ASSIGN_OP:
     		expr = node.getSecondOperand();
     		if ( expr instanceof FunctionCallOp )
@@ -779,10 +779,10 @@ public class Visitor {
     		}
     		else if ( expr instanceof DiadOp )
     		{
-    			/* AtribuiÃ§Ãµes para vetores */
+    			/* Atribuições para vetores */
     			OP = ((DiadOp)(expr)).getKind();
     			if ( OP == PL747Consts.INDEX_OP ) {
-    				/* Usar indireÃ§Ã£o para acessar a posiÃ§Ã£o
+    				/* Usar indireção para acessar a posição
     				 * do vetor na pilha.
     				 */
     				visitExp(((DiadOp)expr).getSecondOperand());
@@ -797,9 +797,9 @@ public class Visitor {
     			}
     			
     		}  
-    		/* Em desenvolvimento, Ã© necessÃ¡rio descomentar a linha abaixo para que atribuiÃ§Ãµes do tipo (a = <exp>) 
+    		/* Em desenvolvimento, é necessário descomentar a linha abaixo para que atribuições do tipo (a = <exp>) 
     		 * tenham um valor de retorno.
-    		 * Existem conflitos com outras partes do cÃ³digo ainda, por isso a linha estÃ¡ comentada
+    		 * Existem conflitos com outras partes do código ainda, por isso a linha está comentada
     		 * */
     		// gerador.pWriter.println("LOAD B " + ((VarSymb)SymbolTable.search(((VarOp)expr).getName())).getAddress());
     		break;
@@ -807,11 +807,11 @@ public class Visitor {
     	
     }
 
-    /* OperaÃ§Ãµes unÃ¡rias */
+    /* Operações unárias */
     public void visit(UnaryOp node) {
     	int OP = node.getKind();
     	
-    	System.out.println("visit(UnaryOp " + node + " )");
+    	//System.out.println("visit(UnaryOp " + node + " )");
     	
     	switch (OP) {
     	case PL747Consts.MINUS_OP:
@@ -826,13 +826,13 @@ public class Visitor {
     	}
     }
 
-    /* Conjunto de instruÃ§Ãµes */
+    /* Conjunto de instruções */
     public void visit(CompoundStat node) {
     	int i, n;
     	List<TreeNode> tnList;
     	TreeNode tn;
     	
-    	System.out.println("visit(CompoundStat " + node + " )");
+    	//System.out.println("visit(CompoundStat " + node + " )");
     	
     	tnList = node.getStatList();
     	
@@ -872,12 +872,12 @@ public class Visitor {
     	
     }
 
-    /* LaÃ§o condicional IF */
+    /* Laço condicional IF */
     public void visit(IfStat node) {
     	Expression exp;
     	int localL = Label;
     	Label++;
-    	System.out.println("visit(IfStat " + node + " )");
+    	//System.out.println("visit(IfStat " + node + " )");
     	exp = node.getCondition();
     	if ( exp instanceof DiadOp )
     		((DiadOp)exp).accept(gerador.v);
@@ -903,12 +903,12 @@ public class Visitor {
     	
     }
 
-    /* LaÃ§o de loop WHILE */
+    /* Laço de loop WHILE */
     public void visit(WhileStat node) {
     	Expression exp;
     	int localL = Label;
     	Label++;
-    	System.out.println("visit(WhileStat " + node + " )");
+    	//System.out.println("visit(WhileStat " + node + " )");
     	gerador.pWriter.println(":cond_" + localL);
     	exp = node.getCondition();
     	visitExp(exp);    	
@@ -923,12 +923,12 @@ public class Visitor {
     	
     }
 
-    /* LaÃ§o de loop DO ... WHILE */
+    /* Laço de loop DO ... WHILE */
     public void visit(DoStat node) {
     	Expression exp;
     	int localL = Label;
     	Label++;
-    	System.out.println("visit(DoStat " + node + " )");
+    	//System.out.println("visit(DoStat " + node + " )");
     	gerador.pWriter.println(":cond_" + localL); 
     	exp = node.getStat();
     	((CompoundStat)exp).accept(gerador.v);    	
@@ -939,13 +939,13 @@ public class Visitor {
     	gerador.pWriter.println("JMPT :cond_" + localL);    	    	
     }
 
-    /* LaÃ§o de loop FOR */
+    /* Laço de loop FOR */
     public void visit(ForStat node) {
     	Expression exp;
     	String var = node.getVariable();
     	int localL = Label;
     	Label++;
-    	System.out.println("visit(ForStat " + node + " )");
+    	//System.out.println("visit(ForStat " + node + " )");
     	
     	exp = node.getStartValue();
     	visitExp(exp);
@@ -970,9 +970,9 @@ public class Visitor {
     	
     }
 
-    /* Retorno de funÃ§Ãµes */
+    /* Retorno de funções */
     public void visit(ReturnStat node) {
-    	System.out.println("visit(ReturnStat " + node + " )");
+    	//System.out.println("visit(ReturnStat " + node + " )");
     	visitExp(node.getValue());
     	gerador.pWriter.println("JMP " + gerador.rLabel);
     }
