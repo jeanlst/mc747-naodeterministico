@@ -38,7 +38,7 @@ public class Compiler {
 			fileOut = args[1];
 		}
 		catch (ArrayIndexOutOfBoundsException e) {
-			System.out.println("Arquivo de saida (executavel a ser gerado): ");
+			System.out.println("Arquivo de saida sem extens„o (executavel a ser gerado): ");
 			DataInputStream in = new DataInputStream(new BufferedInputStream(System.in));
 			try {
 				fileOut = in.readLine();
@@ -48,42 +48,9 @@ public class Compiler {
 			}
 
 		}
+
 		
-		try {
-			//use buffering, reading one line at a time
-			//FileReader always assumes default encoding is OK!
-			BufferedReader input = null;
-			try{
-				input =  new BufferedReader(new FileReader(fileIn));
-			}
-			catch(Exception e)
-			{
-				System.out.println("Erro: Arquivo n√£o encontrado");
-				return;
-			}
-			try {
-				String line = null; //not declared within while loop
-				/*
-				 * readLine is a bit quirky :
-				 * it returns the content of a line MINUS the newline.
-				 * it returns null only for the END of the stream.
-				 * it returns an empty String if two newlines appear in a row.
-				 */
-				System.out.println("======================== Inicio do arquivo =============================");
-				while (( line = input.readLine()) != null){
-					System.out.println(line.toString());
-				}
-				System.out.println("========================= Fim do arquivo ===============================");
-			}
-			finally {
-				input.close();
-			}
-		}
-		catch (IOException ex){
-			ex.printStackTrace();
-		}
-		
-		compiler.compile(fileIn, fileOut);
+		compiler.compile(fileIn, fileOut+".sith");
 	}
 
 }
